@@ -1,0 +1,42 @@
+{
+	"name": "zkopru-extension",
+	"description": "ZKOPRU browser extension wallet",
+	"version": "1.0",
+	"manifest_version": 3,
+	"action": {
+		"default_popup": "popup.html"
+	},
+	"background": {
+		"service_worker": "background.js",
+		"type": "module"
+	},
+	"content_scripts": [
+		{
+			"matches": [
+				"file://*/*",
+				"http://*/*",
+				"https://*/*"
+			],
+			"js": [
+				"contentscript.js"
+			],
+			"run_at": "document_start"
+		}
+	],
+	"web_accessible_resources": [
+		{
+			"resources": [
+				"inpage.js"
+			],
+			"matches": [
+				"file://*/*",
+				"http://*/*",
+				"https://*/*"
+			]
+		}
+	],
+	"content_security_policy": {
+		"extension_pages": "script-src 'wasm-eval'; object-src 'self'",
+		"sandbox": "script-src 'wasm-eval'; object-src 'self'"
+	}
+}

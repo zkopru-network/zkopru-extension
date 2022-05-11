@@ -1,0 +1,258 @@
+{
+  "inputs": {
+    "node_modules/react/cjs/react.development.js": {
+      "bytes": 87410,
+      "imports": []
+    },
+    "node_modules/react/index.js": {
+      "bytes": 190,
+      "imports": [
+        {
+          "path": "node_modules/react/cjs/react.development.js",
+          "kind": "require-call"
+        }
+      ]
+    },
+    "node_modules/scheduler/cjs/scheduler.development.js": {
+      "bytes": 17497,
+      "imports": []
+    },
+    "node_modules/scheduler/index.js": {
+      "bytes": 198,
+      "imports": [
+        {
+          "path": "node_modules/scheduler/cjs/scheduler.development.js",
+          "kind": "require-call"
+        }
+      ]
+    },
+    "node_modules/react-dom/cjs/react-dom.development.js": {
+      "bytes": 1023529,
+      "imports": [
+        {
+          "path": "node_modules/react/index.js",
+          "kind": "require-call"
+        },
+        {
+          "path": "node_modules/scheduler/index.js",
+          "kind": "require-call"
+        }
+      ]
+    },
+    "node_modules/react-dom/index.js": {
+      "bytes": 1363,
+      "imports": [
+        {
+          "path": "node_modules/react-dom/cjs/react-dom.development.js",
+          "kind": "require-call"
+        }
+      ]
+    },
+    "node_modules/react-dom/client.js": {
+      "bytes": 619,
+      "imports": [
+        {
+          "path": "node_modules/react-dom/index.js",
+          "kind": "require-call"
+        }
+      ]
+    },
+    "src/popup.tsx": {
+      "bytes": 382,
+      "imports": [
+        {
+          "path": "node_modules/react/index.js",
+          "kind": "import-statement"
+        },
+        {
+          "path": "node_modules/react-dom/client.js",
+          "kind": "import-statement"
+        }
+      ]
+    },
+    "node_modules/webextension-polyfill/dist/browser-polyfill.js": {
+      "bytes": 39136,
+      "imports": []
+    },
+    "node_modules/@zkopru/client/browser/index.js": {
+      "bytes": 9524948,
+      "imports": []
+    },
+    "src/constants.ts": {
+      "bytes": 607,
+      "imports": []
+    },
+    "src/message.ts": {
+      "bytes": 424,
+      "imports": []
+    },
+    "src/background.ts": {
+      "bytes": 905,
+      "imports": [
+        {
+          "path": "node_modules/webextension-polyfill/dist/browser-polyfill.js",
+          "kind": "import-statement"
+        },
+        {
+          "path": "node_modules/@zkopru/client/browser/index.js",
+          "kind": "import-statement"
+        },
+        {
+          "path": "src/constants.ts",
+          "kind": "import-statement"
+        },
+        {
+          "path": "src/message.ts",
+          "kind": "import-statement"
+        }
+      ]
+    },
+    "node_modules/loglevel/lib/loglevel.js": {
+      "bytes": 9562,
+      "imports": []
+    },
+    "src/utils.ts": {
+      "bytes": 1202,
+      "imports": [
+        {
+          "path": "node_modules/loglevel/lib/loglevel.js",
+          "kind": "import-statement"
+        }
+      ]
+    },
+    "src/contentscript.ts": {
+      "bytes": 1030,
+      "imports": [
+        {
+          "path": "node_modules/webextension-polyfill/dist/browser-polyfill.js",
+          "kind": "import-statement"
+        },
+        {
+          "path": "src/utils.ts",
+          "kind": "import-statement"
+        }
+      ]
+    },
+    "node_modules/js-sha512/src/sha512.js": {
+      "bytes": 35516,
+      "imports": []
+    },
+    "src/inpage.ts": {
+      "bytes": 1955,
+      "imports": [
+        {
+          "path": "node_modules/js-sha512/src/sha512.js",
+          "kind": "import-statement"
+        },
+        {
+          "path": "src/utils.ts",
+          "kind": "import-statement"
+        },
+        {
+          "path": "src/constants.ts",
+          "kind": "import-statement"
+        }
+      ]
+    }
+  },
+  "outputs": {
+    "build/popup.js": {
+      "imports": [],
+      "exports": [],
+      "entryPoint": "src/popup.tsx",
+      "inputs": {
+        "node_modules/react/cjs/react.development.js": {
+          "bytesInOutput": 72487
+        },
+        "node_modules/react/index.js": {
+          "bytesInOutput": 227
+        },
+        "node_modules/scheduler/cjs/scheduler.development.js": {
+          "bytesInOutput": 16890
+        },
+        "node_modules/scheduler/index.js": {
+          "bytesInOutput": 239
+        },
+        "node_modules/react-dom/cjs/react-dom.development.js": {
+          "bytesInOutput": 879670
+        },
+        "node_modules/react-dom/index.js": {
+          "bytesInOutput": 257
+        },
+        "node_modules/react-dom/client.js": {
+          "bytesInOutput": 778
+        },
+        "src/popup.tsx": {
+          "bytesInOutput": 462
+        }
+      },
+      "bytes": 973485
+    },
+    "build/background.js": {
+      "imports": [],
+      "exports": [],
+      "entryPoint": "src/background.ts",
+      "inputs": {
+        "node_modules/webextension-polyfill/dist/browser-polyfill.js": {
+          "bytesInOutput": 31037
+        },
+        "node_modules/@zkopru/client/browser/index.js": {
+          "bytesInOutput": 9253682
+        },
+        "src/background.ts": {
+          "bytesInOutput": 723
+        },
+        "src/constants.ts": {
+          "bytesInOutput": 469
+        },
+        "src/message.ts": {
+          "bytesInOutput": 105
+        }
+      },
+      "bytes": 9287241
+    },
+    "build/contentscript.js": {
+      "imports": [],
+      "exports": [],
+      "entryPoint": "src/contentscript.ts",
+      "inputs": {
+        "node_modules/webextension-polyfill/dist/browser-polyfill.js": {
+          "bytesInOutput": 31032
+        },
+        "node_modules/loglevel/lib/loglevel.js": {
+          "bytesInOutput": 7782
+        },
+        "src/contentscript.ts": {
+          "bytesInOutput": 686
+        },
+        "src/utils.ts": {
+          "bytesInOutput": 482
+        }
+      },
+      "bytes": 41183
+    },
+    "build/inpage.js": {
+      "imports": [],
+      "exports": [],
+      "entryPoint": "src/inpage.ts",
+      "inputs": {
+        "node_modules/js-sha512/src/sha512.js": {
+          "bytesInOutput": 37326
+        },
+        "node_modules/loglevel/lib/loglevel.js": {
+          "bytesInOutput": 7782
+        },
+        "src/inpage.ts": {
+          "bytesInOutput": 1288
+        },
+        "src/utils.ts": {
+          "bytesInOutput": 296
+        },
+        "src/constants.ts": {
+          "bytesInOutput": 469
+        }
+      },
+      "bytes": 48532
+    }
+  }
+}
