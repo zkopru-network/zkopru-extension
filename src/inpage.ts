@@ -17,7 +17,12 @@ declare global {
 }
 
 // TODO: state management lib
-const initState = () => ({
+type State = {
+  selectedAddress: string | null
+  walletKey: string | null
+}
+
+const initState = (): State => ({
   selectedAddress: null,
   walletKey: null
 })
@@ -33,7 +38,7 @@ async function init() {
   await waitUntil(() => {
     return !!window.ethereum
   }, 500)
-  const { ethereum } = window
+  const ethereum = window.ethereum as Provider
 
   // TODO: check if wallet key is stored in database
 

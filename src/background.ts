@@ -1,4 +1,5 @@
 import browser from 'webextension-polyfill'
+// @ts-ignore
 import Zkopru, { ZkAccount } from '@zkopru/client/browser'
 import { WEBSOCKET_URL, ZKOPRU_CONTRACT } from './constants'
 import {
@@ -15,15 +16,24 @@ const logDoNothingForBackground = (reason: string) =>
 
 // TODO: state management needed.
 // use something like redux
-const rootState = {
+type State = {
+  walletKey: null | string
+  client: Zkopru.Node | null // TODO: add typings to Zkopru.Node
+  wallet: Zkopru.Wallet | null // TODO: add typings to Zkopru.Wallet
+  address: string | null
+  initialized: boolean
+}
+
+const initState = (): State => ({
   walletKey: null,
   client: null,
   wallet: null,
   address: null,
   initialized: false
-}
+})
 
 async function main() {
+  const rootState = initState()
   console.log('hi, I am background script new')
 
   // TODO: check storage and if no walletKey exist, load wallet key by sending message

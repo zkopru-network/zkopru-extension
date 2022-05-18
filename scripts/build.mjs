@@ -1,6 +1,13 @@
 import { build } from 'esbuild'
 import fs from 'fs'
 
+// we use esbuild for our build system.
+// it's blazing fast and has enough functionalities for our usecase.
+// if we found out that its functionalities are short for our usecase,
+// we might replace to other build tools such as webpack.
+// please refer to its document.
+// FYI: https://esbuild.github.io/getting-started/
+
 console.log('Start building files.')
 
 // build popup file
@@ -16,6 +23,11 @@ await build({
 })
 
 // build background script
+// in background script context, window object is not defined.
+// in order to build and use imported libraries built for web browser which depend on window global variable,
+// it's necessary to replace window variable with globalThis
+// FYI: https://esbuild.github.io/api/#define
+// NOTE: background script is too large. need to reduce size or split files
 await build({
   entryPoints: ['src/background.ts'],
   outdir: 'build',

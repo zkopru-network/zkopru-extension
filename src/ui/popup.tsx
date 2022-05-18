@@ -4,6 +4,10 @@ import browser, { Runtime } from 'webextension-polyfill'
 import { getBalanceRequestMessageFactory, UntypedMessage } from '../message'
 
 const Popup = () => {
+  const [address, setAddress] = React.useState()
+
+  // TODO: check if background client is initialized
+
   React.useEffect(() => {
     async function messageHandler(
       message: UntypedMessage,
@@ -15,7 +19,6 @@ const Popup = () => {
     }
 
     browser.runtime.onMessage.addListener(messageHandler)
-    // call this hook only once on mount
   }, [])
 
   // periodically fetch balance. maybe define in state. not inside local component
@@ -26,13 +29,14 @@ const Popup = () => {
 
   return (
     <div>
-      This is Popup
+      <h1>ZKOPRU</h1>
+      <span>Address: {}</span>
       <button onClick={getBalance}>getBalance()</button>
     </div>
   )
 }
 
-const container = document.getElementById('popup')
+const container = document.getElementById('popup') as HTMLElement
 const root = createRoot(container)
 
 root.render(<Popup />)

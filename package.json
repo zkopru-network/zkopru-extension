@@ -11,7 +11,7 @@
     "web-ext:chromium": "web-ext run --target chromium --source-dir ./build --start-url zkopru.network",
     "web-ext:firefox": "web-ext run --source-dir ./build --start-url zkopru.network",
     "clean": "rm -rf build && rm -rf web-ext-artifacts",
-    "lint": "eslint --ext js,jsx,ts,tsx src",
+    "lint": "eslint --ext js,jsx,ts,tsx src && tsc --noEmit",
     "lint:fix": "eslint --fix --ext js,jsx,ts,tsx src"
   },
   "devDependencies": {
@@ -34,10 +34,15 @@
     "webextension-polyfill": "^0.9.0"
   },
   "dependencies": {
+    "@linaria/babel-preset": "^3.0.0-beta.15",
+    "@linaria/core": "^3.0.0-beta.15",
+    "@linaria/react": "^3.0.0-beta.15",
+    "@linaria/shaker": "^3.0.0-beta.15",
     "@zkopru/client": "^2.0.0-beta.8",
     "js-sha512": "^0.8.0",
     "loglevel": "^1.8.0",
     "react": "^18.1.0",
-    "react-dom": "^18.1.0"
+    "react-dom": "^18.1.0",
+    "zustand": "^4.0.0-rc.1"
   }
 }
