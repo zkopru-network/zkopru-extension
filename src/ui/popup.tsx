@@ -1,10 +1,17 @@
 import * as React from 'react'
 import { createRoot } from 'react-dom/client'
 import browser, { Runtime } from 'webextension-polyfill'
-import { getBalanceRequestMessageFactory, UntypedMessage } from '../message'
+import {
+  getBalanceRequestMessageFactory,
+  getAddressRequestMessageFactory,
+  UntypedMessage,
+  isGetAddressResponseMessage,
+  isGetBalanceResponseMessage
+} from '../message'
 
 const Popup = () => {
-  const [address, setAddress] = React.useState()
+  const [address, setAddress] = React.useState('')
+  const [balance, setBalance] = React.useState(0)
 
   // TODO: check if background client is initialized
 
@@ -14,8 +21,14 @@ const Popup = () => {
       sender: Runtime.MessageSender
     ) {
       console.log(message)
-      // TODO: set state of displaying balance
-      // store.dispatch(SOME_ACTION(message.balance))
+      if (isGetAddressResponseMessage(message)) {
+        // TODO: use store
+        setAddress(message.payload.address)
+      } else if (isGetBalanceResponseMessage(message)) {
+        // TODO: use store
+        // e.g. store.dispatch(SOME_ACTION(message.balance))
+        setBalance(message.payload.balance)
+      }
     }
 
     browser.runtime.onMessage.addListener(messageHandler)
@@ -27,11 +40,17 @@ const Popup = () => {
     await browser.runtime.sendMessage(getBalanceRequestMessageFactory())
   }
 
+  const getAddress = async () => {
+    await browser.runtime.sendMessage(getAddressRequestMessageFactory())
+  }
+
   return (
     <div>
       <h1>ZKOPRU</h1>
-      <span>Address: {}</span>
-      <button onClick={getBalance}>getBalance()</button>
+      <span>Address: {address}</span>
+      <span>Balance: {balance}</span>
+      <button onClick={getBalance}>Get balance</button>
+      <button onClick={getAddress}>Get address</button>
     </div>
   )
 }

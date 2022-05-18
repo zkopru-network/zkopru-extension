@@ -7,7 +7,9 @@ import {
   isGetBalanceRequestMessage,
   isGetBalanceResponseMessage,
   UntypedMessage,
-  getBalanceResponseMessageFactory
+  getBalanceResponseMessageFactory,
+  isGetAddressRequestMessage,
+  getAddressResponseMessageFactory
 } from './message'
 import { logDoNothingFor } from './utils'
 
@@ -62,7 +64,7 @@ async function main() {
           rootState.client,
           rootState.walletKey
         )
-        rootState.address = rootState.wallet.wallet.account.zkAddress
+        rootState.address = rootState.wallet.wallet.account.zkAddress.address
         rootState.initialized = true
       } else if (isGetBalanceRequestMessage(message)) {
         console.log('[BACKGROUND] Balance message received')
@@ -76,6 +78,12 @@ async function main() {
         // send back message using
       } else if (isGetBalanceResponseMessage(message)) {
         logDoNothingForBackground(message.type)
+      } else if (isGetAddressRequestMessage(message)) {
+        // TODO: error handling. how to send back error message?
+        if (rootState.address)
+          browser.runtime.sendMessage(
+            getAddressResponseMessageFactory(rootState.address)
+          )
       }
     }
   )
