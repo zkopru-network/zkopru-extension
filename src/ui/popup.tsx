@@ -8,10 +8,10 @@ import {
   isGetAddressResponseMessage,
   isGetBalanceResponseMessage
 } from '../message'
+import { useStore } from './store'
 
 const Popup = () => {
-  const [address, setAddress] = React.useState('')
-  const [balance, setBalance] = React.useState(0)
+  const { address, balance, setAddress, setBalance } = useStore()
 
   // TODO: check if background client is initialized
 
