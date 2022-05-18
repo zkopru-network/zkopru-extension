@@ -9,8 +9,10 @@ import {
   isGetBalanceResponseMessage
 } from '../message'
 import { useStore } from './store'
+import { shortenAddress } from '../utils'
 
 const Popup = () => {
+  // TODO: dispatch initialization action
   const { address, balance, setAddress, setBalance } = useStore()
 
   // TODO: check if background client is initialized
@@ -47,7 +49,7 @@ const Popup = () => {
   return (
     <div>
       <h1>ZKOPRU</h1>
-      <span>Address: {address}</span>
+      <span>Address: {shortenAddress(address)}</span>
       <span>Balance: {balance}</span>
       <button onClick={getBalance}>Get balance</button>
       <button onClick={getAddress}>Get address</button>
