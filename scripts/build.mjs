@@ -48,7 +48,7 @@ fs.copyFileSync('src/manifest/v2.json', 'build/manifest.json')
 const assetsDir = 'build/assets'
 if (!fs.existsSync(assetsDir)) fs.mkdirSync(assetsDir, { recursive: true })
 
-fs.copyFileSync('assets/icon-16.png', 'build/assets/icon-16.png')
-fs.copyFileSync('assets/icon-32.png', 'build/assets/icon-32.png')
+fs.copyFileSync('src/assets/icon-16.png', 'build/assets/icon-16.png')
+fs.copyFileSync('src/assets/icon-32.png', 'build/assets/icon-32.png')
 
 console.log('Finish building files.')
