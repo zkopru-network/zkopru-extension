@@ -1,7 +1,7 @@
 import browser from 'webextension-polyfill'
 import { EVENT_NAMES } from './constants'
 import { injectScript } from './injectScript'
-import { walletKeyGeneratedMessageFactory } from './message'
+import { WalletKeyGeneratedMessageCreator } from './message'
 import { isCustomEvent } from './utils'
 
 async function main() {
@@ -21,7 +21,7 @@ async function main() {
     // pass generated wallet key to background script
     browser.runtime.sendMessage(
       null,
-      walletKeyGeneratedMessageFactory(e.detail.walletKey)
+      WalletKeyGeneratedMessageCreator({ walletKey: e.detail.walletKey })
     )
   })
 

@@ -3,13 +3,12 @@ import browser from 'webextension-polyfill'
 import Zkopru, { ZkAccount } from '@zkopru/client/browser'
 import { WEBSOCKET_URL, ZKOPRU_CONTRACT } from './constants'
 import {
-  isWalletKeyGeneratedMessage,
-  isGetBalanceRequestMessage,
-  isGetBalanceResponseMessage,
-  UntypedMessage,
-  getBalanceResponseMessageFactory,
-  isGetAddressRequestMessage,
-  getAddressResponseMessageFactory
+  WalletKeyGeneratedMessageCreator,
+  GetBalanceRequestMessageCreator,
+  GetBalanceResponseMessageCreator,
+  GetAddressRequestMessageCreator,
+  GetAddressResponseMessageCreator,
+  UntypedMessage
 } from './message'
 import { store as backgroundStore } from './store'
 import { logDoNothingFor } from './utils'
@@ -26,7 +25,7 @@ async function main() {
   browser.runtime.onMessage.addListener(
     async (message: UntypedMessage, sender) => {
       console.log(message, sender)
-      if (isWalletKeyGeneratedMessage(message)) {
+      if (WalletKeyGeneratedMessageCreator.match(message)) {
         console.log('[BACKGROUND] WalletKeyGenerated message received')
         const { walletKey } = message.payload
         const state = backgroundStore.getState()
@@ -49,7 +48,7 @@ async function main() {
         state.setWallet(wallet)
         state.setAddress(wallet.wallet.account.zkAddress.address)
         state.setInitialized(true)
-      } else if (isGetBalanceRequestMessage(message)) {
+      } else if (GetBalanceRequestMessageCreator.match(message)) {
         console.log('[BACKGROUND] Balance message received')
         // TODO: load l2 balance if not loaded.
 
@@ -58,17 +57,21 @@ async function main() {
           .wallet?.wallet.getSpendableAmount()
         console.log('[BACKGROUND] spendable: ', spendable)
 
-        browser.runtime.sendMessage(getBalanceResponseMessageFactory(10))
+        browser.runtime.sendMessage(
+          GetBalanceResponseMessageCreator({ balance: 10 })
+        )
 
         // send back message using
-      } else if (isGetBalanceResponseMessage(message)) {
+      } else if (GetBalanceResponseMessageCreator.match(message)) {
         logDoNothingForBackground(message.type)
-      } else if (isGetAddressRequestMessage(message)) {
+      } else if (GetAddressRequestMessageCreator.match(message)) {
         // TODO: error handling. how to send back error message?
         const { address } = backgroundStore.getState()
         console.log(address)
         if (address)
-          browser.runtime.sendMessage(getAddressResponseMessageFactory(address))
+          browser.runtime.sendMessage(
+            GetAddressResponseMessageCreator({ address })
+          )
       }
     }
   )

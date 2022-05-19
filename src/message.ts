@@ -1,5 +1,3 @@
-// TODO: better way to organize messages
-
 export const MESSAGE_TYPE = {
   WALLET_KEY_GENERATED: 'WALLET_KEY_GENERATED',
   GET_BALANCE_REQUEST: 'GET_BALANCE_REQUEST',
@@ -8,102 +6,66 @@ export const MESSAGE_TYPE = {
   GET_ADDRESS_RESPONSE: 'GET_ADDRESS_RESPONSE'
 } as const
 
-export type Message<s extends keyof typeof MESSAGE_TYPE, T> = {
-  type: s
-  payload: T
+type MessageKey = keyof typeof MESSAGE_TYPE
+
+// TODO: add meta data to manage request and response message relation
+export type Message<T extends MessageKey, P> = {
+  readonly type: T
+  readonly payload: P
 }
 
-export type UntypedMessage = Message<keyof typeof MESSAGE_TYPE, unknown>
+export type UntypedMessage = Message<MessageKey, unknown>
 
-// function generateMessageCreator<T extends keyof typeof MESSAGE_TYPE, P>(
-//   type: T,
-//   payload: P
-// ) {}
+export type MessageWithPayload<P> = Message<MessageKey, P>
 
-/// WalletKeyGeneratedMessage Definition
-/// Type, type guard, factory method
-export type WalletKeyGeneratedMessage = Message<
-  'WALLET_KEY_GENERATED',
-  { walletKey: string }
->
+export type MessageWithoutPayload = Message<MessageKey, undefined>
 
-export const isWalletKeyGeneratedMessage = (
-  message: UntypedMessage
-): message is WalletKeyGeneratedMessage => {
-  return message.type === MESSAGE_TYPE.WALLET_KEY_GENERATED
+type MessageCreator<P> = {
+  type: MessageKey
+  match: (message: UntypedMessage) => message is MessageWithPayload<P>
+  (payload: P): MessageWithPayload<P>
 }
 
-export const walletKeyGeneratedMessageFactory = (
+type MessageCreatorWithoutPayload = {
+  type: MessageKey
+  match: (message: UntypedMessage) => message is MessageWithoutPayload
+  (): MessageWithoutPayload
+}
+
+function createMessage(type: MessageKey): MessageCreatorWithoutPayload
+function createMessage<P>(type: MessageKey): MessageCreator<P>
+
+function createMessage<P>(type: MessageKey) {
+  function messageCreator(...args: any[]): MessageWithPayload<P> {
+    return <const>{
+      type,
+      payload: args[0]
+    }
+  }
+
+  messageCreator.match = (
+    message: UntypedMessage
+  ): message is MessageWithPayload<P> => message.type === type
+
+  messageCreator.type = type
+
+  messageCreator.toString = () => `${type}`
+
+  return messageCreator
+}
+
+export const WalletKeyGeneratedMessageCreator = createMessage<{
   walletKey: string
-): WalletKeyGeneratedMessage => ({
-  type: MESSAGE_TYPE.WALLET_KEY_GENERATED,
-  payload: { walletKey }
-})
-
-/// GetBalanceRequest Definition
-/// Type, type guard, factory method
-export type GetBalanceRequestMessage = Message<'GET_BALANCE_REQUEST', null>
-
-export const isGetBalanceRequestMessage = (
-  message: UntypedMessage
-): message is GetBalanceRequestMessage => {
-  return message.type === MESSAGE_TYPE.GET_BALANCE_REQUEST
-}
-
-export const getBalanceRequestMessageFactory =
-  (): GetBalanceRequestMessage => ({
-    type: MESSAGE_TYPE.GET_BALANCE_REQUEST,
-    payload: null
-  })
-
-/// GetBalanceResponse Definition
-/// Type, type guard, factory method
-export type GetBalanceResponseMessage = Message<
-  'GET_BALANCE_RESPONSE',
-  { balance: number }
->
-
-export const isGetBalanceResponseMessage = (
-  message: UntypedMessage
-): message is GetBalanceResponseMessage => {
-  return message.type === MESSAGE_TYPE.GET_BALANCE_RESPONSE
-}
-
-export const getBalanceResponseMessageFactory = (
+}>('WALLET_KEY_GENERATED')
+export const GetBalanceRequestMessageCreator = createMessage(
+  'GET_BALANCE_REQUEST'
+)
+export const GetBalanceResponseMessageCreator = createMessage<{
   balance: number
-): GetBalanceResponseMessage => ({
-  type: MESSAGE_TYPE.GET_BALANCE_RESPONSE,
-  payload: { balance }
-})
-
-export type GetAddressRequestMessage = Message<'GET_ADDRESS_REQUEST', null>
-
-export const isGetAddressRequestMessage = (
-  message: UntypedMessage
-): message is GetAddressRequestMessage => {
-  return message.type === MESSAGE_TYPE.GET_ADDRESS_REQUEST
-}
-
-export const getAddressRequestMessageFactory =
-  (): GetAddressRequestMessage => ({
-    type: MESSAGE_TYPE.GET_ADDRESS_REQUEST,
-    payload: null
-  })
-
-export type GetAddressResponseMessage = Message<
-  'GET_ADDRESS_RESPONSE',
-  { address: string }
->
-
-export const isGetAddressResponseMessage = (
-  message: UntypedMessage
-): message is GetAddressResponseMessage => {
-  return message.type === MESSAGE_TYPE.GET_ADDRESS_RESPONSE
-}
-
-export const getAddressResponseMessageFactory = (
+}>('GET_BALANCE_RESPONSE')
+export const GetAddressRequestMessageCreator = createMessage(
+  'GET_ADDRESS_REQUEST'
+)
+export const GetAddressResponseMessageCreator = createMessage<{
   address: string
-): GetAddressResponseMessage => ({
-  type: MESSAGE_TYPE.GET_ADDRESS_RESPONSE,
-  payload: { address }
-})
+}>('GET_ADDRESS_RESPONSE')
