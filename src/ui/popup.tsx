@@ -1,6 +1,8 @@
-import * as React from 'react'
+import React, { useEffect } from 'react'
 import { createRoot } from 'react-dom/client'
-import browser, { Runtime } from 'webextension-polyfill'
+import browser from 'webextension-polyfill'
+import { css } from '@linaria/core'
+import PrimaryButton from './components/PrimaryButton'
 import {
   getBalanceRequestMessageFactory,
   getAddressRequestMessageFactory,
@@ -10,6 +12,12 @@ import {
 } from '../message'
 import { useStore } from './store'
 import { shortenAddress } from '../utils'
+import { globalStyle } from './globalStyle'
+
+const container = css`
+  display: flex;
+  flex-direction: column;
+`
 
 const Popup = () => {
   // TODO: dispatch initialization action
@@ -17,11 +25,8 @@ const Popup = () => {
 
   // TODO: check if background client is initialized
 
-  React.useEffect(() => {
-    async function messageHandler(
-      message: UntypedMessage,
-      sender: Runtime.MessageSender
-    ) {
+  useEffect(() => {
+    async function messageHandler(message: UntypedMessage) {
       console.log(message)
       if (isGetAddressResponseMessage(message)) {
         // TODO: use store
@@ -47,17 +52,17 @@ const Popup = () => {
   }
 
   return (
-    <div>
+    <div className={`${globalStyle} ${container}`}>
       <h1>ZKOPRU</h1>
       <span>Address: {shortenAddress(address)}</span>
       <span>Balance: {balance}</span>
-      <button onClick={getBalance}>Get balance</button>
-      <button onClick={getAddress}>Get address</button>
+      <PrimaryButton onClick={getBalance}>Get balance</PrimaryButton>
+      <PrimaryButton onClick={getAddress}>Get address</PrimaryButton>
     </div>
   )
 }
 
-const container = document.getElementById('popup') as HTMLElement
-const root = createRoot(container)
+const reactContainer = document.getElementById('popup') as HTMLElement
+const root = createRoot(reactContainer)
 
 root.render(<Popup />)

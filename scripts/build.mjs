@@ -1,5 +1,6 @@
 import { build } from 'esbuild'
 import fs from 'fs'
+import linaria from '@linaria/esbuild'
 
 // we use esbuild for our build system.
 // it's blazing fast and has enough functionalities for our usecase.
@@ -19,7 +20,12 @@ await build({
   },
   outdir: 'build',
   bundle: true,
-  format: 'esm'
+  format: 'esm',
+  plugins: [
+    linaria.default({
+      sourceMap: true
+    })
+  ]
 })
 
 // build background script
