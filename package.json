@@ -5,11 +5,11 @@
   "license": "MIT",
   "scripts": {
     "dev:chromium": "npm run build && npm-run-all -p build:watch \"web-ext:chromium -- --chromium-profile {1}\" --",
-    "dev:firefox": "npm run build && npm-run-all -p build:watch \"web-ext:firefox -- -p {1}\" --",
+    "dev:firefox": "npm run build && npm-run-all -p build:watch web-ext:firefox",
     "build": "node scripts/build.mjs",
     "build:watch": "chokidar \"src/**\" -c \"npm run build\"",
-    "web-ext:chromium": "web-ext run --target chromium --source-dir ./build --start-url zkopru.network",
-    "web-ext:firefox": "web-ext run --source-dir ./build --start-url zkopru.network",
+    "web-ext:chromium": "web-ext run --target chromium --source-dir ./build/chromium --start-url zkopru.network",
+    "web-ext:firefox": "web-ext run --source-dir ./build/firefox --start-url zkopru.network",
     "clean": "rm -rf build && rm -rf web-ext-artifacts",
     "lint": "eslint --ext js,jsx,ts,tsx src && tsc --noEmit",
     "lint:fix": "eslint --fix --ext js,jsx,ts,tsx src"
@@ -20,6 +20,7 @@
     "@types/react": "^18.0.8",
     "@types/react-dom": "^18.0.3",
     "@types/webextension-polyfill": "^0.8.3",
+    "@types/yargs": "^17.0.10",
     "@typescript-eslint/eslint-plugin": "^5.22.0",
     "@typescript-eslint/parser": "^5.22.0",
     "chokidar-cli": "^3.0.0",
@@ -44,6 +45,7 @@
     "loglevel": "^1.8.0",
     "react": "^18.1.0",
     "react-dom": "^18.1.0",
+    "yargs": "^17.5.1",
     "zustand": "^4.0.0-rc.1"
   }
 }
