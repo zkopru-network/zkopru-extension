@@ -24,7 +24,7 @@ export const store = create<Store>((set) => ({
 
   setWalletKey: (walletKey: string) => set({ walletKey }),
   setClient: (client: Zkopru.Node) => set({ client }),
-  setWallet: (client: Zkopru.Wallet) => set({ client }),
+  setWallet: (wallet: Zkopru.Wallet) => set({ wallet }),
   setAddress: (address: string) => set({ address }),
   setInitialized: (initialized: boolean) => set({ initialized })
 }))

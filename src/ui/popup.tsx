@@ -11,12 +11,16 @@ import {
   UntypedMessage
 } from '../message'
 import { useStore } from './store'
-import { shortenAddress } from '../utils'
+import { shortenAddress, fromWei } from '../utils'
 import { globalStyle } from './globalStyle'
 
 const container = css`
   display: flex;
   flex-direction: column;
+  padding: 12px 24px;
+  width: 320px;
+  height: 480px;
+  overflow-y: scroll;
 `
 
 const Popup = () => {
@@ -34,7 +38,7 @@ const Popup = () => {
       } else if (GetBalanceResponseMessageCreator.match(message)) {
         // TODO: use store
         // e.g. store.dispatch(SOME_ACTION(message.balance))
-        setBalance(message.payload.balance)
+        setBalance(fromWei(message.payload.balance))
       }
     }
 
@@ -55,7 +59,7 @@ const Popup = () => {
     <div className={`${globalStyle} ${container}`}>
       <h1>ZKOPRU</h1>
       <span>Address: {shortenAddress(address)}</span>
-      <span>Balance: {balance}</span>
+      <span>Balance: {balance} ETH</span>
       <PrimaryButton onClick={getBalance}>Get balance</PrimaryButton>
       <PrimaryButton onClick={getAddress}>Get address</PrimaryButton>
     </div>

@@ -61,7 +61,7 @@ export const GetBalanceRequestMessageCreator = createMessage(
   'GET_BALANCE_REQUEST'
 )
 export const GetBalanceResponseMessageCreator = createMessage<{
-  balance: number
+  balance: string
 }>('GET_BALANCE_RESPONSE')
 export const GetAddressRequestMessageCreator = createMessage(
   'GET_ADDRESS_REQUEST'
