@@ -7,7 +7,7 @@
     "dev:chromium": "npm run build && npm-run-all -p build:watch \"web-ext:chromium -- --chromium-profile {1}\" --",
     "dev:firefox": "npm run build && npm-run-all -p build:watch web-ext:firefox",
     "build": "node scripts/build.mjs",
-    "build:watch": "chokidar \"src/**\" -c \"npm run build\"",
+    "build:watch": "chokidar \"src/**\" -c \"npm run build -- --manifest false\"",
     "web-ext:chromium": "web-ext run --target chromium --source-dir ./build/chromium --start-url zkopru.network",
     "web-ext:firefox": "web-ext run --source-dir ./build/firefox --start-url zkopru.network",
     "clean": "rm -rf build && rm -rf web-ext-artifacts",
