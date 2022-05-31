@@ -5,21 +5,23 @@
   "license": "MIT",
   "scripts": {
     "dev:chromium": "npm run build && npm-run-all -p build:watch \"web-ext:chromium -- --chromium-profile {1}\" --",
-    "dev:firefox": "npm run build && npm-run-all -p build:watch \"web-ext:firefox -- -p {1}\" --",
+    "dev:firefox": "npm run build && npm-run-all -p build:watch web-ext:firefox",
     "build": "node scripts/build.mjs",
-    "build:watch": "chokidar \"src/**\" -c \"npm run build\"",
-    "web-ext:chromium": "web-ext run --target chromium --source-dir ./build --start-url zkopru.network",
-    "web-ext:firefox": "web-ext run --source-dir ./build --start-url zkopru.network",
+    "build:watch": "chokidar \"src/**\" -c \"npm run build -- --manifest false\"",
+    "web-ext:chromium": "web-ext run --target chromium --source-dir ./build/chromium --start-url zkopru.network",
+    "web-ext:firefox": "web-ext run --source-dir ./build/firefox --start-url zkopru.network",
     "clean": "rm -rf build && rm -rf web-ext-artifacts",
     "lint": "eslint --ext js,jsx,ts,tsx src && tsc --noEmit",
     "lint:fix": "eslint --fix --ext js,jsx,ts,tsx src"
   },
   "devDependencies": {
     "@linaria/esbuild": "^3.0.0-beta.15",
+    "@types/bn.js": "^5.1.0",
     "@types/node": "^17.0.24",
     "@types/react": "^18.0.8",
     "@types/react-dom": "^18.0.3",
     "@types/webextension-polyfill": "^0.8.3",
+    "@types/yargs": "^17.0.10",
     "@typescript-eslint/eslint-plugin": "^5.22.0",
     "@typescript-eslint/parser": "^5.22.0",
     "chokidar-cli": "^3.0.0",
@@ -40,10 +42,12 @@
     "@linaria/react": "^3.0.0-beta.15",
     "@linaria/shaker": "^3.0.0-beta.15",
     "@zkopru/client": "^2.0.0-beta.8",
+    "bn.js": "^5.2.1",
     "js-sha512": "^0.8.0",
     "loglevel": "^1.8.0",
     "react": "^18.1.0",
     "react-dom": "^18.1.0",
+    "yargs": "^17.5.1",
     "zustand": "^4.0.0-rc.1"
   }
 }

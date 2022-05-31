@@ -3,19 +3,15 @@ import browser from 'webextension-polyfill'
 import Zkopru, { ZkAccount } from '@zkopru/client/browser'
 import { WEBSOCKET_URL, ZKOPRU_CONTRACT } from './constants'
 import {
-  isWalletKeyGeneratedMessage,
-  isGetBalanceRequestMessage,
-  isGetBalanceResponseMessage,
-  UntypedMessage,
-  getBalanceResponseMessageFactory,
-  isGetAddressRequestMessage,
-  getAddressResponseMessageFactory
+  WalletKeyGeneratedMessageCreator,
+  GetBalanceRequestMessageCreator,
+  GetBalanceResponseMessageCreator,
+  GetAddressRequestMessageCreator,
+  GetAddressResponseMessageCreator,
+  UntypedMessage
 } from './message'
 import { store as backgroundStore } from './store'
-import { logDoNothingFor } from './utils'
-
-const logDoNothingForBackground = (reason: string) =>
-  logDoNothingFor(reason, { scriptName: '[BACKGROUND]' })
+import { waitUntil } from './utils'
 
 async function main() {
   console.log('hi, I am background script new')
@@ -26,49 +22,59 @@ async function main() {
   browser.runtime.onMessage.addListener(
     async (message: UntypedMessage, sender) => {
       console.log(message, sender)
-      if (isWalletKeyGeneratedMessage(message)) {
+      if (WalletKeyGeneratedMessageCreator.match(message)) {
         console.log('[BACKGROUND] WalletKeyGenerated message received')
         const { walletKey } = message.payload
         const state = backgroundStore.getState()
         state.setWalletKey(walletKey)
-
         console.log('[BACKGROUND] start syncing client')
-        const client = Zkopru.Node({
+        const client = new Zkopru.Node({
           websocket: WEBSOCKET_URL,
           accounts: [new ZkAccount(walletKey)],
           address: ZKOPRU_CONTRACT
         })
         state.setClient(client)
-        console.log('[BACKGROUND] Zkopru.Node initialized')
-        await client.initNode()
-        console.log('[BACKGROUND] client.initNode() called')
-        await client.start()
-        console.log('[BACKGROUND] client.start() called')
-        console.log('[BACKGROUND] set wallet')
-        const wallet = new Zkopru.Wallet(client, walletKey)
-        state.setWallet(wallet)
-        state.setAddress(wallet.wallet.account.zkAddress.address)
-        state.setInitialized(true)
-      } else if (isGetBalanceRequestMessage(message)) {
-        console.log('[BACKGROUND] Balance message received')
-        // TODO: load l2 balance if not loaded.
+        try {
+          await client.initNode()
+          console.log('[BACKGROUND] client.initNode() called')
+          // load wallet to set account in node
+          const wallet = new Zkopru.Wallet(client, walletKey)
+          state.setWallet(wallet)
+          state.setAddress(wallet.wallet.account.zkAddress.address)
 
-        const spendable = await backgroundStore
-          .getState()
-          .wallet?.wallet.getSpendableAmount()
+          // wait until tracker.transferTrackers are ready
+          // TODO: use await ZkopruWallet.new() if ready
+          await waitUntil(
+            () => client.node.tracker.transferTrackers.length === 1
+          )
+          await client.start()
+        } catch (e) {
+          console.error(e)
+        }
+        state.setInitialized(true)
+        console.log('[BACKGROUND] Zkopru node initialized')
+      } else if (GetBalanceRequestMessageCreator.match(message)) {
+        const wallet = backgroundStore.getState().wallet
+        // TODO: if wallet is not initialized, return error message
+        if (!wallet) return
+
+        console.log('[BACKGROUND] Balance message received')
+
+        const spendable = await wallet.wallet.getSpendableAmount()
+        const { eth, erc20, erc721 } = spendable
         console.log('[BACKGROUND] spendable: ', spendable)
 
-        browser.runtime.sendMessage(getBalanceResponseMessageFactory(10))
-
-        // send back message using
-      } else if (isGetBalanceResponseMessage(message)) {
-        logDoNothingForBackground(message.type)
-      } else if (isGetAddressRequestMessage(message)) {
+        // TODO: add erc20, erc721 asset
+        browser.runtime.sendMessage(
+          GetBalanceResponseMessageCreator({ balance: eth.toString() })
+        )
+      } else if (GetAddressRequestMessageCreator.match(message)) {
         // TODO: error handling. how to send back error message?
         const { address } = backgroundStore.getState()
-        console.log(address)
         if (address)
-          browser.runtime.sendMessage(getAddressResponseMessageFactory(address))
+          browser.runtime.sendMessage(
+            GetAddressResponseMessageCreator({ address })
+          )
       }
     }
   )

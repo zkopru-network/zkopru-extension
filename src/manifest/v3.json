@@ -36,7 +36,6 @@
 		}
 	],
 	"content_security_policy": {
-		"extension_pages": "script-src 'wasm-eval'; object-src 'self'",
-		"sandbox": "script-src 'wasm-eval'; object-src 'self'"
+		"extension_pages": "script-src 'self' 'wasm-unsafe-eval'; connect-src ws://localhost:5000; default-src 'self';"
 	}
 }
