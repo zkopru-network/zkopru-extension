@@ -47,6 +47,7 @@
     "loglevel": "^1.8.0",
     "react": "^18.1.0",
     "react-dom": "^18.1.0",
+    "react-router-dom": "^6.3.0",
     "yargs": "^17.5.1",
     "zustand": "^4.0.0-rc.1"
   }

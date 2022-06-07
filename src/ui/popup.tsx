@@ -1,7 +1,8 @@
 import React, { useEffect } from 'react'
 import { createRoot } from 'react-dom/client'
 import browser from 'webextension-polyfill'
-import { Dashboard } from './pages'
+import { MemoryRouter as Router, Routes, Route } from 'react-router-dom'
+import { HomePage, TransferPage, UnlockPage, OnboardingPage } from './pages'
 import {
   GetBalanceResponseMessageCreator,
   GetAddressResponseMessageCreator,
@@ -9,6 +10,7 @@ import {
 } from '../message'
 import { useStore } from './store'
 import { fromWei } from '../utils'
+import { ROUTES } from '../constants'
 import { globalStyle } from './globalStyle'
 
 // Popup component responsible for
@@ -21,7 +23,6 @@ const Popup = () => {
   useEffect(() => {
     // initialization
     async function messageHandler(message: UntypedMessage) {
-      console.log(message)
       if (GetAddressResponseMessageCreator.match(message)) {
         setAddress(message.payload.address)
       } else if (GetBalanceResponseMessageCreator.match(message)) {
@@ -33,10 +34,16 @@ const Popup = () => {
     browser.runtime.onMessage.addListener(messageHandler)
   }, [])
 
-  // TODO: add routings
   return (
     <div className={globalStyle}>
-      <Dashboard />
+      <Router>
+        <Routes>
+          <Route path={ROUTES.HOME} element={<HomePage />} />
+          <Route path={ROUTES.UNLOCK} element={<UnlockPage />} />
+          <Route path={ROUTES.TRANSFER} element={<TransferPage />} />
+          <Route path={ROUTES.ONBOARDING} element={<OnboardingPage />} />
+        </Routes>
+      </Router>
     </div>
   )
 }

@@ -29,4 +29,11 @@ export const ZKOPRU_CONTRACT = '0x970e8f18ebfEa0B08810f33a5A40438b9530FBCF'
 /// used to exchange messages between injected script and content script
 export const EVENT_NAMES = {
   WALLET_KEY_GENERATED: 'ZKOPRU#WALLET_KEY_GENERATED'
-}
+} as const
+
+export const ROUTES = {
+  HOME: '/',
+  ONBOARDING: '/onboarding',
+  UNLOCK: '/unlock',
+  TRANSFER: '/transfer'
+} as const

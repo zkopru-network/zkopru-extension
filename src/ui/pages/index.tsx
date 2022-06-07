@@ -1,3 +1,6 @@
-import Dashboard from './dashboard'
+import HomePage from './home'
+import TransferPage from './transfer'
+import UnlockPage from './unlock'
+import OnboardingPage from './onboarding'
 
-export { Dashboard }
+export { HomePage, TransferPage, UnlockPage, OnboardingPage }
