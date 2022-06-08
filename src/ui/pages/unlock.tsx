@@ -1,7 +1,8 @@
 import React from 'react'
 import { css } from '@linaria/core'
-import PrimaryButton from '../components/PrimaryButton'
 import { useNavigate } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
+import PrimaryButton from '../components/PrimaryButton'
 import { useAuthStore } from '../store/auth'
 import { ROUTES } from '../../share/constants'
 
@@ -15,6 +16,7 @@ const container = css`
 `
 
 const UnlockPage = () => {
+  const { t } = useTranslation()
   const navigate = useNavigate()
   const authenticate = useAuthStore((state) => state.authenticate)
   const handleSubmit = async () => {
@@ -25,9 +27,9 @@ const UnlockPage = () => {
 
   return (
     <div className={container}>
-      <h2>Unlock</h2>
-      <input type="password" placeholder="password" />
-      <PrimaryButton onClick={handleSubmit}>Unlock</PrimaryButton>
+      <h2>{t('unlock')}</h2>
+      <input type="password" placeholder={t('password')} />
+      <PrimaryButton onClick={handleSubmit}>{t('unlock')}</PrimaryButton>
     </div>
   )
 }

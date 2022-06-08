@@ -1,6 +1,7 @@
 import React from 'react'
 import { css } from '@linaria/core'
 import { useNavigate } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
 import PrimaryButton from '../components/PrimaryButton'
 import { ROUTES } from '../../share/constants'
 
@@ -14,6 +15,7 @@ const container = css`
 `
 
 const TransferPage = () => {
+  const { t } = useTranslation()
   const navigate = useNavigate()
   const confirm = async () => {
     console.log('transfer clicked')
@@ -22,8 +24,8 @@ const TransferPage = () => {
 
   return (
     <div className={container}>
-      <h1>Transfer</h1>
-      <PrimaryButton onClick={confirm}>Transfer</PrimaryButton>
+      <h1>{t('transfer')}</h1>
+      <PrimaryButton onClick={confirm}>{t('transfer')}</PrimaryButton>
     </div>
   )
 }

@@ -14,6 +14,7 @@ import {
 } from '../share/message'
 import { fromWei } from '../share/utils'
 import { ROUTES } from '../share/constants'
+import './i18n'
 
 // Popup component responsible for
 // - Initialize global state of UI

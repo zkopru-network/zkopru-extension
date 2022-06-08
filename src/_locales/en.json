@@ -1,0 +1,8 @@
+{
+  "transfer": "transfer",
+  "address": "address",
+  "balance": "balance",
+  "unlock": "unlock",
+  "password": "password",
+  "register": "register"
+}
