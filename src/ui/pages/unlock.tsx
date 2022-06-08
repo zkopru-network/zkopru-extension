@@ -3,6 +3,7 @@ import { css } from '@linaria/core'
 import { useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import PrimaryButton from '../components/PrimaryButton'
+import { Input } from '../components/Form'
 import { useAuthStore } from '../store/auth'
 import { ROUTES } from '../../share/constants'
 
@@ -28,7 +29,7 @@ const UnlockPage = () => {
   return (
     <div className={container}>
       <h2>{t('unlock')}</h2>
-      <input type="password" placeholder={t('password')} />
+      <Input type="password" placeholder={t('password')} />
       <PrimaryButton onClick={handleSubmit}>{t('unlock')}</PrimaryButton>
     </div>
   )

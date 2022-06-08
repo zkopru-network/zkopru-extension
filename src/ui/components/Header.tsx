@@ -13,7 +13,7 @@ const Header = () => {
     <header className={container}>
       <div className={selectNetwork}>
         <NetworkStatus />
-        Goerli
+        <span className={networkName}>Goerli</span>
       </div>
       <div className={addressSection}>{shortenAddress(address)}</div>
       <div>
@@ -33,22 +33,26 @@ const container = css`
 `
 
 const selectNetwork = css`
+  background-color: var(--color-surface2);
   width: 80px;
+  height: 30px;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
   padding: 2px 4px;
-  padding-left: 16px;
-  border-radius: 12px;
-  border: solid 1px #afafaf;
-  position: relative;
+  border-radius: 24px;
+`
+
+const networkName = css`
+  display: inline-block;
+  width: 60%;
 `
 
 const NetworkStatus = styled.span`
   width: 8px;
   height: 8px;
   border-radius: 4px;
-  background-color: blue;
-  position: absolute;
-  top: 5px;
-  left: 4px;
+  background-color: #1ce076;
 `
 
 const addressSection = css``
