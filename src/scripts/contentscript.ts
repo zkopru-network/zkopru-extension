@@ -1,10 +1,16 @@
 import browser from 'webextension-polyfill'
-import { EVENT_NAMES } from './constants'
 import { injectScript } from './injectScript'
-import { WalletKeyGeneratedMessageCreator } from './message'
-import { isCustomEvent } from './utils'
+import { EVENT_NAMES } from '../share/constants'
+import { WalletKeyGeneratedMessageCreator } from '../share/message'
+import { isCustomEvent } from '../share/utils'
+
+const NO_INIT = true
 
 async function main() {
+  if (NO_INIT) {
+    return
+  }
+
   // check if zkopru is initialized in background script
   // if yes, set zkopru client to window object in set-client.js
   // if no,

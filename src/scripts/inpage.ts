@@ -1,10 +1,10 @@
 import { sha512_256 } from 'js-sha512'
-import { waitUntil } from './utils'
+import { waitUntil } from '../share/utils'
 import {
   ALLOW_ORIGIN_LIST,
   EVENT_NAMES,
   WALLET_KEY_MSG_PARAMS
-} from './constants'
+} from '../share/constants'
 
 type Provider = {
   request: (arg: { method: string; params?: string[] }) => Promise<unknown>

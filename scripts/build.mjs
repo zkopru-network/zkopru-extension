@@ -46,8 +46,8 @@ async function buildFiles(opt) {
   await build({
     entryPoints: {
       popup: 'src/ui/popup.tsx',
-      contentscript: 'src/contentscript.ts',
-      inpage: 'src/inpage.ts'
+      contentscript: 'src/scripts/contentscript.ts',
+      inpage: 'src/scripts/inpage.ts'
     },
     outdir: outDir,
     bundle: true,
@@ -66,7 +66,7 @@ async function buildFiles(opt) {
   // FYI: https://esbuild.github.io/api/#define
   // NOTE: background script is too large. need to reduce size or split files
   await build({
-    entryPoints: ['src/background.ts'],
+    entryPoints: ['src/scripts/background.ts'],
     outdir: outDir,
     bundle: true,
     format: 'esm',

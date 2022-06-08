@@ -2,14 +2,14 @@ import React from 'react'
 import { css } from '@linaria/core'
 import browser from 'webextension-polyfill'
 import { Link } from 'react-router-dom'
+import { useStore } from '../store'
+import Header from '../components/Header'
+import PrimaryButton from '../components/PrimaryButton'
 import {
   GetBalanceRequestMessageCreator,
   GetAddressRequestMessageCreator
-} from '../../message'
-import { shortenAddress } from '../../utils'
-import PrimaryButton from '../components/PrimaryButton'
-import { useStore } from '../store'
-import Header from '../components/Header'
+} from '../../share/message'
+import { shortenAddress } from '../../share/utils'
 
 const container = css`
   display: flex;

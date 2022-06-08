@@ -1,6 +1,8 @@
 import React from 'react'
 import { css } from '@linaria/core'
+import { useNavigate } from 'react-router-dom'
 import PrimaryButton from '../components/PrimaryButton'
+import { ROUTES } from '../../share/constants'
 
 const container = css`
   display: flex;
@@ -12,14 +14,16 @@ const container = css`
 `
 
 const TransferPage = () => {
+  const navigate = useNavigate()
   const confirm = async () => {
     console.log('transfer clicked')
+    navigate(ROUTES.HOME)
   }
 
   return (
     <div className={container}>
       <h1>Transfer</h1>
-      <PrimaryButton onClick={confirm}>Confirm</PrimaryButton>
+      <PrimaryButton onClick={confirm}>Transfer</PrimaryButton>
     </div>
   )
 }

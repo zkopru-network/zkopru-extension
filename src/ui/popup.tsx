@@ -3,19 +3,20 @@ import { createRoot } from 'react-dom/client'
 import browser from 'webextension-polyfill'
 import { MemoryRouter as Router, Routes, Route } from 'react-router-dom'
 import { HomePage, TransferPage, UnlockPage, OnboardingPage } from './pages'
+import { useStore } from './store'
+import RequireOnboard from './helper/RequireOnboard'
+import RequireAuth from './helper/RequireAuth'
+import { globalStyle } from './globalStyle'
 import {
   GetBalanceResponseMessageCreator,
   GetAddressResponseMessageCreator,
   UntypedMessage
-} from '../message'
-import { useStore } from './store'
-import { fromWei } from '../utils'
-import { ROUTES } from '../constants'
-import { globalStyle } from './globalStyle'
+} from '../share/message'
+import { fromWei } from '../share/utils'
+import { ROUTES } from '../share/constants'
 
 // Popup component responsible for
 // - Initialize global state of UI
-// - Routings
 const Popup = () => {
   // TODO: dispatch initialization action
   // TODO: move to subscribe messages hook and call from Popup component
@@ -38,10 +39,32 @@ const Popup = () => {
     <div className={globalStyle}>
       <Router>
         <Routes>
-          <Route path={ROUTES.HOME} element={<HomePage />} />
-          <Route path={ROUTES.UNLOCK} element={<UnlockPage />} />
-          <Route path={ROUTES.TRANSFER} element={<TransferPage />} />
           <Route path={ROUTES.ONBOARDING} element={<OnboardingPage />} />
+          <Route
+            path={ROUTES.UNLOCK}
+            element={
+              <RequireOnboard>
+                <UnlockPage />
+              </RequireOnboard>
+            }
+          />
+
+          <Route
+            path={ROUTES.HOME}
+            element={
+              <RequireAuth>
+                <HomePage />
+              </RequireAuth>
+            }
+          />
+          <Route
+            path={ROUTES.TRANSFER}
+            element={
+              <RequireAuth>
+                <TransferPage />
+              </RequireAuth>
+            }
+          />
         </Routes>
       </Router>
     </div>

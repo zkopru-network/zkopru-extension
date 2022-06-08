@@ -2,7 +2,7 @@ import React from 'react'
 import { css } from '@linaria/core'
 import { styled } from '@linaria/react'
 import { useStore } from '../store'
-import { shortenAddress } from '../../utils'
+import { shortenAddress } from '../../share/utils'
 
 const Header = () => {
   const { address } = useStore()
