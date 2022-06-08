@@ -9,17 +9,17 @@ import { ROUTES } from '../../share/constants'
 const OnboardingPage = () => {
   const { t } = useTranslation()
   const navigate = useNavigate()
-  const { completeOnboarding, authenticate } = useAuthStore(
+  const { completeOnboarding, setAuthenticated } = useAuthStore(
     (state) => ({
       completeOnboarding: state.completeOnboarding,
-      authenticate: state.authenticate
+      setAuthenticated: state.setAuthenticated
     }),
     shallow
   )
 
   const handleSubmit = () => {
     completeOnboarding()
-    authenticate()
+    setAuthenticated(true)
     navigate(ROUTES.HOME)
   }
 

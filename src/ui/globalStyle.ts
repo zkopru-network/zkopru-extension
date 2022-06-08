@@ -5,10 +5,8 @@ export const globalStyle = css`
     body {
       font-family: 'Lato', sans-serif;
       font-size: 14px;
-      color: #2e2c7a;
       margin: 0;
       min-width: 100vw;
-      background-color: #eeedff;
     }
     input {
       appearance: textfield;
@@ -32,4 +30,9 @@ export const globalStyle = css`
       box-sizing: border-box;
     }
   }
+`
+
+export const container = css`
+  background-color: var(--color-background);
+  color: var(--color-on-background);
 `

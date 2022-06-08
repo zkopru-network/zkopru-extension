@@ -4,7 +4,7 @@ import { css } from '@linaria/core'
 const style = css`
   display: flex;
   justify-content: center;
-  background-color: turquoise;
+  background-color: var(--color-primary);
   border-radius: 4px;
   padding: 4px 8px;
 `

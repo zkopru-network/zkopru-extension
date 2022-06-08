@@ -4,7 +4,7 @@ import { persist } from 'zustand/middleware'
 type Store = {
   onboardingCompleted: boolean
   authenticated: boolean
-  authenticate: () => void
+  setAuthenticated: (authenticated: boolean) => void
   completeOnboarding: () => void
 }
 
@@ -13,7 +13,7 @@ export const useAuthStore = create<Store, [['zustand/persist', Store]]>(
     (set) => ({
       onboardingCompleted: false,
       authenticated: false,
-      authenticate: () => set({ authenticated: true }),
+      setAuthenticated: (authenticated) => set({ authenticated }),
       completeOnboarding: () => set({ onboardingCompleted: true })
     }),
     { name: 'popup-store-auth', getStorage: () => localStorage }

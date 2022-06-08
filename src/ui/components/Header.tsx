@@ -2,10 +2,12 @@ import React from 'react'
 import { css } from '@linaria/core'
 import { styled } from '@linaria/react'
 import { useStore } from '../store'
+import { useAuthStore } from '../store/auth'
 import { shortenAddress } from '../../share/utils'
 
 const Header = () => {
-  const { address } = useStore()
+  const address = useStore((state) => state.address)
+  const setAuthenticated = useAuthStore((state) => state.setAuthenticated)
 
   return (
     <header className={container}>
@@ -14,7 +16,9 @@ const Header = () => {
         Goerli
       </div>
       <div className={addressSection}>{shortenAddress(address)}</div>
-      <div> </div>
+      <div>
+        <button onClick={() => setAuthenticated(false)}>Lock wallet</button>
+      </div>
     </header>
   )
 }

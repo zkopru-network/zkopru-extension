@@ -18,10 +18,10 @@ const container = css`
 const UnlockPage = () => {
   const { t } = useTranslation()
   const navigate = useNavigate()
-  const authenticate = useAuthStore((state) => state.authenticate)
+  const setAuthenticated = useAuthStore((state) => state.setAuthenticated)
   const handleSubmit = async () => {
     // TODO: check password
-    authenticate()
+    setAuthenticated(true)
     navigate(ROUTES.HOME)
   }
 
