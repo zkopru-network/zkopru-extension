@@ -37,3 +37,11 @@ export const ROUTES = {
   UNLOCK: '/unlock',
   TRANSFER: '/transfer'
 } as const
+
+export enum BACKGROUND_STATUS {
+  NOT_ONBOARDED = 'NOT_ONBOARDED',
+  INITIALIZING = 'INITIALIZING',
+  INITIALIZED = 'INITIALIZED',
+  SYNCING = 'SYNCING',
+  SYNCED = 'SYNCED'
+}
