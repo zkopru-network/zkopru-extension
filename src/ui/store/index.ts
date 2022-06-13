@@ -1,23 +1,13 @@
 import create from 'zustand'
-import { persist } from 'zustand/middleware'
+import { BACKGROUND_STATUS } from '../../share/constants'
 
 type Store = {
-  clientInitialized: boolean
-  balance: number
-  address: string
-  setBalance: (balance: number) => void
-  setAddress: (address: string) => void
+  backgroundStatus: BACKGROUND_STATUS
+  setBackgroundStatus: (status: BACKGROUND_STATUS) => void
 }
 
-export const useStore = create<Store, [['zustand/persist', Store]]>(
-  persist(
-    (set) => ({
-      clientInitialized: false,
-      balance: 0,
-      address: '',
-      setBalance: (balance: number) => set({ balance }),
-      setAddress: (address: string) => set({ address })
-    }),
-    { name: 'popup-store', getStorage: () => localStorage }
-  )
-)
+export const useStore = create<Store>((set) => ({
+  backgroundStatus: BACKGROUND_STATUS.NOT_STARTED,
+  setBackgroundStatus: (status: BACKGROUND_STATUS) =>
+    set({ backgroundStatus: status })
+}))

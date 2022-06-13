@@ -1,41 +1,66 @@
 import browser from 'webextension-polyfill'
 // @ts-ignore
 import Zkopru, { ZkAccount } from '@zkopru/client/browser'
+import { sha512_256 } from 'js-sha512'
 import { store as backgroundStore } from './store'
-import { WEBSOCKET_URL, ZKOPRU_CONTRACT } from '../share/constants'
+import {
+  WEBSOCKET_URL,
+  ZKOPRU_CONTRACT,
+  BACKGROUND_STATUS
+} from '../share/constants'
 import {
   WalletKeyGeneratedMessageCreator,
   GetBalanceRequestMessageCreator,
   GetBalanceResponseMessageCreator,
   GetAddressRequestMessageCreator,
   GetAddressResponseMessageCreator,
-  UntypedMessage
+  UntypedMessage,
+  GetBackgroundStatusResponse,
+  GetBackgroundStatusRequest,
+  RegisterPasswordRequest,
+  VerifyPasswordRequest,
+  RegisterPasswordResponse,
+  VerifyPasswordResponse
 } from '../share/message'
 import { waitUntil } from '../share/utils'
 
-// TODO: extract listener method
-// define background status for zkopru client
-// INITIAL
-
 async function init() {
-  // initialize
-  // check if the user has used wallet before by checking password exists in database
-  // if password doesn't exist, dispatch DISPLAY_INIT_SCREEN
-  // if password exists check if password lock time has passed.
-  // if yes, use the wallet key stored to initialize client
-  // if not, display generate page.
+  const setStatus = backgroundStore.getState().setStatus
+
+  setStatus(BACKGROUND_STATUS.INITIALIZING)
+  browser.runtime.sendMessage(
+    GetBackgroundStatusResponse({ status: BACKGROUND_STATUS.INITIALIZING })
+  )
+
+  // decide if user has onboarded before by checking password exists
+  const db = await browser.storage.local.get('password')
+  if (!db.password) {
+    browser.runtime.sendMessage(
+      GetBackgroundStatusResponse({ status: BACKGROUND_STATUS.NOT_ONBOARDED })
+    )
+    setStatus(BACKGROUND_STATUS.NOT_ONBOARDED)
+    return
+  }
+
+  browser.runtime.sendMessage(
+    GetBackgroundStatusResponse({ status: BACKGROUND_STATUS.INITIALIZED })
+  )
+  setStatus(BACKGROUND_STATUS.INITIALIZED)
 }
 
 async function main() {
   await init()
 
-  // TODO: check storage and if no walletKey exist, load wallet key by sending message
-  // to content script.
+  // TODO: extract listener method
   browser.runtime.onMessage.addListener(async (message: UntypedMessage) => {
-    if (WalletKeyGeneratedMessageCreator.match(message)) {
+    if (GetBackgroundStatusRequest.match(message)) {
+      const { status } = backgroundStore.getState()
+      browser.runtime.sendMessage(GetBackgroundStatusResponse({ status }))
+    } else if (WalletKeyGeneratedMessageCreator.match(message)) {
       console.log('[BACKGROUND] WalletKeyGenerated message received')
       const { walletKey } = message.payload
       const state = backgroundStore.getState()
+      // TODO: save encrypted wallet key using password
       state.setWalletKey(walletKey)
       console.log('[BACKGROUND] start syncing client')
       const client = new Zkopru.Node({
@@ -53,7 +78,7 @@ async function main() {
         state.setAddress(wallet.wallet.account.zkAddress.address)
 
         // wait until tracker.transferTrackers are ready
-        // TODO: use await ZkopruWallet.new() if ready
+        // TODO: use await ZkopruWallet.new() when ready
         await waitUntil(() => client.node.tracker.transferTrackers.length === 1)
         await client.start()
       } catch (e) {
@@ -83,6 +108,16 @@ async function main() {
         browser.runtime.sendMessage(
           GetAddressResponseMessageCreator({ address })
         )
+    } else if (RegisterPasswordRequest.match(message)) {
+      const hash = sha512_256(message.payload.password)
+      await browser.storage.local.set({ password: hash })
+      browser.runtime.sendMessage(RegisterPasswordResponse())
+    } else if (VerifyPasswordRequest.match(message)) {
+      const saved = await browser.storage.local.get('password')
+      const hash = sha512_256(message.payload.password)
+      browser.runtime.sendMessage(
+        VerifyPasswordResponse({ result: saved.password === hash })
+      )
     }
   })
 }

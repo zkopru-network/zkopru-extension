@@ -45,3 +45,9 @@ export enum BACKGROUND_STATUS {
   SYNCING = 'SYNCING',
   SYNCED = 'SYNCED'
 }
+
+export const TIMEOUT = 15000
+
+// TODO: set moderate unlock time maybe an hour or two
+// export const UNLOCK_TIMEOUT = 3600000
+export const UNLOCK_TIMEOUT = 60000

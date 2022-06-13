@@ -4,12 +4,17 @@ import { EVENT_NAMES } from '../share/constants'
 import { WalletKeyGeneratedMessageCreator } from '../share/message'
 import { isCustomEvent } from '../share/utils'
 
-const NO_INIT = true
+const NO_INIT = false
 
 async function main() {
   if (NO_INIT) {
     return
   }
+  // poll background status
+  // wait while status is INITIALIZING
+  // if NOT_ONBOARDED => show popup and start onboarding process(password registration)
+  // if INITIALIZED => start client by injecting inpage.js
+  // inject inpage.js after onboarding has complete.
 
   // check if zkopru is initialized in background script
   // if yes, set zkopru client to window object in set-client.js
@@ -31,6 +36,7 @@ async function main() {
     )
   })
 
+  // TODO: get background status and if NOT_ONBOARDED
   injectScript(browser.runtime.getURL('inpage.js'))
 }
 

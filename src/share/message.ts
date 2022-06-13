@@ -5,10 +5,17 @@ export const MESSAGE_TYPE = {
   GET_BALANCE_REQUEST: 'GET_BALANCE_REQUEST',
   GET_BALANCE_RESPONSE: 'GET_BALANCE_RESPONSE',
   GET_ADDRESS_REQUEST: 'GET_ADDRESS_REQUEST',
-  GET_ADDRESS_RESPONSE: 'GET_ADDRESS_RESPONSE'
+  GET_ADDRESS_RESPONSE: 'GET_ADDRESS_RESPONSE',
+  GET_BACKGROUND_STATUS_REQUEST: 'GET_BACKGROUND_STATUS_REQUEST',
+  GET_BACKGROUND_STATUS_RESPONSE: 'GET_BACKGROUND_STATUS_RESPONSE',
+  REGISTER_PASSWORD_REQUEST: 'REGISTER_PASSWORD_REQUEST',
+  REGISTER_PASSWORD_RESPONSE: 'REGISTER_PASSWORD_RESPONSE',
+  VERIFY_PASSWORD_REQUEST: 'VERIFY_PASSWORD_REQUEST',
+  VERIFY_PASSWORD_RESPONSE: 'VERIFY_PASSWORD_RESPONSE'
 } as const
 
-type MessageKey = keyof typeof MESSAGE_TYPE
+// type MessageKey = keyof typeof MESSAGE_TYPE
+type MessageKey = typeof MESSAGE_TYPE[keyof typeof MESSAGE_TYPE]
 
 // TODO: add meta data to manage request and response message relation
 export type Message<T extends MessageKey, P> = {
@@ -22,13 +29,13 @@ export type MessageWithPayload<P> = Message<MessageKey, P>
 
 export type MessageWithoutPayload = Message<MessageKey, undefined>
 
-type MessageCreator<P> = {
+export type MessageCreator<P> = {
   type: MessageKey
   match: (message: UntypedMessage) => message is MessageWithPayload<P>
   (payload: P): MessageWithPayload<P>
 }
 
-type MessageCreatorWithoutPayload = {
+export type MessageCreatorWithoutPayload = {
   type: MessageKey
   match: (message: UntypedMessage) => message is MessageWithoutPayload
   (): MessageWithoutPayload
@@ -58,16 +65,34 @@ function createMessage<P>(type: MessageKey) {
 
 export const WalletKeyGeneratedMessageCreator = createMessage<{
   walletKey: string
-}>('WALLET_KEY_GENERATED')
+}>(MESSAGE_TYPE.WALLET_KEY_GENERATED)
 export const GetBalanceRequestMessageCreator = createMessage(
-  'GET_BALANCE_REQUEST'
+  MESSAGE_TYPE.GET_BALANCE_REQUEST
 )
 export const GetBalanceResponseMessageCreator = createMessage<{
   balance: string
-}>('GET_BALANCE_RESPONSE')
+}>(MESSAGE_TYPE.GET_BALANCE_RESPONSE)
 export const GetAddressRequestMessageCreator = createMessage(
-  'GET_ADDRESS_REQUEST'
+  MESSAGE_TYPE.GET_ADDRESS_REQUEST
 )
 export const GetAddressResponseMessageCreator = createMessage<{
   address: string
-}>('GET_ADDRESS_RESPONSE')
+}>(MESSAGE_TYPE.GET_ADDRESS_RESPONSE)
+export const GetBackgroundStatusRequest = createMessage(
+  MESSAGE_TYPE.GET_BACKGROUND_STATUS_REQUEST
+)
+export const GetBackgroundStatusResponse = createMessage<{
+  status: BACKGROUND_STATUS
+}>(MESSAGE_TYPE.GET_BACKGROUND_STATUS_RESPONSE)
+export const RegisterPasswordRequest = createMessage<{ password: string }>(
+  MESSAGE_TYPE.REGISTER_PASSWORD_REQUEST
+)
+export const RegisterPasswordResponse = createMessage(
+  MESSAGE_TYPE.REGISTER_PASSWORD_RESPONSE
+)
+export const VerifyPasswordRequest = createMessage<{ password: string }>(
+  MESSAGE_TYPE.VERIFY_PASSWORD_REQUEST
+)
+export const VerifyPasswordResponse = createMessage<{ result: boolean }>(
+  MESSAGE_TYPE.VERIFY_PASSWORD_RESPONSE
+)
