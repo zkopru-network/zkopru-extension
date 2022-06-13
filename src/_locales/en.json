@@ -4,5 +4,6 @@
   "balance": "balance",
   "unlock": "unlock",
   "password": "password",
-  "register": "register"
+  "register": "register",
+  "onboarding": "onboarding"
 }
