@@ -37,5 +37,6 @@
 	],
 	"content_security_policy": {
 		"extension_pages": "script-src 'self' 'wasm-unsafe-eval'; connect-src ws://localhost:5000; default-src 'self';"
-	}
+	},
+	"$schema": "https://json.schemastore.org/chrome-manifest"
 }
