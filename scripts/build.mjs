@@ -77,7 +77,6 @@ async function buildFiles(opt) {
   fs.copyFileSync('src/ui/popup.html', `${outDir}/popup.html`)
 
   // copy manifest.json
-  // TODO: switch manifest versions
   if (m) {
     console.log('generating manifest.json')
     fs.copyFileSync(
