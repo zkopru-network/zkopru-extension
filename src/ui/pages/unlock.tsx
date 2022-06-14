@@ -9,15 +9,6 @@ import PrimaryButton from '../components/PrimaryButton'
 import { Input } from '../components/Form'
 import { ROUTES } from '../../share/constants'
 
-const container = css`
-  display: flex;
-  flex-direction: column;
-  padding: 12px 24px;
-  width: 320px;
-  height: 480px;
-  overflow-y: scroll;
-`
-
 const UnlockPage = () => {
   const { t } = useTranslation()
   const navigate = useNavigate()
@@ -41,17 +32,26 @@ const UnlockPage = () => {
   }
 
   return (
-    <div className={container}>
+    <div>
       <h2>{t('unlock')}</h2>
       {error && <div>{error}</div>}
-      <Input
-        type="password"
-        placeholder={t('password')}
-        onChange={(e) => setPassword(e.target.value)}
-      />
-      <PrimaryButton onClick={handleSubmit}>{t('unlock')}</PrimaryButton>
+      <div className={body}>
+        <Input
+          type="password"
+          placeholder={t('password')}
+          onChange={(e) => setPassword(e.target.value)}
+        />
+        <PrimaryButton onClick={handleSubmit}>{t('unlock')}</PrimaryButton>
+      </div>
     </div>
   )
 }
+
+const body = css`
+  display: flex;
+  flex-direction: column;
+  height: 100px;
+  justify-content: space-between;
+`
 
 export default UnlockPage

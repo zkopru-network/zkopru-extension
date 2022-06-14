@@ -9,8 +9,6 @@ import shallow from 'zustand/shallow'
 const container = css`
   display: flex;
   flex-direction: column;
-  width: 320px;
-  height: 480px;
 `
 
 const body = css`

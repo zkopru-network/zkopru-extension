@@ -7,6 +7,7 @@ import useBackgroundConnection from '../hooks/useBackgroundConnection'
 import PrimaryButton from '../components/PrimaryButton'
 import { Input } from '../components/Form'
 import { ROUTES } from '../../share/constants'
+import { css } from '@linaria/core'
 
 const OnboardingPage = () => {
   const { t } = useTranslation()
@@ -34,14 +35,23 @@ const OnboardingPage = () => {
   return (
     <div>
       <h2>{t('onboarding')}</h2>
-      <Input
-        type="password"
-        placeholder="password"
-        onChange={(e) => setPassword(e.target.value)}
-      />
-      <PrimaryButton onClick={handleSubmit}>{t('register')}</PrimaryButton>
+      <div className={body}>
+        <Input
+          type="password"
+          placeholder="password"
+          onChange={(e) => setPassword(e.target.value)}
+        />
+        <PrimaryButton onClick={handleSubmit}>{t('register')}</PrimaryButton>
+      </div>
     </div>
   )
 }
+
+const body = css`
+  display: flex;
+  flex-direction: column;
+  height: 100px;
+  justify-content: space-between;
+`
 
 export default OnboardingPage
