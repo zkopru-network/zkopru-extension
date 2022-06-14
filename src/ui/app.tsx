@@ -34,7 +34,7 @@ const App = () => {
       const status = await background.getBackgroundStatus()
       console.log(status)
 
-      if (status !== BACKGROUND_STATUS.INITIALIZING) {
+      if (status !== BACKGROUND_STATUS.STARTINGUP) {
         if (status === BACKGROUND_STATUS.NOT_ONBOARDED) {
           setOnboardingCompleted(false)
         } else {

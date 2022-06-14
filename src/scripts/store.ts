@@ -19,7 +19,7 @@ type Store = {
 }
 
 export const store = create<Store>((set) => ({
-  status: BACKGROUND_STATUS.INITIALIZING,
+  status: BACKGROUND_STATUS.STARTINGUP,
   walletKey: null,
   client: null,
   wallet: null,

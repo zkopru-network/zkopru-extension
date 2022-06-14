@@ -1,4 +1,9 @@
-export const ALLOW_ORIGIN_LIST = ['https://zkopru.network']
+export const ALLOW_ORIGIN_LIST = [
+  'https://zkopru.network',
+  'http://localhost:3000'
+]
+
+export const ONBOARDING_URL = 'http://localhost:3000'
 
 export const WALLET_KEY_MSG_PARAMS = JSON.stringify({
   domain: {
@@ -39,8 +44,9 @@ export const ROUTES = {
 } as const
 
 export enum BACKGROUND_STATUS {
+  STARTINGUP = 'STARGINGUP',
   NOT_ONBOARDED = 'NOT_ONBOARDED',
-  INITIALIZING = 'INITIALIZING',
+  NEED_KEY_GENERATION = 'NEED_KEY_GENERATION',
   INITIALIZED = 'INITIALIZED',
   SYNCING = 'SYNCING',
   SYNCED = 'SYNCED'
