@@ -57,13 +57,10 @@ async function main() {
   console.log('[CONTENT] script loaded')
   let status: BACKGROUND_STATUS | undefined
   status = await fetchStatus()
-  console.log(status)
   await waitUntilAsync(async () => {
     status = await fetchStatus()
     return status !== BACKGROUND_STATUS.STARTINGUP
   })
-
-  console.log('background status is', status)
 
   if (status === BACKGROUND_STATUS.NOT_ONBOARDED) {
     // do nothing.

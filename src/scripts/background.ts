@@ -29,12 +29,14 @@ async function init() {
   setStatus(BACKGROUND_STATUS.STARTINGUP)
 
   // decide if user has onboarded before by checking password exists
-  const db = await browser.storage.local.get('password')
-  if (!db.password) {
+  const db = await browser.storage.local.get(['password', 'walletKey'])
+  if (db.walletKey) {
+    setStatus(BACKGROUND_STATUS.INITIALIZED)
+  } else if (db.password) {
+    setStatus(BACKGROUND_STATUS.NEED_KEY_GENERATION)
+  } else {
     setStatus(BACKGROUND_STATUS.NOT_ONBOARDED)
-    return
   }
-  setStatus(BACKGROUND_STATUS.INITIALIZED)
 }
 
 function getSendMessage(sender: browser.Runtime.MessageSender) {
@@ -65,11 +67,13 @@ async function main() {
       // if sender is content script, use browser.tabs.sendMessage
       // otherwise use runtime.sendMessage to send to popup
       const sendMessage = getSendMessage(sender)
+      const setStatus = backgroundStore.getState().setStatus
       if (WalletKeyGeneratedMessageCreator.match(message)) {
         console.log('[BACKGROUND] WalletKeyGenerated message received')
         const { walletKey } = message.payload
         const state = backgroundStore.getState()
         // TODO: save encrypted wallet key using password
+        await browser.storage.local.set({ walletKey })
         state.setWalletKey(walletKey)
         console.log('[BACKGROUND] start syncing client')
         const client = new Zkopru.Node({
@@ -95,8 +99,8 @@ async function main() {
         } catch (e) {
           console.error(e)
         }
-        state.setInitialized(true)
         console.log('[BACKGROUND] Zkopru node initialized')
+        setStatus(BACKGROUND_STATUS.INITIALIZED)
       } else if (GetBalanceRequestMessageCreator.match(message)) {
         const wallet = backgroundStore.getState().wallet
         // TODO: if wallet is not initialized, return error message
@@ -120,6 +124,7 @@ async function main() {
         const hash = sha512_256(message.payload.password)
         await browser.storage.local.set({ password: hash })
         sendMessage(RegisterPasswordResponse())
+        setStatus(BACKGROUND_STATUS.NEED_KEY_GENERATION)
       } else if (VerifyPasswordRequest.match(message)) {
         const saved = await browser.storage.local.get('password')
         const hash = sha512_256(message.payload.password)

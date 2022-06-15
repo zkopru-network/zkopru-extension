@@ -1,17 +1,16 @@
 import React, { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
-import { useTranslation } from 'react-i18next'
+import browser from 'webextension-polyfill'
 import shallow from 'zustand/shallow'
+import { css } from '@linaria/core'
+import { useTranslation } from 'react-i18next'
 import { useAuthStore } from '../store/auth'
 import useBackgroundConnection from '../hooks/useBackgroundConnection'
 import PrimaryButton from '../components/PrimaryButton'
 import { Input } from '../components/Form'
-import { ROUTES } from '../../share/constants'
-import { css } from '@linaria/core'
+import { ONBOARDING_URL } from '../../share/constants'
 
 const OnboardingPage = () => {
   const { t } = useTranslation()
-  const navigate = useNavigate()
   const { completeOnboarding, setAuthenticated } = useAuthStore(
     (state) => ({
       completeOnboarding: state.completeOnboarding,
@@ -24,12 +23,21 @@ const OnboardingPage = () => {
 
   const handleSubmit = async () => {
     // TODO: add loading state
-
     await background.registerPassword(password)
 
     completeOnboarding()
     setAuthenticated(true)
-    navigate(ROUTES.HOME)
+
+    // close popup and open connect and sign page in new tab
+    // TODO:  localhost is not valid query string. comment in next line after deploy onboarding page
+    // const tabs = await browser.tabs.query({ url: ONBOARDING_URL })
+    const tabs: browser.Tabs.Tab[] = []
+    if (tabs.length === 0) {
+      open(ONBOARDING_URL)
+    } else {
+      browser.tabs.update(tabs[0].id, { active: true })
+    }
+    window.close()
   }
 
   return (

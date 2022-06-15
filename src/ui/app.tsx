@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react'
+import browser from 'webextension-polyfill'
 import { MemoryRouter as Router, Routes, Route } from 'react-router-dom'
 import clsx from 'clsx'
 import {
@@ -12,7 +13,7 @@ import RequireOnboard from './helper/RequireOnboard'
 import RequireAuth from './helper/RequireAuth'
 import { checkUnlockNeeded } from './helper/unlockNeeded'
 import { globalStyle, container } from './globalStyle'
-import { BACKGROUND_STATUS, ROUTES } from '../share/constants'
+import { BACKGROUND_STATUS, ONBOARDING_URL, ROUTES } from '../share/constants'
 import { LightTheme } from './theme'
 import { useAuthStore } from './store/auth'
 import useBackgroundConnection from './hooks/useBackgroundConnection'
@@ -37,12 +38,24 @@ const App = () => {
       if (status !== BACKGROUND_STATUS.STARTINGUP) {
         if (status === BACKGROUND_STATUS.NOT_ONBOARDED) {
           setOnboardingCompleted(false)
+        } else if (status === BACKGROUND_STATUS.NEED_KEY_GENERATION) {
+          setOnboardingCompleted(false)
+          // open connect and sign page and get signature
+          // search tabs and if onboarding page exists, focus the tab
+          // TODO:  localhost is not valid query string. comment in next line after deploy onboarding page
+          // const tabs = await browser.tabs.query({ url: ONBOARDING_URL })
+          const tabs: browser.Tabs.Tab[] = []
+          if (tabs.length === 0) {
+            open(ONBOARDING_URL)
+          } else {
+            browser.tabs.update(tabs[0].id, { active: true })
+          }
+          window.close()
         } else {
           setOnboardingCompleted(true)
         }
 
         const unlockNeeded = await checkUnlockNeeded()
-        console.log('unlock needed', unlockNeeded)
         setAuthenticated(!unlockNeeded)
         setLoading(false)
       } else {
