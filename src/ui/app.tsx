@@ -33,7 +33,6 @@ const App = () => {
   useEffect(() => {
     async function loadBackgroundStatus() {
       const status = await background.getBackgroundStatus()
-      console.log(status)
 
       if (
         status !== BACKGROUND_STATUS.STARTINGUP &&
@@ -74,10 +73,21 @@ const App = () => {
     // TODO: dispatch initialization action
     // TODO: check if background client is ready or not
     if (onboardingCompleted) {
-      background.syncBalance()
       background.syncZkAddress()
     }
   }, [onboardingCompleted])
+
+  // periodically fetch balance
+  useEffect(() => {
+    function pollBalance() {
+      setTimeout(async () => {
+        const onboardingCompleted = useAuthStore.getState().onboardingCompleted
+        if (onboardingCompleted) background.syncBalance()
+        pollBalance()
+      }, 3000)
+    }
+    pollBalance()
+  }, [])
 
   if (loading) return <LoadingPage />
 

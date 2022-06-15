@@ -1,9 +1,13 @@
 {
   "transfer": "transfer",
+  "deposit": "deposit",
+  "withdraw": "withdraw",
   "address": "address",
   "balance": "balance",
   "unlock": "unlock",
   "password": "password",
   "register": "register",
-  "onboarding": "onboarding"
+  "onboarding": "onboarding",
+  "fee": "fee",
+  "amount": "amount"
 }

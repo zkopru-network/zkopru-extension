@@ -47,7 +47,8 @@ async function buildFiles(opt) {
     entryPoints: {
       popup: 'src/ui/popup.tsx',
       contentscript: 'src/scripts/contentscript.ts',
-      inpage: 'src/scripts/inpage.ts'
+      inpage: 'src/scripts/inpage.ts',
+      sendTx: 'src/scripts/sendTx.ts'
     },
     outdir: outDir,
     bundle: true,

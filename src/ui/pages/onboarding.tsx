@@ -44,7 +44,7 @@ const OnboardingPage = () => {
 
   return (
     <div>
-      <h2>{t('onboarding')}</h2>
+      <h2 className={pageTitle}>{t('onboarding')}</h2>
       <div className={body}>
         <Input
           type="password"
@@ -62,6 +62,10 @@ const body = css`
   flex-direction: column;
   height: 100px;
   justify-content: space-between;
+`
+
+const pageTitle = css`
+  text-transform: capitalize;
 `
 
 export default OnboardingPage

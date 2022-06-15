@@ -33,7 +33,7 @@ const UnlockPage = () => {
 
   return (
     <div>
-      <h2>{t('unlock')}</h2>
+      <h2 className={pageTitle}>{t('unlock')}</h2>
       {error && <div>{error}</div>}
       <div className={body}>
         <Input
@@ -52,6 +52,10 @@ const body = css`
   flex-direction: column;
   height: 100px;
   justify-content: space-between;
+`
+
+const pageTitle = css`
+  text-transform: capitalize;
 `
 
 export default UnlockPage

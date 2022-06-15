@@ -34,7 +34,9 @@ export const ZKOPRU_CONTRACT = '0x970e8f18ebfEa0B08810f33a5A40438b9530FBCF'
 /// used to exchange messages between injected script and content script
 export const EVENT_NAMES = {
   GENERATE_WALLET_KEY: 'ZKOPRU#GENERATE_WALLET_KEY',
-  WALLET_KEY_GENERATED: 'ZKOPRU#WALLET_KEY_GENERATED'
+  WALLET_KEY_GENERATED: 'ZKOPRU#WALLET_KEY_GENERATED',
+  DEPOSIT_ETH: 'ZKOPRU#DEPOSIT_ETH',
+  SEND_TX: 'ZKOPRU#SEND_TX'
 } as const
 
 export const ROUTES = {
@@ -57,5 +59,4 @@ export enum BACKGROUND_STATUS {
 export const TIMEOUT = 15000
 
 // TODO: set moderate unlock time maybe an hour or two
-// export const UNLOCK_TIMEOUT = 3600000
-export const UNLOCK_TIMEOUT = 60000
+export const UNLOCK_TIMEOUT = 3600000

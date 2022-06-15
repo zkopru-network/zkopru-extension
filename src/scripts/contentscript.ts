@@ -9,10 +9,14 @@ import {
   UntypedMessage,
   GetBackgroundStatusRequest,
   GetBackgroundStatusResponse,
+  DepositEthRequest,
+  DepositEthResponse,
   WalletKeyGeneratedMessageCreator
 } from '../share/message'
 import { isCustomEvent, waitUntilAsync } from '../share/utils'
+import type { DepositData, DepositParams } from '../share/types'
 
+// TODO: abstract background request & response
 /**
  * fetch background status from background script
  */
@@ -27,6 +31,20 @@ async function fetchStatus(): Promise<BACKGROUND_STATUS> {
 
     browser.runtime.onMessage.addListener(handleMessage)
     browser.runtime.sendMessage(GetBackgroundStatusRequest())
+  })
+}
+
+async function generateDepositEthTx(data: DepositData): Promise<DepositParams> {
+  return new Promise<DepositParams>((resolve) => {
+    function handleMessage(message: UntypedMessage) {
+      if (DepositEthResponse.match(message)) {
+        browser.runtime.onMessage.removeListener(handleMessage)
+        resolve(message.payload.params)
+      }
+    }
+
+    browser.runtime.onMessage.addListener(handleMessage)
+    browser.runtime.sendMessage(DepositEthRequest({ data }))
   })
 }
 
@@ -53,6 +71,7 @@ function injectAndGetSignature() {
 }
 
 async function main() {
+  injectScript(browser.runtime.getURL('sendTx.js'))
   window.addEventListener(EVENT_NAMES.GENERATE_WALLET_KEY, async () => {
     const status = await fetchStatus()
     if (
@@ -62,8 +81,19 @@ async function main() {
       injectAndGetSignature()
     }
   })
+  window.addEventListener(EVENT_NAMES.DEPOSIT_ETH, async (e) => {
+    if (!isCustomEvent(e)) throw new Error('Zkopru: invalid event value')
+    const params = await generateDepositEthTx(e.detail.data)
+    // TODO: typing
+    // clone object into window and make it available for page script
+    ;(window as any).wrappedJSObject.txParams = cloneInto(params, window, {
+      cloneFunctions: true
+    })
+    window.dispatchEvent(
+      new CustomEvent(EVENT_NAMES.SEND_TX, { detail: { params } })
+    )
+  })
 
-  console.log('[CONTENT] script loaded')
   let status: BACKGROUND_STATUS | undefined
   status = await fetchStatus()
   await waitUntilAsync(async () => {

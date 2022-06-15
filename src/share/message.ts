@@ -1,4 +1,5 @@
 import { BACKGROUND_STATUS } from './constants'
+import type { DepositData } from './types'
 
 export const MESSAGE_TYPE = {
   WALLET_KEY_GENERATED: 'WALLET_KEY_GENERATED',
@@ -11,7 +12,9 @@ export const MESSAGE_TYPE = {
   REGISTER_PASSWORD_REQUEST: 'REGISTER_PASSWORD_REQUEST',
   REGISTER_PASSWORD_RESPONSE: 'REGISTER_PASSWORD_RESPONSE',
   VERIFY_PASSWORD_REQUEST: 'VERIFY_PASSWORD_REQUEST',
-  VERIFY_PASSWORD_RESPONSE: 'VERIFY_PASSWORD_RESPONSE'
+  VERIFY_PASSWORD_RESPONSE: 'VERIFY_PASSWORD_RESPONSE',
+  DEPOSIT_ETH_REQUEST: 'DEPOSIT_ETH_REQUEST',
+  DEPOSIT_ETH_RESPONSE: 'DEPOSIT_ETH_RESPONSE'
 } as const
 
 // type MessageKey = keyof typeof MESSAGE_TYPE
@@ -96,3 +99,9 @@ export const VerifyPasswordRequest = createMessage<{ password: string }>(
 export const VerifyPasswordResponse = createMessage<{ result: boolean }>(
   MESSAGE_TYPE.VERIFY_PASSWORD_RESPONSE
 )
+export const DepositEthRequest = createMessage<{
+  data: DepositData
+}>(MESSAGE_TYPE.DEPOSIT_ETH_REQUEST)
+export const DepositEthResponse = createMessage<{
+  params: { to: string; data: string; value: string }
+}>(MESSAGE_TYPE.DEPOSIT_ETH_RESPONSE)

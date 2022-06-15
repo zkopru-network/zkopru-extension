@@ -20,9 +20,11 @@ import {
   RegisterPasswordRequest,
   VerifyPasswordRequest,
   RegisterPasswordResponse,
-  VerifyPasswordResponse
+  VerifyPasswordResponse,
+  DepositEthRequest,
+  DepositEthResponse
 } from '../share/message'
-import { waitUntil } from '../share/utils'
+import { waitUntil, toWei } from '../share/utils'
 
 async function initClient(walletKey: string) {
   const state = backgroundStore.getState()
@@ -130,6 +132,16 @@ async function main() {
         const saved = await browser.storage.local.get('password')
         const hash = sha512_256(message.payload.password)
         sendMessage(VerifyPasswordResponse({ result: saved.password === hash }))
+      } else if (DepositEthRequest.match(message)) {
+        const { amount, fee } = message.payload.data
+        const wallet = backgroundStore.getState().wallet
+
+        // TODO: add onComplete to deposit tx sent listener
+        const { to, data, value, onComplete } = wallet.wallet.depositEtherTx(
+          toWei(amount),
+          toWei(fee)
+        )
+        sendMessage(DepositEthResponse({ params: { to, data, value } }))
       }
     }
   )
