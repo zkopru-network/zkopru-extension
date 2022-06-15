@@ -35,7 +35,10 @@ const App = () => {
       const status = await background.getBackgroundStatus()
       console.log(status)
 
-      if (status !== BACKGROUND_STATUS.STARTINGUP) {
+      if (
+        status !== BACKGROUND_STATUS.STARTINGUP &&
+        status !== BACKGROUND_STATUS.LOADING
+      ) {
         if (status === BACKGROUND_STATUS.NOT_ONBOARDED) {
           setOnboardingCompleted(false)
         } else if (status === BACKGROUND_STATUS.NEED_KEY_GENERATION) {
@@ -59,8 +62,8 @@ const App = () => {
         setAuthenticated(!unlockNeeded)
         setLoading(false)
       } else {
+        setLoading(true)
         setTimeout(loadBackgroundStatus, 1000)
-        // fetch again after a second
       }
     }
 

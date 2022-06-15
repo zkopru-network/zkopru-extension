@@ -19,7 +19,6 @@ import { isCustomEvent, waitUntilAsync } from '../share/utils'
 async function fetchStatus(): Promise<BACKGROUND_STATUS> {
   return new Promise<BACKGROUND_STATUS>((resolve) => {
     function handleMessage(message: UntypedMessage) {
-      console.log('message')
       if (GetBackgroundStatusResponse.match(message)) {
         browser.runtime.onMessage.removeListener(handleMessage)
         resolve(message.payload.status)
@@ -54,38 +53,37 @@ function injectAndGetSignature() {
 }
 
 async function main() {
+  window.addEventListener(EVENT_NAMES.GENERATE_WALLET_KEY, async () => {
+    const status = await fetchStatus()
+    if (
+      status === BACKGROUND_STATUS.NEED_KEY_GENERATION &&
+      ALLOW_ORIGIN_LIST.includes(window.location.origin)
+    ) {
+      injectAndGetSignature()
+    }
+  })
+
   console.log('[CONTENT] script loaded')
   let status: BACKGROUND_STATUS | undefined
   status = await fetchStatus()
   await waitUntilAsync(async () => {
     status = await fetchStatus()
-    return status !== BACKGROUND_STATUS.STARTINGUP
+    return (
+      status !== BACKGROUND_STATUS.STARTINGUP &&
+      status !== BACKGROUND_STATUS.LOADING
+    )
   })
 
   if (status === BACKGROUND_STATUS.NOT_ONBOARDED) {
-    // do nothing.
-    // after registering password, open onboarding page
-    // and ask signature
-  } else if (status === BACKGROUND_STATUS.NEED_KEY_GENERATION) {
-    // on ask signature
+    // show popup and start onboarding process(password registration)
   } else if (status === BACKGROUND_STATUS.INITIALIZED) {
-    // do nothing
     // just wait app connection
   }
 
-  // poll background status
-  // wait while status is STARGINGUP
-  // if NOT_ONBOARDED => show popup and start onboarding process(password registration)
   // if INITIALIZED => start client by injecting inpage.js
   // inject inpage.js after onboarding has complete.
   // check if zkopru is initialized in background script
   // if yes, set zkopru client to window object in set-client.js
-  // TODO: listen connect
-
-  // TODO: get background status and if NEED_KEY_GENERATION, run this method
-  // if (ALLOW_ORIGIN_LIST.includes(window.location.origin)) {
-  //   injectAndGetSignature()
-  // }
 }
 
 main()

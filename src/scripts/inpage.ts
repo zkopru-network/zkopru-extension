@@ -34,9 +34,6 @@ async function init() {
     return !!window.ethereum
   }, 500)
   const ethereum = window.ethereum as Provider
-
-  // TODO: check if wallet key is stored in database
-
   console.log('[INPAGE] ethereum is initialized')
 
   // try eth_requestAccounts and get selected address

@@ -25,6 +25,8 @@ const OnboardingPage = () => {
     // TODO: add loading state
     await background.registerPassword(password)
 
+    const now = new Date().getTime()
+    await browser.storage.local.set({ unlocktime: now })
     completeOnboarding()
     setAuthenticated(true)
 

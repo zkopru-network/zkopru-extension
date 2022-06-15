@@ -9,8 +9,6 @@ const container = css`
   display: flex;
   flex-direction: column;
   padding: 12px 24px;
-  width: 320px;
-  height: 480px;
   overflow-y: scroll;
 `
 
