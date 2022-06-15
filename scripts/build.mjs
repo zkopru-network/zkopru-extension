@@ -46,8 +46,9 @@ async function buildFiles(opt) {
   await build({
     entryPoints: {
       popup: 'src/ui/popup.tsx',
-      contentscript: 'src/contentscript.ts',
-      inpage: 'src/inpage.ts'
+      contentscript: 'src/scripts/contentscript.ts',
+      inpage: 'src/scripts/inpage.ts',
+      sendTx: 'src/scripts/sendTx.ts'
     },
     outdir: outDir,
     bundle: true,
@@ -66,7 +67,7 @@ async function buildFiles(opt) {
   // FYI: https://esbuild.github.io/api/#define
   // NOTE: background script is too large. need to reduce size or split files
   await build({
-    entryPoints: ['src/background.ts'],
+    entryPoints: ['src/scripts/background.ts'],
     outdir: outDir,
     bundle: true,
     format: 'esm',
@@ -77,7 +78,6 @@ async function buildFiles(opt) {
   fs.copyFileSync('src/ui/popup.html', `${outDir}/popup.html`)
 
   // copy manifest.json
-  // TODO: switch manifest versions
   if (m) {
     console.log('generating manifest.json')
     fs.copyFileSync(

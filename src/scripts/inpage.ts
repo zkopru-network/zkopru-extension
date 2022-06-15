@@ -1,10 +1,6 @@
 import { sha512_256 } from 'js-sha512'
-import { waitUntil } from './utils'
-import {
-  ALLOW_ORIGIN_LIST,
-  EVENT_NAMES,
-  WALLET_KEY_MSG_PARAMS
-} from './constants'
+import { waitUntil } from '../share/utils'
+import { EVENT_NAMES, WALLET_KEY_MSG_PARAMS } from '../share/constants'
 
 type Provider = {
   request: (arg: { method: string; params?: string[] }) => Promise<unknown>
@@ -28,7 +24,6 @@ const initState = (): State => ({
 })
 
 async function init() {
-  if (!ALLOW_ORIGIN_LIST.includes(window.location.origin)) return
   const state = initState()
 
   // listen "ethereum#initialized" event on window object
@@ -39,9 +34,6 @@ async function init() {
     return !!window.ethereum
   }, 500)
   const ethereum = window.ethereum as Provider
-
-  // TODO: check if wallet key is stored in database
-
   console.log('[INPAGE] ethereum is initialized')
 
   // try eth_requestAccounts and get selected address

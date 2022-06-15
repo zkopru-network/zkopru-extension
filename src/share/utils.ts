@@ -1,5 +1,11 @@
 import BN from 'bn.js'
 
+export async function sleep(ms: number) {
+  return new Promise((resolve) => {
+    setInterval(resolve, ms)
+  })
+}
+
 /**
  * @description wait until predicate returns true. checks every *interval* ms
  * @param  predicate checks every *interval* ms. if this function returns true, promise resolves
@@ -19,6 +25,18 @@ export async function waitUntil(
     }
     poll()
   })
+}
+
+/**
+ * @description async predicate verison of waitUntil
+ */
+export async function waitUntilAsync(
+  predicate: () => Promise<boolean>,
+  interval = 1000
+) {
+  while (!(await predicate())) {
+    await sleep(interval)
+  }
 }
 
 /**
@@ -49,7 +67,7 @@ export function logNewMessage<M>(
   console.log(option?.scriptName || '', 'incoming message: ', message)
 }
 
-export function shortenAddress(address: string): string {
+export function shortenAddress(address = ''): string {
   if (address.length <= 10) return address
   return `${address.slice(0, 6)}...${address.slice(address.length - 4)}`
 }
