@@ -5,6 +5,7 @@ import clsx from 'clsx'
 import {
   HomePage,
   TransferPage,
+  TransferCompletePage,
   UnlockPage,
   OnboardingPage,
   LoadingPage
@@ -118,6 +119,14 @@ const App = () => {
             element={
               <RequireAuth>
                 <TransferPage />
+              </RequireAuth>
+            }
+          />
+          <Route
+            path={ROUTES.TRANFER_COMPLETE}
+            element={
+              <RequireAuth>
+                <TransferCompletePage />
               </RequireAuth>
             }
           />

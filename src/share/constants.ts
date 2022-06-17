@@ -43,7 +43,8 @@ export const ROUTES = {
   HOME: '/',
   ONBOARDING: '/onboarding',
   UNLOCK: '/unlock',
-  TRANSFER: '/transfer'
+  TRANSFER: '/transfer',
+  TRANFER_COMPLETE: '/transfer/complete'
 } as const
 
 export enum BACKGROUND_STATUS {

@@ -9,5 +9,6 @@
   "register": "register",
   "onboarding": "onboarding",
   "fee": "fee",
-  "amount": "amount"
+  "amount": "amount",
+  "recipient": "recipient"
 }

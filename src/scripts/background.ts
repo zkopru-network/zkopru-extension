@@ -22,9 +22,11 @@ import {
   RegisterPasswordResponse,
   VerifyPasswordResponse,
   DepositEthRequest,
-  DepositEthResponse
+  DepositEthResponse,
+  TransferEthRequest,
+  TransferEthResponse
 } from '../share/message'
-import { waitUntil, toWei } from '../share/utils'
+import { waitUntil, toWei, toGwei } from '../share/utils'
 
 async function initClient(walletKey: string) {
   const state = backgroundStore.getState()
@@ -113,7 +115,7 @@ async function main() {
         if (!wallet) return
 
         const spendable = await wallet.wallet.getSpendableAmount()
-        const { eth, erc20, erc721 } = spendable
+        const { eth } = spendable
 
         // TODO: add erc20, erc721 asset
         sendMessage(
@@ -142,6 +144,24 @@ async function main() {
           toWei(fee)
         )
         sendMessage(DepositEthResponse({ params: { to, data, value } }))
+      } else if (TransferEthRequest.match(message)) {
+        const { amount, fee, to } = message.payload
+        const wallet = backgroundStore.getState().wallet
+
+        // TODO: error handling
+        try {
+          const tx = await wallet.generateEtherTransfer(
+            to,
+            toWei(amount),
+            toGwei(fee)
+          )
+          const hash = await wallet.wallet.sendTx({
+            tx
+          })
+          sendMessage(TransferEthResponse({ hash }))
+        } catch (e) {
+          console.error(e)
+        }
       }
     }
   )

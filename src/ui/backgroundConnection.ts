@@ -15,7 +15,9 @@ import {
   MessageWithPayload,
   RegisterPasswordResponse,
   VerifyPasswordRequest,
-  VerifyPasswordResponse
+  VerifyPasswordResponse,
+  TransferEthRequest,
+  TransferEthResponse
 } from '../share/message'
 import { fromWei } from '../share/utils'
 import { TIMEOUT } from '../share/constants'
@@ -98,6 +100,17 @@ class BackgroundConnection {
     return this.sendBackground(
       VerifyPasswordRequest({ password }),
       VerifyPasswordResponse
+    )
+  }
+
+  public async transferEth(
+    to: string,
+    amount: number,
+    fee: number
+  ): Promise<MessageWithPayload<{ hash: string }>> {
+    return this.sendBackground(
+      TransferEthRequest({ to, amount, fee }),
+      TransferEthResponse
     )
   }
 
