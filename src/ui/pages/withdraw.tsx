@@ -2,9 +2,15 @@ import React, { useState } from 'react'
 import { css } from '@linaria/core'
 import { useTranslation } from 'react-i18next'
 import { useForm } from 'react-hook-form'
+import { ErrorMessage } from '@hookform/error-message'
 import { useNavigate } from 'react-router-dom'
 import PrimaryButton from '../components/PrimaryButton'
-import { FieldControl, Input, Label, ErrorMessage } from '../components/Form'
+import {
+  FieldControl,
+  Input,
+  Label,
+  ErrorMessage as E
+} from '../components/Form'
 import useBackgroundConnection from '../hooks/useBackgroundConnection'
 import { ROUTES } from '../../share/constants'
 
@@ -52,18 +58,32 @@ const WithdrawPage = () => {
         <FieldControl>
           <Label>{t('amount')}</Label>
           <Input
-            {...register('amount', { required: true, valueAsNumber: true })}
+            {...register('amount', {
+              required: t('error_message.required'),
+              valueAsNumber: true
+            })}
             placeholder={t('amount')}
           />
-          {errors.amount && <ErrorMessage>Required Field</ErrorMessage>}
+          <ErrorMessage
+            errors={errors}
+            name="amount"
+            render={({ message }) => <E>{message}</E>}
+          />
         </FieldControl>
         <FieldControl>
           <Label>{t('fee')}</Label>
           <Input
-            {...register('fee', { required: true, valueAsNumber: true })}
+            {...register('fee', {
+              required: t('error_message.required'),
+              valueAsNumber: true
+            })}
             placeholder={t('fee')}
           />
-          {errors.fee && <ErrorMessage>Required Field</ErrorMessage>}
+          <ErrorMessage
+            errors={errors}
+            name="fee"
+            render={({ message }) => <E>{message}</E>}
+          />
         </FieldControl>
         <FieldControl>
           <Label>{t('instantWithdrawal')}</Label>
@@ -74,9 +94,11 @@ const WithdrawPage = () => {
             })}
             placeholder={t('instantWithdrawal')}
           />
-          {errors.instantWithdrawalFee && (
-            <ErrorMessage>Required Field</ErrorMessage>
-          )}
+          <ErrorMessage
+            errors={errors}
+            name="instantWithdrawalFee"
+            render={({ message }) => <E>{message}</E>}
+          />
         </FieldControl>
         <FieldControl>
           <PrimaryButton type="submit">{t('withdraw')}</PrimaryButton>
