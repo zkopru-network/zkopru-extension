@@ -16,7 +16,6 @@ import {
 import { isCustomEvent, waitUntilAsync } from '../share/utils'
 import type { DepositData, DepositParams } from '../share/types'
 
-// TODO: abstract background request & response
 /**
  * fetch background status from background script
  */
@@ -58,12 +57,19 @@ function injectAndGetSignature() {
   window.addEventListener(EVENT_NAMES.WALLET_KEY_GENERATED, (e: Event) => {
     // TODO: use more specific type guard in isCustomEvent has to return with detail type
     if (!isCustomEvent(e)) throw new Error('Zkopru: invalid event value')
-    console.log('[CONTENT] WalletKeyGenerated event:', e.detail.walletKey)
+    console.log(
+      '[CONTENT] WalletKeyGenerated event:',
+      e.detail.walletKey,
+      e.detail.l1Address
+    )
 
     // pass generated wallet key to background script
     browser.runtime.sendMessage(
       null,
-      WalletKeyGeneratedMessageCreator({ walletKey: e.detail.walletKey })
+      WalletKeyGeneratedMessageCreator({
+        walletKey: e.detail.walletKey,
+        l1Address: e.detail.l1Address
+      })
     )
   })
 

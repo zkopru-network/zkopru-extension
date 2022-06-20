@@ -7,7 +7,7 @@ type Store = {
 }
 
 export const useStore = create<Store>((set) => ({
-  backgroundStatus: BACKGROUND_STATUS.NOT_STARTED,
+  backgroundStatus: BACKGROUND_STATUS.STARTINGUP,
   setBackgroundStatus: (status: BACKGROUND_STATUS) =>
     set({ backgroundStatus: status })
 }))

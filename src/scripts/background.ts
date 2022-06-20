@@ -24,11 +24,13 @@ import {
   DepositEthRequest,
   DepositEthResponse,
   TransferEthRequest,
-  TransferEthResponse
+  TransferEthResponse,
+  WithdrawEthRequest,
+  WithdrawEthResponse
 } from '../share/message'
 import { waitUntil, toWei, toGwei } from '../share/utils'
 
-async function initClient(walletKey: string) {
+async function initClient(walletKey: string, l1Address: string) {
   const state = backgroundStore.getState()
   const client = new Zkopru.Node({
     websocket: WEBSOCKET_URL,
@@ -43,6 +45,7 @@ async function initClient(walletKey: string) {
     const wallet = new Zkopru.Wallet(client, walletKey)
     state.setWallet(wallet)
     state.setAddress(wallet.wallet.account.zkAddress.address)
+    state.setL1Address(l1Address)
 
     // wait until tracker.transferTrackers are ready
     // TODO: use await ZkopruWallet.new() when ready
@@ -58,10 +61,14 @@ async function init() {
   setStatus(BACKGROUND_STATUS.STARTINGUP)
 
   // decide if user has onboarded before by checking password exists
-  const db = await browser.storage.local.get(['password', 'walletKey'])
+  const db = await browser.storage.local.get([
+    'password',
+    'walletKey',
+    'l1Address'
+  ])
   if (db.walletKey) {
     setStatus(BACKGROUND_STATUS.INITIALIZED)
-    await initClient(db.walletKey)
+    await initClient(db.walletKey, db.l1Address)
   } else if (db.password) {
     setStatus(BACKGROUND_STATUS.NEED_KEY_GENERATION)
   } else {
@@ -100,14 +107,15 @@ async function main() {
       if (WalletKeyGeneratedMessageCreator.match(message)) {
         setStatus(BACKGROUND_STATUS.LOADING)
         console.log('[BACKGROUND] generate wallet key')
-        const { walletKey } = message.payload
+        const { walletKey, l1Address } = message.payload
         const state = backgroundStore.getState()
-        // TODO: save encrypted wallet key using password
 
-        await browser.storage.local.set({ walletKey })
+        // TODO: save encrypted wallet key using password
+        await browser.storage.local.set({ walletKey, l1Address })
         state.setWalletKey(walletKey)
+
         console.log('[BACKGROUND] initialize zkoprut client')
-        await initClient(walletKey)
+        await initClient(walletKey, l1Address)
         setStatus(BACKGROUND_STATUS.INITIALIZED)
       } else if (GetBalanceRequestMessageCreator.match(message)) {
         const wallet = backgroundStore.getState().wallet
@@ -160,6 +168,30 @@ async function main() {
           })
           sendMessage(TransferEthResponse({ hash }))
         } catch (e) {
+          // TODO: send error response
+          console.error(e)
+        }
+      } else if (WithdrawEthRequest.match(message)) {
+        // TODO: validate payload
+        const { amount, fee, instantWithdrawFee } = message.payload
+        const to = backgroundStore.getState().l1Address
+
+        const wallet = backgroundStore.getState().wallet
+        console.log('withdraw', amount, fee, instantWithdrawFee, to)
+
+        try {
+          const tx = await wallet.generateWithdrawal(
+            to,
+            toWei(amount),
+            toGwei(fee),
+            toWei(instantWithdrawFee || '0')
+          )
+          const hash = await wallet.wallet.sendTx({
+            tx
+          })
+          sendMessage(WithdrawEthResponse({ hash }))
+        } catch (e) {
+          // TODO: send error response
           console.error(e)
         }
       }

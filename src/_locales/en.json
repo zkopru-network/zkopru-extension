@@ -10,5 +10,6 @@
   "onboarding": "onboarding",
   "fee": "fee",
   "amount": "amount",
-  "recipient": "recipient"
+  "recipient": "recipient",
+  "instantWithdrawal": "instant withdrawal"
 }

@@ -68,7 +68,7 @@ async function init() {
   // send generated wallet key to background script
   window.dispatchEvent(
     new CustomEvent(EVENT_NAMES.WALLET_KEY_GENERATED, {
-      detail: { walletKey: state.walletKey }
+      detail: { walletKey: state.walletKey, l1Address: state.selectedAddress }
     })
   )
 }

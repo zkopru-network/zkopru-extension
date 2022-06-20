@@ -17,7 +17,9 @@ import {
   VerifyPasswordRequest,
   VerifyPasswordResponse,
   TransferEthRequest,
-  TransferEthResponse
+  TransferEthResponse,
+  WithdrawEthRequest,
+  WithdrawEthResponse
 } from '../share/message'
 import { fromWei } from '../share/utils'
 import { TIMEOUT } from '../share/constants'
@@ -111,6 +113,21 @@ class BackgroundConnection {
     return this.sendBackground(
       TransferEthRequest({ to, amount, fee }),
       TransferEthResponse
+    )
+  }
+
+  public async withdrawEth(
+    amount: number,
+    fee: number,
+    instantWithdrawFee: number
+  ): Promise<MessageWithPayload<{ hash: string }>> {
+    return this.sendBackground(
+      WithdrawEthRequest({
+        amount,
+        fee,
+        instantWithdrawFee
+      }),
+      WithdrawEthResponse
     )
   }
 

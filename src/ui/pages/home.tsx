@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next'
 import { useZkopruStore } from '../store/zkopru'
 import Header from '../components/Header'
 import shallow from 'zustand/shallow'
-import { ONBOARDING_URL } from '../../share/constants'
+import { ONBOARDING_URL, ROUTES } from '../../share/constants'
 
 const HomePage = () => {
   const { balance } = useZkopruStore(
@@ -36,10 +36,10 @@ const HomePage = () => {
           >
             {t('deposit')}
           </a>
-          <Link to="withdraw" className={linkItem}>
+          <Link to={ROUTES.WITHDRAW} className={linkItem}>
             {t('withdraw')}
           </Link>
-          <Link to="transfer" className={linkItem}>
+          <Link to={ROUTES.TRANSFER} className={linkItem}>
             {t('transfer')}
           </Link>
         </div>

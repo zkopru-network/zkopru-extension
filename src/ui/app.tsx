@@ -8,7 +8,9 @@ import {
   TransferCompletePage,
   UnlockPage,
   OnboardingPage,
-  LoadingPage
+  LoadingPage,
+  WithdrawPage,
+  WithdrawCompletePage
 } from './pages'
 import RequireOnboard from './helper/RequireOnboard'
 import RequireAuth from './helper/RequireAuth'
@@ -127,6 +129,22 @@ const App = () => {
             element={
               <RequireAuth>
                 <TransferCompletePage />
+              </RequireAuth>
+            }
+          />
+          <Route
+            path={ROUTES.WITHDRAW}
+            element={
+              <RequireAuth>
+                <WithdrawPage />
+              </RequireAuth>
+            }
+          />
+          <Route
+            path={ROUTES.WITHDRAW_COMPLETE}
+            element={
+              <RequireAuth>
+                <WithdrawCompletePage />
               </RequireAuth>
             }
           />
