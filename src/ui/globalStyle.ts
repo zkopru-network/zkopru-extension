@@ -3,7 +3,7 @@ import { css } from '@linaria/core'
 export const globalStyle = css`
   :global() {
     body {
-      font-family: 'Lato', sans-serif;
+      font-family: 'Poppins', sans-serif;
       font-size: 14px;
       margin: 0;
       min-width: 100vw;
