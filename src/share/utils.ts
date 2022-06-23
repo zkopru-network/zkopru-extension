@@ -96,3 +96,8 @@ export function toWei(amount: string | number | BN): string {
   )
   return wei.toString()
 }
+
+export function toGwei(amount: string | number | BN): string {
+  const wei = toWei(amount)
+  return wei.slice(0, wei.length - 9)
+}

@@ -1,4 +1,4 @@
-import React, { MouseEventHandler, ReactNode } from 'react'
+import React, { ReactNode } from 'react'
 import { css } from '@linaria/core'
 
 const style = css`
@@ -19,11 +19,17 @@ const style = css`
 
 type Props = {
   children: ReactNode
-  onClick: MouseEventHandler<HTMLButtonElement>
 }
 
-const PrimaryButton = ({ onClick, children }: Props) => (
-  <button className={style} onClick={onClick}>
+const PrimaryButton = ({
+  children,
+  ...props
+}: Props &
+  React.DetailedHTMLProps<
+    React.ButtonHTMLAttributes<HTMLButtonElement>,
+    HTMLButtonElement
+  >) => (
+  <button className={style} {...props}>
     {children}
   </button>
 )

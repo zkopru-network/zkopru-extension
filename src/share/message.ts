@@ -14,7 +14,11 @@ export const MESSAGE_TYPE = {
   VERIFY_PASSWORD_REQUEST: 'VERIFY_PASSWORD_REQUEST',
   VERIFY_PASSWORD_RESPONSE: 'VERIFY_PASSWORD_RESPONSE',
   DEPOSIT_ETH_REQUEST: 'DEPOSIT_ETH_REQUEST',
-  DEPOSIT_ETH_RESPONSE: 'DEPOSIT_ETH_RESPONSE'
+  DEPOSIT_ETH_RESPONSE: 'DEPOSIT_ETH_RESPONSE',
+  TRANSFER_ETH_REQUEST: 'TRANSFER_ETH_REQUEST',
+  TRANSFER_ETH_RESPONSE: 'TRANSFER_ETH_RESPONSE',
+  WITHDRAW_ETH_REQUEST: 'WITHDRAW_ETH_REQUEST',
+  WITHDRAW_ETH_RESPONSE: 'WITHDRAW_ETH_RESPONSE'
 } as const
 
 // type MessageKey = keyof typeof MESSAGE_TYPE
@@ -68,40 +72,74 @@ function createMessage<P>(type: MessageKey) {
 
 export const WalletKeyGeneratedMessageCreator = createMessage<{
   walletKey: string
+  l1Address: string
 }>(MESSAGE_TYPE.WALLET_KEY_GENERATED)
+
 export const GetBalanceRequestMessageCreator = createMessage(
   MESSAGE_TYPE.GET_BALANCE_REQUEST
 )
+
 export const GetBalanceResponseMessageCreator = createMessage<{
   balance: string
 }>(MESSAGE_TYPE.GET_BALANCE_RESPONSE)
+
 export const GetAddressRequestMessageCreator = createMessage(
   MESSAGE_TYPE.GET_ADDRESS_REQUEST
 )
+
 export const GetAddressResponseMessageCreator = createMessage<{
   address: string
 }>(MESSAGE_TYPE.GET_ADDRESS_RESPONSE)
+
 export const GetBackgroundStatusRequest = createMessage(
   MESSAGE_TYPE.GET_BACKGROUND_STATUS_REQUEST
 )
+
 export const GetBackgroundStatusResponse = createMessage<{
   status: BACKGROUND_STATUS
 }>(MESSAGE_TYPE.GET_BACKGROUND_STATUS_RESPONSE)
+
 export const RegisterPasswordRequest = createMessage<{ password: string }>(
   MESSAGE_TYPE.REGISTER_PASSWORD_REQUEST
 )
+
 export const RegisterPasswordResponse = createMessage(
   MESSAGE_TYPE.REGISTER_PASSWORD_RESPONSE
 )
+
 export const VerifyPasswordRequest = createMessage<{ password: string }>(
   MESSAGE_TYPE.VERIFY_PASSWORD_REQUEST
 )
+
 export const VerifyPasswordResponse = createMessage<{ result: boolean }>(
   MESSAGE_TYPE.VERIFY_PASSWORD_RESPONSE
 )
+
 export const DepositEthRequest = createMessage<{
   data: DepositData
 }>(MESSAGE_TYPE.DEPOSIT_ETH_REQUEST)
+
 export const DepositEthResponse = createMessage<{
   params: { to: string; data: string; value: string }
 }>(MESSAGE_TYPE.DEPOSIT_ETH_RESPONSE)
+
+export const TransferEthRequest = createMessage<{
+  to: string
+  amount: number
+  fee: number
+}>(MESSAGE_TYPE.TRANSFER_ETH_REQUEST)
+
+export const TransferEthResponse = createMessage<{ hash: string }>(
+  MESSAGE_TYPE.TRANSFER_ETH_RESPONSE
+)
+
+// TODO: add token field
+export const WithdrawEthRequest = createMessage<{
+  amount: number
+  fee: number
+  instantWithdrawFee: number
+}>(MESSAGE_TYPE.WITHDRAW_ETH_REQUEST)
+
+export const WithdrawEthResponse = createMessage<{ hash: string }>(
+  MESSAGE_TYPE.WITHDRAW_ETH_RESPONSE
+)
