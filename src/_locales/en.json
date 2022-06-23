@@ -9,5 +9,11 @@
   "register": "register",
   "onboarding": "onboarding",
   "fee": "fee",
-  "amount": "amount"
+  "amount": "amount",
+  "recipient": "recipient",
+  "instantWithdrawal": "instant withdrawal",
+  "error_message": {
+    "required": "This field is required.",
+    "password_not_match": "Password does not match."
+  }
 }

@@ -9,7 +9,7 @@
     "build": "node scripts/build.mjs",
     "build:watch": "chokidar \"src/**\" -c \"npm run build -- --manifest false\"",
     "web-ext:chromium": "web-ext run --target chromium --source-dir ./build/chromium --start-url zkopru.network",
-    "web-ext:firefox": "web-ext run --source-dir ./build/firefox --start-url zkopru.network",
+    "web-ext:firefox": "web-ext run --source-dir ./build/firefox --start-url http://localhost:3000",
     "clean": "rm -rf build && rm -rf web-ext-artifacts",
     "lint": "eslint --ext js,jsx,ts,tsx src && tsc --noEmit",
     "lint:fix": "eslint --fix --ext js,jsx,ts,tsx src"
@@ -43,6 +43,7 @@
     "webextension-polyfill": "^0.9.0"
   },
   "dependencies": {
+    "@hookform/error-message": "^2.0.0",
     "@linaria/babel-preset": "^3.0.0-beta.15",
     "@linaria/core": "^3.0.0-beta.15",
     "@linaria/react": "^3.0.0-beta.15",
@@ -55,6 +56,7 @@
     "loglevel": "^1.8.0",
     "react": "^18.1.0",
     "react-dom": "^18.1.0",
+    "react-hook-form": "^7.32.2",
     "react-i18next": "^11.17.0",
     "react-router-dom": "^6.3.0",
     "yargs": "^17.5.1",

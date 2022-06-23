@@ -9,11 +9,13 @@ type Store = {
   client: Zkopru.Node | null // TODO: add typings to Zkopru.Node
   wallet: Zkopru.Wallet | null // TODO: add typings to Zkopru.Wallet
   address: string | null
+  l1Address: string | null
   setStatus: (status: BACKGROUND_STATUS) => void
   setWalletKey: (walletKey: string) => void
   setClient: (client: Zkopru.Node) => void
   setWallet: (client: Zkopru.Wallet) => void
   setAddress: (address: string) => void
+  setL1Address: (address: string) => void
 }
 
 export const store = create<Store>((set) => ({
@@ -22,10 +24,12 @@ export const store = create<Store>((set) => ({
   client: null,
   wallet: null,
   address: null,
+  l1Address: null,
 
   setStatus: (status: BACKGROUND_STATUS) => set({ status }),
   setWalletKey: (walletKey: string) => set({ walletKey }),
   setClient: (client: Zkopru.Node) => set({ client }),
   setWallet: (wallet: Zkopru.Wallet) => set({ wallet }),
-  setAddress: (address: string) => set({ address })
+  setAddress: (address: string) => set({ address }),
+  setL1Address: (address: string) => set({ l1Address: address })
 }))
