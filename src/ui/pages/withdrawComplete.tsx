@@ -1,4 +1,5 @@
 import React from 'react'
+import { css } from '@linaria/core'
 import { useNavigate } from 'react-router-dom'
 import { ROUTES } from '../../share/constants'
 import PrimaryButton from '../components/PrimaryButton'
@@ -6,7 +7,7 @@ import PrimaryButton from '../components/PrimaryButton'
 const WithdrawCompletePage = () => {
   const navigate = useNavigate()
   return (
-    <div>
+    <div className={container}>
       Withdraw transaction sent!
       <PrimaryButton onClick={() => navigate(ROUTES.HOME)}>
         Back to Home
@@ -14,5 +15,12 @@ const WithdrawCompletePage = () => {
     </div>
   )
 }
+
+const container = css`
+  display: flex;
+  flex-direction: column;
+  padding: 12px 24px;
+  overflow-y: scroll;
+`
 
 export default WithdrawCompletePage
