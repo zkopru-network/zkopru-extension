@@ -33,7 +33,6 @@ class BackgroundConnection {
   }
 
   async handleMessage(message: UntypedMessage) {
-    console.log(message)
     const { setZkAddress, setBalance } = useZkopruStore.getState()
     const { setBackgroundStatus } = useStore.getState()
     if (GetAddressResponseMessageCreator.match(message)) {

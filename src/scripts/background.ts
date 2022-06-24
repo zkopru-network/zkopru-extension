@@ -29,6 +29,7 @@ import {
   WithdrawEthResponse
 } from '../share/message'
 import { waitUntil, toWei, toGwei } from '../share/utils'
+import { showPopupWindow } from './utils'
 
 async function initClient(walletKey: string, l1Address: string) {
   const state = backgroundStore.getState()
@@ -117,6 +118,7 @@ async function main() {
         console.log('[BACKGROUND] initialize zkoprut client')
         await initClient(walletKey, l1Address)
         setStatus(BACKGROUND_STATUS.INITIALIZED)
+        await showPopupWindow()
       } else if (GetBalanceRequestMessageCreator.match(message)) {
         const wallet = backgroundStore.getState().wallet
         // TODO: if wallet is not initialized, return error message
@@ -177,7 +179,6 @@ async function main() {
         const to = backgroundStore.getState().l1Address
 
         const wallet = backgroundStore.getState().wallet
-        console.log('withdraw', amount, fee, instantWithdrawFee, to)
 
         try {
           const tx = await wallet.generateWithdrawal(
