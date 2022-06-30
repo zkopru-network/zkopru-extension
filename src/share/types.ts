@@ -8,3 +8,6 @@ export type DepositParams = {
   data: string
   value: string
 }
+
+// TODO: type correctly
+export type Activity = any

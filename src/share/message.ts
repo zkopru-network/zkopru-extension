@@ -18,7 +18,9 @@ export const MESSAGE_TYPE = {
   TRANSFER_ETH_REQUEST: 'TRANSFER_ETH_REQUEST',
   TRANSFER_ETH_RESPONSE: 'TRANSFER_ETH_RESPONSE',
   WITHDRAW_ETH_REQUEST: 'WITHDRAW_ETH_REQUEST',
-  WITHDRAW_ETH_RESPONSE: 'WITHDRAW_ETH_RESPONSE'
+  WITHDRAW_ETH_RESPONSE: 'WITHDRAW_ETH_RESPONSE',
+  LOAD_ACTIVITY_REQUEST: 'LOAD_ACTIVITY_REQUEST',
+  LOAD_ACTIVITY_RESPONSE: 'LOAD_ACTIVITY_RESPONSE'
 } as const
 
 // type MessageKey = keyof typeof MESSAGE_TYPE
@@ -142,4 +144,12 @@ export const WithdrawEthRequest = createMessage<{
 
 export const WithdrawEthResponse = createMessage<{ hash: string }>(
   MESSAGE_TYPE.WITHDRAW_ETH_RESPONSE
+)
+
+export const LoadActivityRequest = createMessage(
+  MESSAGE_TYPE.LOAD_ACTIVITY_REQUEST
+)
+
+export const LoadActivityResponse = createMessage<{ activities: any[] }>(
+  MESSAGE_TYPE.LOAD_ACTIVITY_RESPONSE
 )

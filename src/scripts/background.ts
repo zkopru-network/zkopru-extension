@@ -26,10 +26,13 @@ import {
   TransferEthRequest,
   TransferEthResponse,
   WithdrawEthRequest,
-  WithdrawEthResponse
+  WithdrawEthResponse,
+  LoadActivityRequest,
+  LoadActivityResponse
 } from '../share/message'
 import { waitUntil, toWei, toGwei } from '../share/utils'
 import { showPopupWindow } from './utils'
+import { Tx } from '@zkopru/client/dist/types'
 
 async function initClient(walletKey: string, l1Address: string) {
   const state = backgroundStore.getState()
@@ -195,6 +198,25 @@ async function main() {
           // TODO: send error response
           console.error(e)
         }
+      } else if (LoadActivityRequest.match(message)) {
+        const { wallet, l1Address } = backgroundStore.getState()
+        const l2Address = wallet.wallet.account.zkAddress.toString()
+        const { history, pending } = await wallet.transactionsFor(
+          l2Address,
+          l1Address
+        )
+
+        // TODO: type correctly
+        const result = [
+          ...(pending || []),
+          ...(history || [])
+            .filter((h: any) => h.proposal)
+            .sort(
+              (a: any, b: any) => b.proposal.timestamp - a.proposal.timestamp
+            )
+        ]
+
+        sendMessage(LoadActivityResponse({ activities: result }))
       }
     }
   )

@@ -42,6 +42,9 @@ const HomePage = () => {
           <Link to={ROUTES.TRANSFER} className={linkItem}>
             {t('transfer')}
           </Link>
+          <Link to={ROUTES.ACTIVITY} className={linkItem}>
+            {t('activity')}
+          </Link>
         </div>
       </div>
     </div>

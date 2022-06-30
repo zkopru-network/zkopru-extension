@@ -6,6 +6,7 @@ import OnboardingPage from './onboarding'
 import WithdrawPage from './withdraw'
 import WithdrawCompletePage from './withdrawComplete'
 import LoadingPage from './loading'
+import ActivityPage from './activity'
 
 export {
   HomePage,
@@ -15,5 +16,6 @@ export {
   OnboardingPage,
   LoadingPage,
   WithdrawPage,
-  WithdrawCompletePage
+  WithdrawCompletePage,
+  ActivityPage
 }
