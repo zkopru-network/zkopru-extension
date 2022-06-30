@@ -46,7 +46,8 @@ export const ROUTES = {
   TRANSFER: '/transfer',
   TRANFER_COMPLETE: '/transfer/complete',
   WITHDRAW: '/withdraw',
-  WITHDRAW_COMPLETE: '/withdraw/complete'
+  WITHDRAW_COMPLETE: '/withdraw/complete',
+  ACTIVITY: '/activity'
 } as const
 
 export enum BACKGROUND_STATUS {
@@ -59,7 +60,7 @@ export enum BACKGROUND_STATUS {
   SYNCED = 'SYNCED'
 }
 
-export const TIMEOUT = 15000
+export const TIMEOUT = 180000
 
 // TODO: set moderate unlock time maybe an hour or two
 export const UNLOCK_TIMEOUT = 3600000

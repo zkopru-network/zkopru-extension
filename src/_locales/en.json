@@ -11,6 +11,7 @@
   "fee": "fee",
   "amount": "amount",
   "recipient": "recipient",
+  "activity": "activity",
   "instantWithdrawal": "instant withdrawal",
   "error_message": {
     "required": "This field is required.",

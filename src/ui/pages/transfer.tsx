@@ -44,6 +44,21 @@ const TransferPage = () => {
     navigate(ROUTES.TRANFER_COMPLETE)
   })
 
+  if (loading) {
+    return (
+      <div className={container}>
+        <h2>Sending transaction</h2>
+        <p>
+          This will take a while. Closing this screen does not cancel the
+          transaction.
+        </p>
+        <PrimaryButton onClick={() => navigate(ROUTES.HOME)}>
+          Close
+        </PrimaryButton>
+      </div>
+    )
+  }
+
   return (
     <div className={container}>
       <div className={header}>
@@ -57,8 +72,7 @@ const TransferPage = () => {
           <Label>{t('recipient')}</Label>
           <Input
             {...register('recipient', {
-              required: t('error_message.required'),
-              valueAsNumber: true
+              required: t('error_message.required')
             })}
             placeholder={t('recipient')}
           />

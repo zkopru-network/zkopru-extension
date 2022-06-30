@@ -67,6 +67,10 @@ export function logNewMessage<M>(
   console.log(option?.scriptName || '', 'incoming message: ', message)
 }
 
+export function shortenString(str = '', length = 10): string {
+  return `${str.slice(0, length)}...`
+}
+
 export function shortenAddress(address = ''): string {
   if (address.length <= 10) return address
   return `${address.slice(0, 6)}...${address.slice(address.length - 4)}`

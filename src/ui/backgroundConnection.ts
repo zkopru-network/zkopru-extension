@@ -19,10 +19,13 @@ import {
   TransferEthRequest,
   TransferEthResponse,
   WithdrawEthRequest,
-  WithdrawEthResponse
+  WithdrawEthResponse,
+  LoadActivityRequest,
+  LoadActivityResponse
 } from '../share/message'
 import { fromWei } from '../share/utils'
 import { TIMEOUT } from '../share/constants'
+import type { Activity } from '../share/types'
 
 /**
  *
@@ -33,7 +36,6 @@ class BackgroundConnection {
   }
 
   async handleMessage(message: UntypedMessage) {
-    console.log(message)
     const { setZkAddress, setBalance } = useZkopruStore.getState()
     const { setBackgroundStatus } = useStore.getState()
     if (GetAddressResponseMessageCreator.match(message)) {
@@ -129,6 +131,12 @@ class BackgroundConnection {
       }),
       WithdrawEthResponse
     )
+  }
+
+  public async loadActivity(): Promise<
+    MessageWithPayload<{ activities: Activity[] }>
+  > {
+    return this.sendBackground(LoadActivityRequest(), LoadActivityResponse)
   }
 
   private async sendBackground<T>(
