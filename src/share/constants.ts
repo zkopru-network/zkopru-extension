@@ -46,7 +46,8 @@ export const ROUTES = {
   TRANSFER: '/transfer',
   TRANFER_COMPLETE: '/transfer/complete',
   WITHDRAW: '/withdraw',
-  WITHDRAW_COMPLETE: '/withdraw/complete'
+  WITHDRAW_COMPLETE: '/withdraw/complete',
+  ACTIVITY: '/activity'
 } as const
 
 export enum BACKGROUND_STATUS {
