@@ -1,21 +1,4 @@
 import React, { ReactNode } from 'react'
-// import { css } from '@linaria/core'
-
-// const style = css`
-//   display: flex;
-//   justify-content: center;
-//   align-items: center;
-//   background-color: var(--color-primary);
-//   color: var(--color-on-primary);
-//   border-radius: 48px;
-//   border: none;
-//   height: 44px;
-//   font-weight: 600;
-//   font-size: 14px;
-//   box-shadow: 4px 4px 12px #2421d641;
-//   text-transform: uppercase;
-//   cursor: pointer;
-// `
 
 type Props = {
   children: ReactNode
@@ -28,6 +11,14 @@ const Button = ({
   React.DetailedHTMLProps<
     React.ButtonHTMLAttributes<HTMLButtonElement>,
     HTMLButtonElement
-  >) => <button {...props}>{children}</button>
+  >) => (
+  <button
+    className="bg-gray-100 p-4 rounded-lg text-gray-900 relative"
+    {...props}
+  >
+    {children}
+    <span className="absolute animate-ping top-0 right-0 bg-red-500 rounded-full h-2 w-2"></span>
+  </button>
+)
 
 export default Button
