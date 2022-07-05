@@ -11,10 +11,20 @@ import {
   GetBackgroundStatusResponse,
   DepositEthRequest,
   DepositEthResponse,
-  WalletKeyGeneratedMessageCreator
+  WalletKeyGeneratedMessageCreator,
+  ConfirmConnectSite,
+  SiteConnected
 } from '../share/message'
 import { isCustomEvent, waitUntilAsync } from '../share/utils'
 import type { DepositData, DepositParams } from '../share/types'
+
+// cloneInto is global function to set window.wrappedJSObject
+declare let cloneInto: any
+declare global {
+  interface Window {
+    wrappedJSObject: any
+  }
+}
 
 /**
  * fetch background status from background script
@@ -22,6 +32,7 @@ import type { DepositData, DepositParams } from '../share/types'
 async function fetchStatus(): Promise<BACKGROUND_STATUS> {
   return new Promise<BACKGROUND_STATUS>((resolve) => {
     function handleMessage(message: UntypedMessage) {
+      console.log(message)
       if (GetBackgroundStatusResponse.match(message)) {
         browser.runtime.onMessage.removeListener(handleMessage)
         resolve(message.payload.status)
@@ -90,15 +101,44 @@ async function main() {
   window.addEventListener(EVENT_NAMES.DEPOSIT_ETH, async (e) => {
     if (!isCustomEvent(e)) throw new Error('Zkopru: invalid event value')
     const params = await generateDepositEthTx(e.detail.data)
-    // TODO: typing
     // clone object into window and make it available for page script
-    ;(window as any).wrappedJSObject.txParams = cloneInto(params, window, {
+    window.wrappedJSObject.txParams = cloneInto(params, window, {
       cloneFunctions: true
     })
     window.dispatchEvent(
       new CustomEvent(EVENT_NAMES.SEND_TX, { detail: { params } })
     )
   })
+  window.addEventListener(EVENT_NAMES.CONNECT, async (e) => {
+    // send message to background
+    console.log('connect event dispatched')
+    if (!isCustomEvent(e)) throw new Error('Zkopru: invalid event value')
+    browser.runtime.sendMessage(
+      null,
+      ConfirmConnectSite({ origin: e.detail.origin })
+    )
+  })
+  browser.runtime.onMessage.addListener((message) => {
+    console.log(message)
+    if (
+      SiteConnected.match(message) &&
+      window.location.origin === message.payload.origin
+    ) {
+      window.wrappedJSObject.connectedSite = cloneInto(
+        message.payload.origin,
+        window,
+        {
+          cloneFunctions: true
+        }
+      )
+      window.dispatchEvent(
+        new CustomEvent(EVENT_NAMES.CONNECTED, {
+          detail: { origin: message.payload.origin }
+        })
+      )
+    }
+  })
+  injectScript(browser.runtime.getURL('setProvider.js'))
 
   let status: BACKGROUND_STATUS | undefined
   status = await fetchStatus()
@@ -115,11 +155,6 @@ async function main() {
   } else if (status === BACKGROUND_STATUS.INITIALIZED) {
     // just wait app connection
   }
-
-  // if INITIALIZED => start client by injecting inpage.js
-  // inject inpage.js after onboarding has complete.
-  // check if zkopru is initialized in background script
-  // if yes, set zkopru client to window object in set-client.js
 }
 
 main()

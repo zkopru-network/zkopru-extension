@@ -10,6 +10,7 @@ import { ROUTES } from '../../share/constants'
  * accept same props type with Route element of react-router-dom
  */
 const RequireAuth = ({ children }: { children: JSX.Element }) => {
+  // TODO: navigate to given page after unlock or onboarding
   const { authenticated, onboardingCompleted } = useAuthStore(
     (state) => ({
       authenticated: state.authenticated,

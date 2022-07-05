@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import browser from 'webextension-polyfill'
-import { MemoryRouter as Router, Routes, Route } from 'react-router-dom'
+import { HashRouter as Router, Routes, Route } from 'react-router-dom'
 import clsx from 'clsx'
 import {
   HomePage,
@@ -11,7 +11,8 @@ import {
   LoadingPage,
   WithdrawPage,
   WithdrawCompletePage,
-  ActivityPage
+  ActivityPage,
+  ConfirmConnectionPage
 } from './pages'
 import RequireOnboard from './helper/RequireOnboard'
 import RequireAuth from './helper/RequireAuth'
@@ -154,6 +155,14 @@ const App = () => {
             element={
               <RequireAuth>
                 <ActivityPage />
+              </RequireAuth>
+            }
+          />
+          <Route
+            path={ROUTES.CONFIRM_CONNECTION}
+            element={
+              <RequireAuth>
+                <ConfirmConnectionPage />
               </RequireAuth>
             }
           />

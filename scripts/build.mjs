@@ -48,7 +48,8 @@ async function buildFiles(opt) {
       popup: 'src/ui/popup.tsx',
       contentscript: 'src/scripts/contentscript.ts',
       inpage: 'src/scripts/inpage.ts',
-      sendTx: 'src/scripts/sendTx.ts'
+      sendTx: 'src/scripts/sendTx.ts',
+      setProvider: 'src/scripts/setProvider.ts'
     },
     outdir: outDir,
     bundle: true,

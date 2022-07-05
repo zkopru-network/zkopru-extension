@@ -36,7 +36,9 @@ export const EVENT_NAMES = {
   GENERATE_WALLET_KEY: 'ZKOPRU#GENERATE_WALLET_KEY',
   WALLET_KEY_GENERATED: 'ZKOPRU#WALLET_KEY_GENERATED',
   DEPOSIT_ETH: 'ZKOPRU#DEPOSIT_ETH',
-  SEND_TX: 'ZKOPRU#SEND_TX'
+  SEND_TX: 'ZKOPRU#SEND_TX',
+  CONNECT: 'ZKOPRU#CONNECT',
+  CONNECTED: 'ZKOPRU#CONNECTED'
 } as const
 
 export const ROUTES = {
@@ -47,7 +49,8 @@ export const ROUTES = {
   TRANFER_COMPLETE: '/transfer/complete',
   WITHDRAW: '/withdraw',
   WITHDRAW_COMPLETE: '/withdraw/complete',
-  ACTIVITY: '/activity'
+  ACTIVITY: '/activity',
+  CONFIRM_CONNECTION: '/confirm-connection'
 } as const
 
 export enum BACKGROUND_STATUS {

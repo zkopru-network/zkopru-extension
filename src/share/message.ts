@@ -20,7 +20,16 @@ export const MESSAGE_TYPE = {
   WITHDRAW_ETH_REQUEST: 'WITHDRAW_ETH_REQUEST',
   WITHDRAW_ETH_RESPONSE: 'WITHDRAW_ETH_RESPONSE',
   LOAD_ACTIVITY_REQUEST: 'LOAD_ACTIVITY_REQUEST',
-  LOAD_ACTIVITY_RESPONSE: 'LOAD_ACTIVITY_RESPONSE'
+  LOAD_ACTIVITY_RESPONSE: 'LOAD_ACTIVITY_RESPONSE',
+
+  CONFIRM_CONNECT_SITE: 'CONFIRM_CONNECT_SITE',
+  CONNECT_SITE_REQUEST: 'CONNECT_SITE_REQUEST',
+  CONNECT_SITE_RESPONSE: 'CONNECT_SITE_RESPONSE',
+  IS_CONNECTED_REQUEST: 'IS_CONNECTED_REQUEST',
+  IS_CONNECTED_RESPONSE: 'IS_CONNECTED_RESPONSE',
+  SITE_CONNECTED: 'SITE_CONNECTED',
+
+  DEBUG: 'DEBUG'
 } as const
 
 // type MessageKey = keyof typeof MESSAGE_TYPE
@@ -152,4 +161,30 @@ export const LoadActivityRequest = createMessage(
 
 export const LoadActivityResponse = createMessage<{ activities: any[] }>(
   MESSAGE_TYPE.LOAD_ACTIVITY_RESPONSE
+)
+
+export const ConfirmConnectSite = createMessage<{
+  origin: string
+}>(MESSAGE_TYPE.CONFIRM_CONNECT_SITE)
+
+export const ConnectSiteRequest = createMessage<{ origin: string }>(
+  MESSAGE_TYPE.CONNECT_SITE_REQUEST
+)
+
+export const ConnectSiteResponse = createMessage<{
+  result: boolean
+}>(MESSAGE_TYPE.CONNECT_SITE_RESPONSE)
+
+export const IsConnectedRequest = createMessage<{ origin: string }>(
+  MESSAGE_TYPE.IS_CONNECTED_REQUEST
+)
+
+export const IsConnectedResponse = createMessage<{ isConnected: boolean }>(
+  MESSAGE_TYPE.IS_CONNECTED_RESPONSE
+)
+
+export const DebugMessage = createMessage<{ value: any }>(MESSAGE_TYPE.DEBUG)
+
+export const SiteConnected = createMessage<{ origin: string }>(
+  MESSAGE_TYPE.SITE_CONNECTED
 )
