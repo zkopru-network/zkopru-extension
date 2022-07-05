@@ -13,7 +13,9 @@ import {
   DepositEthResponse,
   WalletKeyGeneratedMessageCreator,
   ConfirmConnectSite,
-  SiteConnected
+  SiteConnected,
+  IsConnectedResponse,
+  IsConnectedRequest
 } from '../share/message'
 import { isCustomEvent, waitUntilAsync } from '../share/utils'
 import type { DepositData, DepositParams } from '../share/types'
@@ -87,6 +89,22 @@ function injectAndGetSignature() {
   injectScript(browser.runtime.getURL('inpage.js'))
 }
 
+async function checkSiteIsConnected(): Promise<boolean> {
+  return new Promise<boolean>((resolve) => {
+    function handleMessage(message: UntypedMessage) {
+      if (IsConnectedResponse.match(message)) {
+        browser.runtime.onMessage.removeListener(handleMessage)
+        resolve(message.payload.isConnected)
+      }
+    }
+
+    browser.runtime.onMessage.addListener(handleMessage)
+    browser.runtime.sendMessage(
+      IsConnectedRequest({ origin: window.location.origin })
+    )
+  })
+}
+
 async function main() {
   injectScript(browser.runtime.getURL('sendTx.js'))
   window.addEventListener(EVENT_NAMES.GENERATE_WALLET_KEY, async () => {
@@ -110,8 +128,6 @@ async function main() {
     )
   })
   window.addEventListener(EVENT_NAMES.CONNECT, async (e) => {
-    // send message to background
-    console.log('connect event dispatched')
     if (!isCustomEvent(e)) throw new Error('Zkopru: invalid event value')
     browser.runtime.sendMessage(
       null,
@@ -119,7 +135,6 @@ async function main() {
     )
   })
   browser.runtime.onMessage.addListener((message) => {
-    console.log(message)
     if (
       SiteConnected.match(message) &&
       window.location.origin === message.payload.origin
@@ -149,6 +164,24 @@ async function main() {
       status !== BACKGROUND_STATUS.LOADING
     )
   })
+
+  // ask background if site is connected
+  // if connected, dispatch CONNECTED event
+  const connected = await checkSiteIsConnected()
+  if (connected) {
+    window.wrappedJSObject.connectedSite = cloneInto(
+      window.location.origin,
+      window,
+      {
+        cloneFunctions: true
+      }
+    )
+    window.dispatchEvent(
+      new CustomEvent(EVENT_NAMES.CONNECTED, {
+        detail: { origin: window.location.origin }
+      })
+    )
+  }
 
   if (status === BACKGROUND_STATUS.NOT_ONBOARDED) {
     // show popup and start onboarding process(password registration)

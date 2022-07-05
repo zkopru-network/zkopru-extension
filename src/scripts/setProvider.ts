@@ -17,6 +17,7 @@ class L2Provider {
         this._connected = true
       }
     })
+
     // TODO: subscribe background status update
   }
 
@@ -57,6 +58,7 @@ class L2Provider {
 
   async sendTx() {
     this.assertConnected()
+    // TODO: show popup
   }
 
   async getBlockNumber() {
