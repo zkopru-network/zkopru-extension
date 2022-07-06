@@ -1,5 +1,4 @@
-import { EVENT_NAMES, BACKGROUND_STATUS } from '../share/constants'
-import { isCustomEvent } from '../share/utils'
+import { EVENT_NAMES, BACKGROUND_STATUS, ROUTES } from '../share/constants'
 
 declare global {
   interface Window {
@@ -10,11 +9,9 @@ declare global {
 class L2Provider {
   constructor() {
     window.addEventListener(EVENT_NAMES.CONNECTED, (e) => {
-      if (!isCustomEvent(e)) throw new Error('Zkopru: invalid event value')
-      // window.connectedSite must be passed by content script
-      // by using cloneInto
       if ((window as any).connectedSite === window.location.origin) {
         this._connected = true
+        window.dispatchEvent(new Event(EVENT_NAMES.PROVIDER_CONNECTED))
       }
     })
 
@@ -48,17 +45,21 @@ class L2Provider {
     this.assertConnected()
   }
 
-  async generateTransferTx() {
+  async transferEth(to: string, amount: string) {
+    this.assertConnected()
+    window.dispatchEvent(
+      new CustomEvent(EVENT_NAMES.CONFIRM_POPUP, {
+        detail: { path: ROUTES.TRANSFER_CONFIRM, params: { to, amount } }
+      })
+    )
+  }
+
+  async transferERC20(to: string, token: string, amount: string) {
     this.assertConnected()
   }
 
-  async generateSwapTx() {
+  async swap() {
     this.assertConnected()
-  }
-
-  async sendTx() {
-    this.assertConnected()
-    // TODO: show popup
   }
 
   async getBlockNumber() {
@@ -72,6 +73,7 @@ class L2Provider {
 
 function setProvider() {
   window.zkopru = new L2Provider()
+  window.dispatchEvent(new Event(EVENT_NAMES.SET_PROVIDER))
 }
 
 setProvider()

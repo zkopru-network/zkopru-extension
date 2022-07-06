@@ -19,7 +19,7 @@ const Header = () => {
     <header className={container}>
       <div className={selectNetwork}>
         <NetworkStatus />
-        <span className={networkName}>Goerli</span>
+        <span className={networkName}>Local</span>
       </div>
       <div className={addressSection}>{shortenAddress(address)}</div>
       <div>

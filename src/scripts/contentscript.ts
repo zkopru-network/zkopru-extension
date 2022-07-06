@@ -15,10 +15,12 @@ import {
   ConfirmConnectSite,
   SiteConnected,
   IsConnectedResponse,
-  IsConnectedRequest
+  IsConnectedRequest,
+  ConfirmPopup
 } from '../share/message'
 import { isCustomEvent, waitUntilAsync } from '../share/utils'
 import type { DepositData, DepositParams } from '../share/types'
+import { showPopupWindow } from './utils'
 
 // cloneInto is global function to set window.wrappedJSObject
 declare let cloneInto: any
@@ -134,6 +136,14 @@ async function main() {
       ConfirmConnectSite({ origin: e.detail.origin })
     )
   })
+  window.addEventListener(EVENT_NAMES.CONFIRM_POPUP, async (e) => {
+    if (!isCustomEvent(e)) throw new Error('Zkopru: invalid event value')
+    browser.runtime.sendMessage(
+      null,
+      ConfirmPopup({ path: e.detail.path as string, params: e.detail.params })
+    )
+  })
+
   browser.runtime.onMessage.addListener((message) => {
     if (
       SiteConnected.match(message) &&
@@ -176,11 +186,7 @@ async function main() {
         cloneFunctions: true
       }
     )
-    window.dispatchEvent(
-      new CustomEvent(EVENT_NAMES.CONNECTED, {
-        detail: { origin: window.location.origin }
-      })
-    )
+    window.dispatchEvent(new Event(EVENT_NAMES.CONNECTED))
   }
 
   if (status === BACKGROUND_STATUS.NOT_ONBOARDED) {

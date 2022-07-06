@@ -36,7 +36,8 @@ import {
   ConnectSiteRequest,
   ConnectSiteResponse,
   DebugMessage,
-  SiteConnected
+  SiteConnected,
+  ConfirmPopup
 } from '../share/message'
 import { waitUntil, toWei, toGwei } from '../share/utils'
 import { showPopupWindow } from './utils'
@@ -269,6 +270,8 @@ async function main() {
             })
           )
         }
+      } else if (ConfirmPopup.match(message)) {
+        showPopupWindow(message.payload.path, message.payload.params)
       } else if (DebugMessage.match(message)) {
         console.log(message)
       }

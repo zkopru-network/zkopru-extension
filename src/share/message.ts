@@ -29,6 +29,8 @@ export const MESSAGE_TYPE = {
   IS_CONNECTED_RESPONSE: 'IS_CONNECTED_RESPONSE',
   SITE_CONNECTED: 'SITE_CONNECTED',
 
+  CONFIRIM_POPUP: 'CONFIRM_POPUP',
+
   DEBUG: 'DEBUG'
 } as const
 
@@ -187,4 +189,8 @@ export const DebugMessage = createMessage<{ value: any }>(MESSAGE_TYPE.DEBUG)
 
 export const SiteConnected = createMessage<{ origin: string }>(
   MESSAGE_TYPE.SITE_CONNECTED
+)
+
+export const ConfirmPopup = createMessage<{ path: string; params: any }>(
+  MESSAGE_TYPE.CONFIRIM_POPUP
 )
