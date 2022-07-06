@@ -1,35 +1,31 @@
-import React from 'react'
 import { ComponentStory, ComponentMeta } from '@storybook/react'
 
 import Button from './Button'
 
 export default {
-  title: 'Big Button',
+  title: 'Button',
   component: Button,
   argTypes: {
     variant: {
-      description: 'The variant of the button',
-      defaultValue: 'primary',
-      options: ['primary', 'secondary', 'tertiary'],
+      description:
+        'The variant of the button, determines size and other styles',
+      options: ['primary', 'secondary'],
       control: 'radio'
     },
-    size: {
-      options: ['sm', 'md', 'lg'],
-      control: 'radio'
-    }
+    theme: { options: ['sanctum-light', 'sanctum-dark'], control: 'radio' }
   }
 } as ComponentMeta<typeof Button>
 
 const Template: ComponentStory<typeof Button> = (args) => (
-  <Button variant={args.variant} size={args.size}>
+  <Button theme={args.theme} variant={args.variant}>
     {args.children}
   </Button>
 )
 
-export const Primary = Template.bind({})
+export const Master = Template.bind({})
 
-Primary.args = {
+Master.args = {
   variant: 'primary',
   children: 'Click me',
-  size: 'md'
+  theme: 'sanctum-light'
 }
