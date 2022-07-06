@@ -8,15 +8,28 @@ export default {
   component: Button,
   argTypes: {
     variant: {
+      description: 'The variant of the button',
+      defaultValue: 'primary',
       options: ['primary', 'secondary', 'tertiary'],
       control: 'radio'
     },
-    label: 'text'
+    size: {
+      options: ['sm', 'md', 'lg'],
+      control: 'radio'
+    }
   }
 } as ComponentMeta<typeof Button>
 
 const Template: ComponentStory<typeof Button> = (args) => (
-  <Button>{args.label}</Button>
+  <Button variant={args.variant} size={args.size}>
+    {args.children}
+  </Button>
 )
 
 export const Primary = Template.bind({})
+
+Primary.args = {
+  variant: 'primary',
+  children: 'Click me',
+  size: 'md'
+}
