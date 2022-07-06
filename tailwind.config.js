@@ -6,8 +6,8 @@ module.exports = {
   // ],
   mode: 'jit',
   content: [
-    '.src/ui/components/**/*.{js,ts,jsx,tsx}',
-    '.src/ui/pages/**/*.{js,ts,jsx,tsx}'
+    './src/ui/components/**/*.{js,ts,jsx,tsx}',
+    './src/ui/pages/**/*.{js,ts,jsx,tsx}'
   ],
   theme: {
     extend: {}
