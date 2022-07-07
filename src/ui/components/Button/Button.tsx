@@ -25,7 +25,7 @@ const variants: BtnVariants = {
       'sanctum-dark': 'bg-sanctum-blue-dark/33 hover:bg-sanctum-blue'
     },
     getStyles: function (theme: keyof Theme) {
-      return `transition font-medium text-base text-white rounded-full py-2 px-4 ${this.theme[theme]}`
+      return `transition font-medium text-base text-white rounded-full py-2 px-4 focus:outline-none focus:ring focus:ring-sanctum-blue/75 focus:ring-offset-2 ${this.theme[theme]}`
     }
   },
   secondary: {
@@ -36,7 +36,7 @@ const variants: BtnVariants = {
         'text-white border-2 border-sanctum-blue-medium/50 bg-white/10 hover:bg-sanctum-blue-medium'
     },
     getStyles: function (theme: keyof Theme) {
-      return `transition font-medium text-lg text-sm rounded-full py-1 px-2 ${this.theme[theme]}`
+      return `transition font-medium text-xs rounded-full py-1 px-2 focus:outline-none focus:ring focus:ring-sanctum-blue/75 focus:ring-offset-2 ${this.theme[theme]}`
     }
   }
 }
