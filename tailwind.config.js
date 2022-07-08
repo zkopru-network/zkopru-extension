@@ -3,7 +3,8 @@ module.exports = {
   mode: 'jit',
   content: [
     './src/ui/components/**/*.{js,ts,jsx,tsx}',
-    './src/ui/pages/**/*.{js,ts,jsx,tsx}'
+    './src/ui/pages/**/*.{js,ts,jsx,tsx}',
+    './.storybook/**/*.{js,ts,jsx,tsx}'
   ],
   theme: {
     extend: {
@@ -11,10 +12,10 @@ module.exports = {
         sans: ['Poppins', 'sans-serif']
       },
       colors: {
-        'sanctum-blue': '#3030C6',
-        'sanctum-blue-dark': '#152059',
-        'sanctum-blue-light': '#CBD4FF',
-        'sanctum-blue-medium': '#3A405F'
+        'btn-primary': 'rgb(var(--color-btn-primary) / <alpha-value>)'
+        // 'primary-dark': '#152059',
+        // 'primary-light': '#CBD4FF',
+        // 'primary-medium': '#3A405F'
       },
       opacity: {
         33: '.33'
