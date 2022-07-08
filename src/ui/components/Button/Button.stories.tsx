@@ -11,21 +11,19 @@ export default {
         'The variant of the button, determines size and other styles',
       options: ['primary', 'secondary'],
       control: 'radio'
-    },
-    theme: { options: ['sanctum-light', 'sanctum-dark'], control: 'radio' }
+    }
+    // theme: { options: ['sanctum-light', 'sanctum-dark'], control: 'radio' }
   }
 } as ComponentMeta<typeof Button>
 
 const Template: ComponentStory<typeof Button> = (args) => (
-  <Button theme={args.theme} variant={args.variant}>
-    {args.children}
-  </Button>
+  <Button variant={args.variant}>{args.children}</Button>
 )
 
 export const Master = Template.bind({})
 
 Master.args = {
   variant: 'primary',
-  children: 'Click me',
-  theme: 'sanctum-light'
+  children: 'Click me'
+  // theme: 'sanctum-light'
 }
