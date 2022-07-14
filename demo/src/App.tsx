@@ -1,10 +1,11 @@
 import React, { useState } from 'react'
+import { useQuery } from 'react-query'
 import './App.css'
 import { useZkopru } from './zkopru/useZkopru'
 import { toWei } from './utils'
 
 function App() {
-  const { zkopru } = useZkopru()
+  const { zkopru, active } = useZkopru()
   const [to, setTo] = useState('')
   const [amount, setAmount] = useState(0)
 
@@ -16,6 +17,17 @@ function App() {
     const amountString = toWei(amount)
     await zkopru?.transferEth(to, amountString)
   }
+
+  const balance = useQuery(
+    ['balance'],
+    async () => {
+      await zkopru?.getBalance()
+    },
+    {
+      enabled: active && !!zkopru
+    }
+  )
+  console.log(balance.data)
 
   if (!zkopru) return <div className="App">Loading</div>
 
