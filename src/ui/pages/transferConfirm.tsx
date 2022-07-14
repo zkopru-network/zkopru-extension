@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { css } from '@linaria/core'
 import { ROUTES } from '../../share/constants'
 import { fromWei, shortenAddress } from '../../share/utils'
 import PrimaryButton from '../components/PrimaryButton'
@@ -34,16 +35,28 @@ const TransferConfirmPage = () => {
   }
 
   return (
-    <div>
+    <div className={container}>
       <h1>Confirm Transfer</h1>
       <p>To: {shortenAddress(to)}</p>
       <p>Amount: {fromWei(amount)}</p>
-      <div>
+      <div className={buttonSection}>
         <PrimaryButton onClick={window.close}>Cancel</PrimaryButton>
         <PrimaryButton onClick={handleTransfer}>Transfer</PrimaryButton>
       </div>
     </div>
   )
 }
+
+const container = css`
+  display: flex;
+  flex-direction: column;
+  padding: 12px 24px;
+  overflow-y: scroll;
+`
+
+const buttonSection = css`
+  display: flex;
+  justify-content: space-between;
+`
 
 export default TransferConfirmPage
