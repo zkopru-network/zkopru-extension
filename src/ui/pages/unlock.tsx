@@ -15,6 +15,7 @@ import {
   ErrorMessage as E
 } from '../components/Form'
 import { ROUTES } from '../../share/constants'
+import shallow from 'zustand/shallow'
 
 type FormData = {
   password: string
@@ -23,7 +24,22 @@ type FormData = {
 const UnlockPage = () => {
   const { t } = useTranslation()
   const navigate = useNavigate()
-  const setAuthenticated = useAuthStore((state) => state.setAuthenticated)
+  const {
+    setAuthenticated,
+    redirectPath,
+    redirectParams,
+    setRedirectPath,
+    setRediretParams
+  } = useAuthStore(
+    (state) => ({
+      setAuthenticated: state.setAuthenticated,
+      redirectPath: state.redirectPath,
+      redirectParams: state.redirectParams,
+      setRedirectPath: state.setRedirectPath,
+      setRediretParams: state.setRedirectParams
+    }),
+    shallow
+  )
   const background = useBackgroundConnection()
   const {
     register,
@@ -43,7 +59,15 @@ const UnlockPage = () => {
     await browser.storage.local.set({ unlocktime: now })
 
     setAuthenticated(true)
-    navigate(ROUTES.HOME)
+
+    // clear redirect path and params
+    setRedirectPath(null)
+    setRediretParams(null)
+
+    navigate({
+      pathname: redirectPath || ROUTES.HOME,
+      search: redirectParams || ''
+    })
   })
 
   return (

@@ -30,8 +30,13 @@ import './i18n'
 const App = () => {
   // TODO: use context to toggle theme light/dark
   const theme = LightTheme
-  const { onboardingCompleted, setOnboardingCompleted, setAuthenticated } =
-    useAuthStore()
+  const {
+    onboardingCompleted,
+    setOnboardingCompleted,
+    setAuthenticated,
+    setRedirectParams,
+    setRedirectPath
+  } = useAuthStore()
   const background = useBackgroundConnection()
   const [loading, setLoading] = useState(true)
 
@@ -64,6 +69,10 @@ const App = () => {
         }
 
         const unlockNeeded = await checkUnlockNeeded()
+        if (unlockNeeded) {
+          setRedirectPath(window.location.hash.slice(1))
+          setRedirectParams(window.location.search)
+        }
         setAuthenticated(!unlockNeeded)
         setLoading(false)
       } else {
