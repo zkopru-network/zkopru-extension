@@ -1,4 +1,9 @@
-import { EVENT_NAMES, BACKGROUND_STATUS, ROUTES } from '../share/constants'
+import {
+  EVENT_NAMES,
+  PROVIDER_EVENT_NAMES,
+  BACKGROUND_STATUS,
+  ROUTES
+} from '../share/constants'
 
 declare global {
   interface Window {
@@ -31,10 +36,7 @@ class L2Provider {
 
   connect() {
     const origin = window.location.origin
-
-    window.dispatchEvent(
-      new CustomEvent(EVENT_NAMES.CONNECT, { detail: { origin } })
-    )
+    this.dispatch(PROVIDER_EVENT_NAMES.CONNECT, { origin })
   }
 
   async getBalance() {
@@ -47,11 +49,10 @@ class L2Provider {
 
   async transferEth(to: string, amount: string) {
     this.assertConnected()
-    window.dispatchEvent(
-      new CustomEvent(EVENT_NAMES.CONFIRM_POPUP, {
-        detail: { path: ROUTES.TRANSFER_CONFIRM, params: { to, amount } }
-      })
-    )
+    this.dispatch(PROVIDER_EVENT_NAMES.CONFIRM_POPUP, {
+      path: ROUTES.TRANSFER_CONFIRM,
+      params: { to, amount }
+    })
   }
 
   async transferERC20(to: string, token: string, amount: string) {
@@ -68,6 +69,20 @@ class L2Provider {
 
   private assertConnected() {
     if (!this.connected) throw new Error('Site not connected')
+  }
+
+  private dispatch(
+    eventName: typeof PROVIDER_EVENT_NAMES[keyof typeof PROVIDER_EVENT_NAMES],
+    params: any
+  ) {
+    window.dispatchEvent(new CustomEvent(eventName, { detail: params }))
+  }
+
+  private dispatchAndListen(
+    eventName: typeof PROVIDER_EVENT_NAMES[keyof typeof PROVIDER_EVENT_NAMES],
+    params: any
+  ) {
+    window.dispatchEvent(new CustomEvent(eventName, { detail: params }))
   }
 }
 

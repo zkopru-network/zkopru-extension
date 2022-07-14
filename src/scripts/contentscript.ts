@@ -3,6 +3,7 @@ import { injectScript } from './injectScript'
 import {
   BACKGROUND_STATUS,
   EVENT_NAMES,
+  PROVIDER_EVENT_NAMES,
   ALLOW_ORIGIN_LIST
 } from '../share/constants'
 import {
@@ -109,6 +110,10 @@ async function checkSiteIsConnected(): Promise<boolean> {
 
 async function main() {
   injectScript(browser.runtime.getURL('sendTx.js'))
+
+  //
+  // subscribe EVENT NAMES
+  //
   window.addEventListener(EVENT_NAMES.GENERATE_WALLET_KEY, async () => {
     const status = await fetchStatus()
     if (
@@ -129,14 +134,18 @@ async function main() {
       new CustomEvent(EVENT_NAMES.SEND_TX, { detail: { params } })
     )
   })
-  window.addEventListener(EVENT_NAMES.CONNECT, async (e) => {
+  window.addEventListener(PROVIDER_EVENT_NAMES.CONNECT, async (e) => {
     if (!isCustomEvent(e)) throw new Error('Zkopru: invalid event value')
     browser.runtime.sendMessage(
       null,
       ConfirmConnectSite({ origin: e.detail.origin })
     )
   })
-  window.addEventListener(EVENT_NAMES.CONFIRM_POPUP, async (e) => {
+
+  //
+  // subscribe PROVIDER EVENTS
+  //
+  window.addEventListener(PROVIDER_EVENT_NAMES.CONFIRM_POPUP, async (e) => {
     if (!isCustomEvent(e)) throw new Error('Zkopru: invalid event value')
     browser.runtime.sendMessage(
       null,
