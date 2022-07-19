@@ -186,7 +186,7 @@ async function main() {
       )
     }
   })
-  injectScript(browser.runtime.getURL('setProvider.js'))
+  injectScript(browser.runtime.getURL('zkopruProvider.js'))
 
   let status: BACKGROUND_STATUS | undefined
   status = await fetchStatus()

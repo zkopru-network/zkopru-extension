@@ -4,11 +4,11 @@ import ROUTES from '../../routes'
 
 declare global {
   interface Window {
-    zkopru?: L2Provider
+    zkopru?: ZkopruProvider
   }
 }
 
-class L2Provider {
+class ZkopruProvider {
   constructor() {
     window.addEventListener(EVENT_NAMES.CONNECTED, (e) => {
       if ((window as any).connectedSite === window.location.origin) {
@@ -106,7 +106,7 @@ class L2Provider {
 }
 
 function setProvider() {
-  window.zkopru = new L2Provider()
+  window.zkopru = new ZkopruProvider()
   window.dispatchEvent(new Event(EVENT_NAMES.SET_PROVIDER))
 }
 

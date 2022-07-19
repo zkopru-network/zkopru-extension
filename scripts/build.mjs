@@ -49,7 +49,7 @@ async function buildFiles(opt) {
       contentscript: 'src/scripts/contentscript/index.ts',
       inpage: 'src/scripts/injected/inpage.ts',
       sendL1Tx: 'src/scripts/injected/sendL1Tx.ts',
-      setProvider: 'src/scripts/injected/setProvider.ts'
+      zkopruProvider: 'src/scripts/injected/zkopruProvider.ts'
     },
     outdir: outDir,
     bundle: true,
