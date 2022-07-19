@@ -1,4 +1,4 @@
-import { EVENT_NAMES } from '../share/constants'
+import { EVENT_NAMES } from '../share/events'
 import { isCustomEvent, waitUntil } from '../share/utils'
 
 type Provider = {

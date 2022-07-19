@@ -24,3 +24,8 @@ export function fromWei(amount: string | number | BN, decimals = 3): number {
   const ether = +finney / 10 ** decimals
   return ether
 }
+
+export function shortenAddress(address = ''): string {
+  if (address.length <= 10) return address
+  return `${address.slice(0, 6)}...${address.slice(address.length - 4)}`
+}

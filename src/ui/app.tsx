@@ -19,10 +19,11 @@ import RequireOnboard from './helper/RequireOnboard'
 import RequireAuth from './helper/RequireAuth'
 import { checkUnlockNeeded } from './helper/unlockNeeded'
 import { globalStyle, container } from './globalStyle'
-import { BACKGROUND_STATUS, ONBOARDING_URL, ROUTES } from '../share/constants'
+import { BACKGROUND_STATUS, ONBOARDING_URL } from '../share/constants'
 import { LightTheme } from './theme'
 import { useAuthStore } from './store/auth'
 import useBackgroundConnection from './hooks/useBackgroundConnection'
+import ROUTES from '../routes'
 import './i18n'
 
 // Application component responsible for

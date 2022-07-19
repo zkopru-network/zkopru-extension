@@ -11,7 +11,7 @@ import {
   Label,
   ErrorMessage as E
 } from '../components/Form'
-import { ROUTES } from '../../share/constants'
+import ROUTES from '../../routes'
 import useBackgroundConnection from '../hooks/useBackgroundConnection'
 
 type FormData = {

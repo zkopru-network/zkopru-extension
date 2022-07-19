@@ -1,11 +1,7 @@
 import browser from 'webextension-polyfill'
-import { injectScript } from './injectScript'
-import {
-  BACKGROUND_STATUS,
-  EVENT_NAMES,
-  PROVIDER_EVENT_NAMES,
-  ALLOW_ORIGIN_LIST
-} from '../share/constants'
+import { injectScript } from '../injectScript'
+import { BACKGROUND_STATUS, ALLOW_ORIGIN_LIST } from '../../share/constants'
+import { EVENT_NAMES, PROVIDER_EVENT_NAMES } from '../../share/events'
 import {
   UntypedMessage,
   GetBackgroundStatusRequest,
@@ -20,9 +16,9 @@ import {
   ConfirmPopup,
   GetBalanceRequestMessageCreator,
   GetBalanceResponseMessageCreator
-} from '../share/message'
-import { isCustomEvent, waitUntilAsync } from '../share/utils'
-import type { DepositData, DepositParams } from '../share/types'
+} from '../../share/message'
+import { isCustomEvent, waitUntilAsync } from '../../share/utils'
+import type { DepositData, DepositParams } from '../../share/types'
 
 // cloneInto is global function to set window.wrappedJSObject
 declare let cloneInto: any

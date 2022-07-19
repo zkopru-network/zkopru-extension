@@ -2,7 +2,7 @@ import React from 'react'
 import { Navigate } from 'react-router-dom'
 import shallow from 'zustand/shallow'
 import { useAuthStore } from '../store/auth'
-import { ROUTES } from '../../share/constants'
+import ROUTES from '../../routes'
 
 /**
  * check onboarding status and authentication status and navigate to

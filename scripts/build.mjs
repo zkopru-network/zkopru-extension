@@ -46,7 +46,7 @@ async function buildFiles(opt) {
   await build({
     entryPoints: {
       popup: 'src/ui/popup.tsx',
-      contentscript: 'src/scripts/contentscript.ts',
+      contentscript: 'src/scripts/contentscript/index.ts',
       inpage: 'src/scripts/inpage.ts',
       sendTx: 'src/scripts/sendTx.ts',
       setProvider: 'src/scripts/setProvider.ts'

@@ -8,10 +8,10 @@ export declare class ZkopruProvider {
   constructor()
   get connected(): boolean
   connect(): void
-  getBalance(): Promise<void>
-  getAddress(): Promise<void>
-  transferEth(to: string, amount: string): Promise<void>
-  transferERC20(to: string, token: string, amount: string): Promise<void>
+  getBalance(): Promise<string>
+  getAddress(): Promise<string>
+  transferEth(to: string, amount: string): Promise<string>
+  transferERC20(to: string, token: string, amount: string): Promise<string>
   swap(): Promise<void>
   getBlockNumber(): Promise<void>
 }

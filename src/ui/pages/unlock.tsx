@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { useForm } from 'react-hook-form'
 import { ErrorMessage } from '@hookform/error-message'
+import shallow from 'zustand/shallow'
 import { useAuthStore } from '../store/auth'
 import useBackgroundConnection from '../hooks/useBackgroundConnection'
 import PrimaryButton from '../components/PrimaryButton'
@@ -14,8 +15,7 @@ import {
   Label,
   ErrorMessage as E
 } from '../components/Form'
-import { ROUTES } from '../../share/constants'
-import shallow from 'zustand/shallow'
+import ROUTES from '../../routes'
 
 type FormData = {
   password: string

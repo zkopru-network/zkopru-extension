@@ -1,7 +1,7 @@
 import React from 'react'
 import { css } from '@linaria/core'
 import { useNavigate } from 'react-router-dom'
-import { ROUTES } from '../../share/constants'
+import ROUTES from '../../routes'
 import PrimaryButton from '../components/PrimaryButton'
 
 const WithdrawCompletePage = () => {

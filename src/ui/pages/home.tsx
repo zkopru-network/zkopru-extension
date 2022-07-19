@@ -2,10 +2,11 @@ import React from 'react'
 import { css } from '@linaria/core'
 import { Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
+import shallow from 'zustand/shallow'
 import { useZkopruStore } from '../store/zkopru'
 import Header from '../components/Header'
-import shallow from 'zustand/shallow'
-import { ONBOARDING_URL, ROUTES } from '../../share/constants'
+import { ONBOARDING_URL } from '../../share/constants'
+import ROUTES from '../../routes'
 
 const HomePage = () => {
   const { balance } = useZkopruStore(

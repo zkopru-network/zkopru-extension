@@ -1,9 +1,6 @@
-import {
-  EVENT_NAMES,
-  PROVIDER_EVENT_NAMES,
-  BACKGROUND_STATUS,
-  ROUTES
-} from '../share/constants'
+import { BACKGROUND_STATUS } from '../share/constants'
+import { EVENT_NAMES, PROVIDER_EVENT_NAMES } from '../share/events'
+import ROUTES from '../routes'
 
 declare global {
   interface Window {
@@ -44,7 +41,6 @@ class L2Provider {
 
     const res = await this.dispatchAndListen<string>(
       PROVIDER_EVENT_NAMES.BALANCE_REQUEST,
-      {},
       PROVIDER_EVENT_NAMES.BALANCE_RESPONSE
     )
     return res
@@ -52,6 +48,12 @@ class L2Provider {
 
   async getAddress() {
     this.assertConnected()
+
+    const res = await this.dispatchAndListen<string>(
+      PROVIDER_EVENT_NAMES.BALANCE_REQUEST,
+      PROVIDER_EVENT_NAMES.BALANCE_RESPONSE
+    )
+    return res
   }
 
   async transferEth(to: string, amount: string) {
@@ -87,8 +89,8 @@ class L2Provider {
 
   private async dispatchAndListen<T>(
     eventName: typeof PROVIDER_EVENT_NAMES[keyof typeof PROVIDER_EVENT_NAMES],
-    params: any,
-    resEventName: typeof PROVIDER_EVENT_NAMES[keyof typeof PROVIDER_EVENT_NAMES]
+    resEventName: typeof PROVIDER_EVENT_NAMES[keyof typeof PROVIDER_EVENT_NAMES],
+    params: any = {}
   ): Promise<T> {
     return new window.Promise((resolve, reject) => {
       window.addEventListener('message', (e) => {

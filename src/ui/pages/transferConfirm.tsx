@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { css } from '@linaria/core'
-import { ROUTES } from '../../share/constants'
+import ROUTES from '../../routes'
 import { fromWei, shortenAddress } from '../../share/utils'
 import PrimaryButton from '../components/PrimaryButton'
 import useBackgroundConnection from '../hooks/useBackgroundConnection'

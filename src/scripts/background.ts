@@ -2,12 +2,12 @@ import browser from 'webextension-polyfill'
 // @ts-ignore
 import Zkopru, { ZkAccount } from '@zkopru/client/browser'
 import { sha512_256 } from 'js-sha512'
+import ROUTES from '../routes'
 import { store as backgroundStore } from './store'
 import {
   WEBSOCKET_URL,
   ZKOPRU_CONTRACT,
-  BACKGROUND_STATUS,
-  ROUTES
+  BACKGROUND_STATUS
 } from '../share/constants'
 import {
   WalletKeyGeneratedMessageCreator,

@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { useQuery } from 'react-query'
 import './App.css'
 import { useZkopru } from './zkopru/useZkopru'
-import { toWei, fromWei } from './utils'
+import { toWei, fromWei, shortenAddress } from './utils'
 
 function App() {
   const { zkopru, active } = useZkopru()
@@ -17,6 +17,16 @@ function App() {
     const amountString = toWei(amount)
     await zkopru?.transferEth(to, amountString)
   }
+
+  const addressQuery = useQuery<string>(
+    ['address'],
+    async () => {
+      const res = await zkopru?.getAddress()
+      if (!res) throw new Error('No address')
+      return res
+    },
+    { enabled: active && !!zkopru }
+  )
 
   const balanceQuery = useQuery<string>(
     ['balance'],
@@ -43,6 +53,10 @@ function App() {
         <div>
           <p>Zkopru is connected to this page</p>
           <p>Try submit your first tx!</p>
+          <p>
+            Your zkopru address:{' '}
+            {addressQuery?.data ? shortenAddress(addressQuery.data) : ''}
+          </p>
           <p>
             Your balance:{' '}
             {balanceQuery?.data

@@ -1,6 +1,7 @@
 import { sha512_256 } from 'js-sha512'
 import { waitUntil } from '../share/utils'
-import { EVENT_NAMES, WALLET_KEY_MSG_PARAMS } from '../share/constants'
+import { WALLET_KEY_MSG_PARAMS } from '../share/constants'
+import { EVENT_NAMES } from '../share/events'
 
 type Provider = {
   request: (arg: { method: string; params?: string[] }) => Promise<unknown>
