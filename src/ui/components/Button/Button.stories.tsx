@@ -1,22 +1,27 @@
-import React from 'react'
 import { ComponentStory, ComponentMeta } from '@storybook/react'
 
-import Button from './Button'
+import Button from '.'
 
 export default {
-  title: 'Big Button',
+  title: 'Button',
   component: Button,
   argTypes: {
     variant: {
-      options: ['primary', 'secondary', 'tertiary'],
+      description:
+        'The variant of the button, determines size and other styles',
+      options: ['primary', 'secondary'],
       control: 'radio'
-    },
-    label: 'text'
+    }
   }
 } as ComponentMeta<typeof Button>
 
 const Template: ComponentStory<typeof Button> = (args) => (
-  <Button>{args.label}</Button>
+  <Button variant={args.variant}>{args.children}</Button>
 )
 
-export const Primary = Template.bind({})
+export const Master = Template.bind({})
+
+Master.args = {
+  variant: 'primary',
+  children: 'Click me'
+}
