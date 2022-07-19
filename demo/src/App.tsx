@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { useQuery } from 'react-query'
 import './App.css'
 import { useZkopru } from './zkopru/useZkopru'
-import { toWei } from './utils'
+import { toWei, fromWei } from './utils'
 
 function App() {
   const { zkopru, active } = useZkopru()
@@ -18,7 +18,7 @@ function App() {
     await zkopru?.transferEth(to, amountString)
   }
 
-  const balance = useQuery(
+  const balanceQuery = useQuery<string>(
     ['balance'],
     async () => {
       const res = await zkopru?.getBalance()
@@ -30,7 +30,6 @@ function App() {
       enabled: active && !!zkopru
     }
   )
-  console.log(balance)
 
   if (!zkopru) return <div className="App">Loading</div>
 
@@ -44,7 +43,12 @@ function App() {
         <div>
           <p>Zkopru is connected to this page</p>
           <p>Try submit your first tx!</p>
-          <p>Your balance: {balance?.data || 'loading'}</p>
+          <p>
+            Your balance:{' '}
+            {balanceQuery?.data
+              ? `${fromWei(balanceQuery.data)} ETH`
+              : 'loading'}
+          </p>
           <div className="Form">
             <input
               type="string"
