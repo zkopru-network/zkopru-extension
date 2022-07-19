@@ -1,5 +1,5 @@
 import browser from 'webextension-polyfill'
-import { injectScript } from '../injectScript'
+import { injectScript } from './injectScript'
 import { BACKGROUND_STATUS, ALLOW_ORIGIN_LIST } from '../../share/constants'
 import { EVENT_NAMES, PROVIDER_EVENT_NAMES } from '../../share/events'
 import {

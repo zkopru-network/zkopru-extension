@@ -1,5 +1,5 @@
-import { EVENT_NAMES } from '../share/events'
-import { isCustomEvent, waitUntil } from '../share/utils'
+import { EVENT_NAMES } from '../../share/events'
+import { isCustomEvent, waitUntil } from '../../share/utils'
 
 type Provider = {
   request: (arg: { method: string; params?: string[] }) => Promise<unknown>

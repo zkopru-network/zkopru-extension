@@ -1,6 +1,6 @@
-import { BACKGROUND_STATUS } from '../share/constants'
-import { EVENT_NAMES, PROVIDER_EVENT_NAMES } from '../share/events'
-import ROUTES from '../routes'
+import { BACKGROUND_STATUS } from '../../share/constants'
+import { EVENT_NAMES, PROVIDER_EVENT_NAMES } from '../../share/events'
+import ROUTES from '../../routes'
 
 declare global {
   interface Window {
