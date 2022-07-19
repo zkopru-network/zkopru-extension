@@ -106,7 +106,7 @@ async function checkSiteIsConnected(): Promise<boolean> {
 }
 
 async function main() {
-  injectScript(browser.runtime.getURL('sendTx.js'))
+  injectScript(browser.runtime.getURL('sendL1Tx.js'))
 
   //
   // subscribe EVENT NAMES
