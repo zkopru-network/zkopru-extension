@@ -17,11 +17,12 @@ import {
   SiteConnected,
   IsConnectedResponse,
   IsConnectedRequest,
-  ConfirmPopup
+  ConfirmPopup,
+  GetBalanceRequestMessageCreator,
+  GetBalanceResponseMessageCreator
 } from '../share/message'
 import { isCustomEvent, waitUntilAsync } from '../share/utils'
 import type { DepositData, DepositParams } from '../share/types'
-import { showPopupWindow } from './utils'
 
 // cloneInto is global function to set window.wrappedJSObject
 declare let cloneInto: any
@@ -151,6 +152,23 @@ async function main() {
       null,
       ConfirmPopup({ path: e.detail.path as string, params: e.detail.params })
     )
+  })
+
+  window.addEventListener(PROVIDER_EVENT_NAMES.BALANCE_REQUEST, async (e) => {
+    const reqOrigin = (e.target as Window).origin
+    // TODO: abstract send message from content <-> background
+    browser.runtime.onMessage.addListener((message) => {
+      if (GetBalanceResponseMessageCreator.match(message)) {
+        window.postMessage(
+          {
+            eventName: PROVIDER_EVENT_NAMES.BALANCE_RESPONSE,
+            payload: message.payload.balance
+          },
+          reqOrigin
+        )
+      }
+    })
+    browser.runtime.sendMessage(null, GetBalanceRequestMessageCreator())
   })
 
   browser.runtime.onMessage.addListener((message) => {

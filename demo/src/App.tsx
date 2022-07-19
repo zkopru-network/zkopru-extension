@@ -21,13 +21,16 @@ function App() {
   const balance = useQuery(
     ['balance'],
     async () => {
-      await zkopru?.getBalance()
+      const res = await zkopru?.getBalance()
+      if (!res) throw new Error('No balance')
+
+      return res
     },
     {
       enabled: active && !!zkopru
     }
   )
-  console.log(balance.data)
+  console.log(balance)
 
   if (!zkopru) return <div className="App">Loading</div>
 
@@ -41,6 +44,7 @@ function App() {
         <div>
           <p>Zkopru is connected to this page</p>
           <p>Try submit your first tx!</p>
+          <p>Your balance: {balance?.data || 'loading'}</p>
           <div className="Form">
             <input
               type="string"

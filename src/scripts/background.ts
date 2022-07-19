@@ -257,7 +257,6 @@ async function main() {
               result: true
             })
           )
-          console.log('send site connected message')
           const tabs = await browser.tabs.query({ active: true })
           browser.tabs.sendMessage(
             tabs[0].id as number,

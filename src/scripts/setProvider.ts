@@ -41,6 +41,13 @@ class L2Provider {
 
   async getBalance() {
     this.assertConnected()
+
+    const res = await this.dispatchAndListen<string>(
+      PROVIDER_EVENT_NAMES.BALANCE_REQUEST,
+      {},
+      PROVIDER_EVENT_NAMES.BALANCE_RESPONSE
+    )
+    return res
   }
 
   async getAddress() {
@@ -78,11 +85,21 @@ class L2Provider {
     window.dispatchEvent(new CustomEvent(eventName, { detail: params }))
   }
 
-  private dispatchAndListen(
+  private async dispatchAndListen<T>(
     eventName: typeof PROVIDER_EVENT_NAMES[keyof typeof PROVIDER_EVENT_NAMES],
-    params: any
-  ) {
-    window.dispatchEvent(new CustomEvent(eventName, { detail: params }))
+    params: any,
+    resEventName: typeof PROVIDER_EVENT_NAMES[keyof typeof PROVIDER_EVENT_NAMES]
+  ): Promise<T> {
+    return new window.Promise((resolve, reject) => {
+      window.addEventListener('message', (e) => {
+        // TODO: check if type of event is provider response event type
+        if (e.data.eventName === resEventName) {
+          resolve(e.data.payload)
+        }
+      })
+
+      window.dispatchEvent(new CustomEvent(eventName, { detail: params }))
+    })
   }
 }
 
