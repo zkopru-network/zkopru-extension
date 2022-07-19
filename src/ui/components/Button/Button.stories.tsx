@@ -1,6 +1,6 @@
 import { ComponentStory, ComponentMeta } from '@storybook/react'
 
-import Button from './Button'
+import Button from '.'
 
 export default {
   title: 'Button',
@@ -12,7 +12,6 @@ export default {
       options: ['primary', 'secondary'],
       control: 'radio'
     }
-    // theme: { options: ['sanctum-light', 'sanctum-dark'], control: 'radio' }
   }
 } as ComponentMeta<typeof Button>
 
@@ -25,5 +24,4 @@ export const Master = Template.bind({})
 Master.args = {
   variant: 'primary',
   children: 'Click me'
-  // theme: 'sanctum-light'
 }
