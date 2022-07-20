@@ -9,6 +9,7 @@ import WithdrawCompletePage from './withdrawComplete'
 import LoadingPage from './loading'
 import ActivityPage from './activity'
 import ConfirmConnectionPage from './confirmConnection'
+import SettingsPage from './settings'
 
 export {
   HomePage,
@@ -21,5 +22,6 @@ export {
   WithdrawPage,
   WithdrawCompletePage,
   ActivityPage,
-  ConfirmConnectionPage
+  ConfirmConnectionPage,
+  SettingsPage
 }

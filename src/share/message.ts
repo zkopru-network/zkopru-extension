@@ -27,6 +27,8 @@ export const MESSAGE_TYPE = {
   CONNECT_SITE_RESPONSE: 'CONNECT_SITE_RESPONSE',
   IS_CONNECTED_REQUEST: 'IS_CONNECTED_REQUEST',
   IS_CONNECTED_RESPONSE: 'IS_CONNECTED_RESPONSE',
+  GET_CONNECTED_SITES_REQUEST: 'GET_CONNECTED_SITES_REQUEST',
+  GET_CONNECTED_SITES_RESPONSE: 'GET_CONNECTED_SITES_RESPONSE',
   SITE_CONNECTED: 'SITE_CONNECTED',
 
   CONFIRIM_POPUP: 'CONFIRM_POPUP',
@@ -185,7 +187,13 @@ export const IsConnectedResponse = createMessage<{ isConnected: boolean }>(
   MESSAGE_TYPE.IS_CONNECTED_RESPONSE
 )
 
-export const DebugMessage = createMessage<{ value: any }>(MESSAGE_TYPE.DEBUG)
+export const GetConnectedSitesRequest = createMessage(
+  MESSAGE_TYPE.GET_CONNECTED_SITES_REQUEST
+)
+
+export const GetConnectedSitesResponse = createMessage<{
+  connectedSites: string[]
+}>(MESSAGE_TYPE.GET_CONNECTED_SITES_RESPONSE)
 
 export const SiteConnected = createMessage<{ origin: string }>(
   MESSAGE_TYPE.SITE_CONNECTED
@@ -194,3 +202,5 @@ export const SiteConnected = createMessage<{ origin: string }>(
 export const ConfirmPopup = createMessage<{ path: string; params: any }>(
   MESSAGE_TYPE.CONFIRIM_POPUP
 )
+
+export const DebugMessage = createMessage<{ value: any }>(MESSAGE_TYPE.DEBUG)

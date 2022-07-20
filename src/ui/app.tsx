@@ -13,7 +13,8 @@ import {
   WithdrawPage,
   WithdrawCompletePage,
   ActivityPage,
-  ConfirmConnectionPage
+  ConfirmConnectionPage,
+  SettingsPage
 } from './pages'
 import RequireOnboard from './helper/RequireOnboard'
 import RequireAuth from './helper/RequireAuth'
@@ -90,6 +91,7 @@ const App = () => {
     // TODO: check if background client is ready or not
     if (onboardingCompleted) {
       background.syncZkAddress()
+      background.syncConnectedSites()
     }
   }, [onboardingCompleted])
 
@@ -182,6 +184,14 @@ const App = () => {
             element={
               <RequireAuth>
                 <ConfirmConnectionPage />
+              </RequireAuth>
+            }
+          />
+          <Route
+            path={ROUTES.SETTINGS}
+            element={
+              <RequireAuth>
+                <SettingsPage />
               </RequireAuth>
             }
           />

@@ -40,6 +40,8 @@ const HomePage = () => {
           <Link to={ROUTES.WITHDRAW} className={linkItem}>
             {t('withdraw')}
           </Link>
+        </div>
+        <div className={linkSection}>
           <Link to={ROUTES.TRANSFER} className={linkItem}>
             {t('transfer')}
           </Link>
@@ -81,9 +83,15 @@ const linkSection = css`
   display: flex;
   justify-content: space-between;
   width: 100%;
+  margin-top: 20px;
 `
 
 const linkItem = css`
+  min-width: 100px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
   text-transform: capitalize;
   background-color: #4c49ff;
   color: white;

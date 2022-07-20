@@ -2,29 +2,7 @@ import React from 'react'
 import browser from 'webextension-polyfill'
 import { useZkopruStore } from './store/zkopru'
 import { useStore } from './store'
-import {
-  UntypedMessage,
-  MessageCreator,
-  GetBalanceRequestMessageCreator,
-  GetBalanceResponseMessageCreator,
-  GetAddressRequestMessageCreator,
-  GetAddressResponseMessageCreator,
-  GetBackgroundStatusResponse,
-  GetBackgroundStatusRequest,
-  RegisterPasswordRequest,
-  MessageWithPayload,
-  RegisterPasswordResponse,
-  VerifyPasswordRequest,
-  VerifyPasswordResponse,
-  TransferEthRequest,
-  TransferEthResponse,
-  WithdrawEthRequest,
-  WithdrawEthResponse,
-  LoadActivityRequest,
-  LoadActivityResponse,
-  ConnectSiteRequest,
-  ConnectSiteResponse
-} from '../share/message'
+import * as Message from '../share/message'
 import { fromWei } from '../share/utils'
 import { TIMEOUT } from '../share/constants'
 import type { Activity } from '../share/types'
@@ -37,15 +15,18 @@ class BackgroundConnection {
     browser.runtime.onMessage.addListener(this.handleMessage)
   }
 
-  async handleMessage(message: UntypedMessage) {
-    const { setZkAddress, setBalance } = useZkopruStore.getState()
+  async handleMessage(message: Message.UntypedMessage) {
+    const { setZkAddress, setBalance, setConnectedSites } =
+      useZkopruStore.getState()
     const { setBackgroundStatus } = useStore.getState()
-    if (GetAddressResponseMessageCreator.match(message)) {
+    if (Message.GetAddressResponseMessageCreator.match(message)) {
       setZkAddress(message.payload.address)
-    } else if (GetBalanceResponseMessageCreator.match(message)) {
+    } else if (Message.GetBalanceResponseMessageCreator.match(message)) {
       setBalance(fromWei(message.payload.balance))
-    } else if (GetBackgroundStatusResponse.match(message)) {
+    } else if (Message.GetBackgroundStatusResponse.match(message)) {
       setBackgroundStatus(message.payload.status)
+    } else if (Message.GetConnectedSitesResponse.match(message)) {
+      setConnectedSites(message.payload.connectedSites)
     }
   }
 
@@ -64,8 +45,8 @@ class BackgroundConnection {
    */
   public async getBackgroundStatus() {
     const message = await this.sendBackground(
-      GetBackgroundStatusRequest(),
-      GetBackgroundStatusResponse
+      Message.GetBackgroundStatusRequest(),
+      Message.GetBackgroundStatusResponse
     )
     return message.payload.status
   }
@@ -74,14 +55,14 @@ class BackgroundConnection {
    * sync balance with background client
    */
   public async syncBalance() {
-    await browser.runtime.sendMessage(GetBalanceRequestMessageCreator())
+    await browser.runtime.sendMessage(Message.GetBalanceRequestMessageCreator())
   }
 
   /**
    * sync address with background client
    */
   public async syncZkAddress() {
-    await browser.runtime.sendMessage(GetAddressRequestMessageCreator())
+    await browser.runtime.sendMessage(Message.GetAddressRequestMessageCreator())
   }
 
   /**
@@ -90,10 +71,10 @@ class BackgroundConnection {
    */
   public registerPassword(
     password: string
-  ): Promise<MessageWithPayload<undefined>> {
+  ): Promise<Message.MessageWithPayload<undefined>> {
     return this.sendBackground(
-      RegisterPasswordRequest({ password }),
-      RegisterPasswordResponse
+      Message.RegisterPasswordRequest({ password }),
+      Message.RegisterPasswordResponse
     )
   }
 
@@ -102,10 +83,10 @@ class BackgroundConnection {
    */
   public async verifyPassword(
     password: string
-  ): Promise<MessageWithPayload<{ result: boolean }>> {
+  ): Promise<Message.MessageWithPayload<{ result: boolean }>> {
     return this.sendBackground(
-      VerifyPasswordRequest({ password }),
-      VerifyPasswordResponse
+      Message.VerifyPasswordRequest({ password }),
+      Message.VerifyPasswordResponse
     )
   }
 
@@ -113,10 +94,10 @@ class BackgroundConnection {
     to: string,
     amount: number,
     fee: number
-  ): Promise<MessageWithPayload<{ hash: string }>> {
+  ): Promise<Message.MessageWithPayload<{ hash: string }>> {
     return this.sendBackground(
-      TransferEthRequest({ to, amount, fee }),
-      TransferEthResponse
+      Message.TransferEthRequest({ to, amount, fee }),
+      Message.TransferEthResponse
     )
   }
 
@@ -124,38 +105,50 @@ class BackgroundConnection {
     amount: number,
     fee: number,
     instantWithdrawFee: number
-  ): Promise<MessageWithPayload<{ hash: string }>> {
+  ): Promise<Message.MessageWithPayload<{ hash: string }>> {
     return this.sendBackground(
-      WithdrawEthRequest({
+      Message.WithdrawEthRequest({
         amount,
         fee,
         instantWithdrawFee
       }),
-      WithdrawEthResponse
+      Message.WithdrawEthResponse
     )
   }
 
   public async loadActivity(): Promise<
-    MessageWithPayload<{ activities: Activity[] }>
+    Message.MessageWithPayload<{ activities: Activity[] }>
   > {
-    return this.sendBackground(LoadActivityRequest(), LoadActivityResponse)
+    return this.sendBackground(
+      Message.LoadActivityRequest(),
+      Message.LoadActivityResponse
+    )
   }
 
   public async connect(
     origin: string
-  ): Promise<MessageWithPayload<{ result: boolean }>> {
+  ): Promise<Message.MessageWithPayload<{ result: boolean }>> {
     return this.sendBackground(
-      ConnectSiteRequest({ origin }),
-      ConnectSiteResponse
+      Message.ConnectSiteRequest({ origin }),
+      Message.ConnectSiteResponse
+    )
+  }
+
+  public async syncConnectedSites(): Promise<
+    Message.MessageWithPayload<{ connectedSites: string[] }>
+  > {
+    return this.sendBackground(
+      Message.GetConnectedSitesRequest(),
+      Message.GetConnectedSitesResponse
     )
   }
 
   private async sendBackground<T>(
-    requestMessage: UntypedMessage,
-    ResponseMessageCreator: MessageCreator<T>
+    requestMessage: Message.UntypedMessage,
+    ResponseMessageCreator: Message.MessageCreator<T>
   ) {
-    return new Promise<MessageWithPayload<T>>((resolve, reject) => {
-      function handleMessage(message: UntypedMessage) {
+    return new Promise<Message.MessageWithPayload<T>>((resolve, reject) => {
+      function handleMessage(message: Message.UntypedMessage) {
         if (ResponseMessageCreator.match(message)) {
           browser.runtime.onMessage.removeListener(handleMessage)
           resolve(message)

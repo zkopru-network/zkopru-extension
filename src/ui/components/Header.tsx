@@ -1,20 +1,13 @@
 import React from 'react'
-import browser from 'webextension-polyfill'
 import { css } from '@linaria/core'
 import { styled } from '@linaria/react'
-import { useAuthStore } from '../store/auth'
 import { shortenAddress } from '../../share/utils'
 import { useZkopruStore } from '../store/zkopru'
+import { Link } from 'react-router-dom'
+import ROUTES from '../../routes'
 
 const Header = () => {
   const address = useZkopruStore((state) => state.zkAddress)
-  const setAuthenticated = useAuthStore((state) => state.setAuthenticated)
-  const lock = async () => {
-    await browser.storage.local.set({ unlocktime: 0 })
-
-    setAuthenticated(false)
-  }
-
   return (
     <header className={container}>
       <div className={selectNetwork}>
@@ -22,9 +15,7 @@ const Header = () => {
         <span className={networkName}>Local</span>
       </div>
       <div className={addressSection}>{shortenAddress(address)}</div>
-      <div>
-        <button onClick={lock}>Lock wallet</button>
-      </div>
+      <Link to={ROUTES.SETTINGS}>setting</Link>
     </header>
   )
 }

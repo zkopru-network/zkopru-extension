@@ -37,7 +37,9 @@ import {
   ConnectSiteResponse,
   DebugMessage,
   SiteConnected,
-  ConfirmPopup
+  ConfirmPopup,
+  GetConnectedSitesRequest,
+  GetConnectedSitesResponse
 } from '../share/message'
 import { waitUntil, toWei, toGwei } from '../share/utils'
 import { showPopupWindow } from './utils'
@@ -269,6 +271,13 @@ async function main() {
             })
           )
         }
+      } else if (GetConnectedSitesRequest.match(message)) {
+        const db = await browser.storage.local.get('connectedSites')
+        sendMessage(
+          GetConnectedSitesResponse({
+            connectedSites: db.connectedSites || []
+          })
+        )
       } else if (ConfirmPopup.match(message)) {
         showPopupWindow(message.payload.path, message.payload.params)
       } else if (DebugMessage.match(message)) {
