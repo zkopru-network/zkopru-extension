@@ -1,26 +1,31 @@
-import React, { ReactNode } from 'react'
+import React, { ImgHTMLAttributes, ReactNode } from 'react'
 
 interface BtnProps {
   children: ReactNode
   variant: string
+  icon?: string
 }
 
-interface BtnVariants {
+export interface BtnVariants {
   primary: string
-  secondary: string
+  ghost: string
 }
 
 const variants: BtnVariants = {
-  primary: `bg-btn-primary/33 hover:bg-btn-primary transition font-medium text-base text-white rounded-full py-2 px-4 focus:outline-none focus:ring focus:ring-btn-primary/50 focus:ring-offset-2`,
-  secondary: `primary-light bg-bt-primary/33 transition font-medium text-xs rounded-full py-1 px-2 focus:outline-none focus:ring focus:ring-bt-primary/75 focus:ring-offset-1`
+  primary: `text-skin-text-primary bg-skin-light-gray hover:bg-btn-bright hover:text-white transition font-semibold text-base rounded-md py-4 px-6 flex focus:outline-none focus:ring focus:ring-btn-bright/50 focus:ring-offset-2 focus:ring-offset-transparent`,
+  ghost: `primary-light bg-btn-bright/33 transition font-medium text-xs rounded-full py-1 px-2 focus:outline-none focus:ring focus:ring-btn-bright/75 focus:ring-offset-1 text-gray-100`
 }
 
 const Button: React.FC<BtnProps> = ({
   variant = 'primary',
-  children = 'Click me'
+  children = 'Click me',
+  icon = 'None'
 }) => (
   <button className={`${variants[variant as keyof BtnVariants]}`}>
-    {children}
+    <div className="flex gap-2">
+      {children}
+      {icon && icon !== 'None' && <img src={icon} alt="icon" />}
+    </div>
   </button>
 )
 
