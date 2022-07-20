@@ -4,14 +4,19 @@
 
 @layer base {
   :root {
-    --color-btn-primary: 48 48 198;
+    --color-btn-bright: 48 48 198; /* #3030c6 */
+    --color-light-gray: 229 234 254; /* #e5eaf4 */
+    --color-text-primary: 73 72 149; /* #494895 */
   }
 
   .theme-sanctum.mode-light {
-    --color-btn-primary: 48 48 198;
+    --color-btn-bright: 48 48 198; /* #3030c6 */
+    --color-light-gray: 229 234 254; /* #e5eaf4 */
+    --color-text-primary: 73 72 149; /* #494895 */
   }
 
   .theme-sanctum.mode-dark {
-    --color-btn-primary: 21 32 89;
+    --color-light-gray: 58 64 95; /* #3a4e5f */
+    --color-text-primary: 226 230 255; /* #e2eafb */
   }
 }

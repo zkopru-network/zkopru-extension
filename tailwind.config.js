@@ -12,7 +12,9 @@ module.exports = {
         sans: ['Poppins', 'sans-serif']
       },
       colors: {
-        'btn-primary': 'rgb(var(--color-btn-primary) / <alpha-value>)'
+        'btn-bright': 'rgb(var(--color-btn-bright) / <alpha-value>)',
+        'skin-light-gray': 'rgb(var(--color-light-gray) / <alpha-value>)',
+        'skin-text-primary': 'rgb(var(--color-text-primary) / <alpha-value>)'
         // 'primary-dark': '#152059',
         // 'primary-light': '#CBD4FF',
         // 'primary-medium': '#3A405F'
