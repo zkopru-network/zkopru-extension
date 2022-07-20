@@ -30,26 +30,6 @@ export const WEBSOCKET_URL = 'ws://localhost:5000'
 
 export const ZKOPRU_CONTRACT = '0x970e8f18ebfEa0B08810f33a5A40438b9530FBCF'
 
-/// custom event names
-/// used to exchange messages between injected script and content script
-export const EVENT_NAMES = {
-  GENERATE_WALLET_KEY: 'ZKOPRU#GENERATE_WALLET_KEY',
-  WALLET_KEY_GENERATED: 'ZKOPRU#WALLET_KEY_GENERATED',
-  DEPOSIT_ETH: 'ZKOPRU#DEPOSIT_ETH',
-  SEND_TX: 'ZKOPRU#SEND_TX'
-} as const
-
-export const ROUTES = {
-  HOME: '/',
-  ONBOARDING: '/onboarding',
-  UNLOCK: '/unlock',
-  TRANSFER: '/transfer',
-  TRANFER_COMPLETE: '/transfer/complete',
-  WITHDRAW: '/withdraw',
-  WITHDRAW_COMPLETE: '/withdraw/complete',
-  ACTIVITY: '/activity'
-} as const
-
 export enum BACKGROUND_STATUS {
   STARTINGUP = 'STARGINGUP',
   NOT_ONBOARDED = 'NOT_ONBOARDED',

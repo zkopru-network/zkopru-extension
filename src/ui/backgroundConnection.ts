@@ -21,7 +21,9 @@ import {
   WithdrawEthRequest,
   WithdrawEthResponse,
   LoadActivityRequest,
-  LoadActivityResponse
+  LoadActivityResponse,
+  ConnectSiteRequest,
+  ConnectSiteResponse
 } from '../share/message'
 import { fromWei } from '../share/utils'
 import { TIMEOUT } from '../share/constants'
@@ -137,6 +139,15 @@ class BackgroundConnection {
     MessageWithPayload<{ activities: Activity[] }>
   > {
     return this.sendBackground(LoadActivityRequest(), LoadActivityResponse)
+  }
+
+  public async connect(
+    origin: string
+  ): Promise<MessageWithPayload<{ result: boolean }>> {
+    return this.sendBackground(
+      ConnectSiteRequest({ origin }),
+      ConnectSiteResponse
+    )
   }
 
   private async sendBackground<T>(

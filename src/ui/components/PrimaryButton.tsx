@@ -15,6 +15,7 @@ const style = css`
   box-shadow: 4px 4px 12px #2421d641;
   text-transform: uppercase;
   cursor: pointer;
+  min-width: 120px;
 `
 
 type Props = {

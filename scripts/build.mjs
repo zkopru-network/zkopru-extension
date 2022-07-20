@@ -46,9 +46,10 @@ async function buildFiles(opt) {
   await build({
     entryPoints: {
       popup: 'src/ui/popup.tsx',
-      contentscript: 'src/scripts/contentscript.ts',
-      inpage: 'src/scripts/inpage.ts',
-      sendTx: 'src/scripts/sendTx.ts'
+      contentscript: 'src/scripts/contentscript/index.ts',
+      inpage: 'src/scripts/injected/inpage.ts',
+      sendL1Tx: 'src/scripts/injected/sendL1Tx.ts',
+      zkopruProvider: 'src/scripts/injected/zkopruProvider.ts'
     },
     outdir: outDir,
     bundle: true,

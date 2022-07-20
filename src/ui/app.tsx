@@ -1,26 +1,29 @@
 import React, { useEffect, useState } from 'react'
 import browser from 'webextension-polyfill'
-import { MemoryRouter as Router, Routes, Route } from 'react-router-dom'
+import { HashRouter as Router, Routes, Route } from 'react-router-dom'
 import clsx from 'clsx'
 import {
   HomePage,
   TransferPage,
+  TransferConfirmPage,
   TransferCompletePage,
   UnlockPage,
   OnboardingPage,
   LoadingPage,
   WithdrawPage,
   WithdrawCompletePage,
-  ActivityPage
+  ActivityPage,
+  ConfirmConnectionPage
 } from './pages'
 import RequireOnboard from './helper/RequireOnboard'
 import RequireAuth from './helper/RequireAuth'
 import { checkUnlockNeeded } from './helper/unlockNeeded'
 import { globalStyle, container } from './globalStyle'
-import { BACKGROUND_STATUS, ONBOARDING_URL, ROUTES } from '../share/constants'
+import { BACKGROUND_STATUS, ONBOARDING_URL } from '../share/constants'
 import { LightTheme } from './theme'
 import { useAuthStore } from './store/auth'
 import useBackgroundConnection from './hooks/useBackgroundConnection'
+import ROUTES from '../routes'
 import './i18n'
 
 // Application component responsible for
@@ -28,8 +31,13 @@ import './i18n'
 const App = () => {
   // TODO: use context to toggle theme light/dark
   const theme = LightTheme
-  const { onboardingCompleted, setOnboardingCompleted, setAuthenticated } =
-    useAuthStore()
+  const {
+    onboardingCompleted,
+    setOnboardingCompleted,
+    setAuthenticated,
+    setRedirectParams,
+    setRedirectPath
+  } = useAuthStore()
   const background = useBackgroundConnection()
   const [loading, setLoading] = useState(true)
 
@@ -62,6 +70,10 @@ const App = () => {
         }
 
         const unlockNeeded = await checkUnlockNeeded()
+        if (unlockNeeded) {
+          setRedirectPath(window.location.hash.slice(1))
+          setRedirectParams(window.location.search)
+        }
         setAuthenticated(!unlockNeeded)
         setLoading(false)
       } else {
@@ -126,6 +138,14 @@ const App = () => {
             }
           />
           <Route
+            path={ROUTES.TRANSFER_CONFIRM}
+            element={
+              <RequireAuth>
+                <TransferConfirmPage />
+              </RequireAuth>
+            }
+          />
+          <Route
             path={ROUTES.TRANFER_COMPLETE}
             element={
               <RequireAuth>
@@ -154,6 +174,14 @@ const App = () => {
             element={
               <RequireAuth>
                 <ActivityPage />
+              </RequireAuth>
+            }
+          />
+          <Route
+            path={ROUTES.CONFIRM_CONNECTION}
+            element={
+              <RequireAuth>
+                <ConfirmConnectionPage />
               </RequireAuth>
             }
           />

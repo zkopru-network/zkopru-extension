@@ -3,7 +3,7 @@ import { css } from '@linaria/core'
 import { useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import ActivityCell from '../components/ActivityCell'
-import { ROUTES } from '../../share/constants'
+import ROUTES from '../../routes'
 import { useQuery } from 'react-query'
 import useBackgroundConnection from '../hooks/useBackgroundConnection'
 
