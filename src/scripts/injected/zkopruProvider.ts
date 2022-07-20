@@ -2,16 +2,10 @@ import { BACKGROUND_STATUS } from '../../share/constants'
 import { EVENT_NAMES, PROVIDER_EVENT_NAMES } from '../../share/events'
 import ROUTES from '../../routes'
 
-declare global {
-  interface Window {
-    zkopru?: ZkopruProvider
-  }
-}
-
 class ZkopruProvider {
   constructor() {
     window.addEventListener(EVENT_NAMES.CONNECTED, (e) => {
-      if ((window as any).connectedSite === window.location.origin) {
+      if (window.connectedSite === window.location.origin) {
         this._connected = true
         window.dispatchEvent(new Event(EVENT_NAMES.PROVIDER_CONNECTED))
       }

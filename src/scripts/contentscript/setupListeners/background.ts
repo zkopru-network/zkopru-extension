@@ -2,8 +2,6 @@ import browser from 'webextension-polyfill'
 import { EVENT_NAMES } from '../../../share/events'
 import { SiteConnected } from '../../../share/message'
 
-declare let cloneInto: any
-
 export function setupBackgroundMessageListeners() {
   browser.runtime.onMessage.addListener((message) => {
     if (

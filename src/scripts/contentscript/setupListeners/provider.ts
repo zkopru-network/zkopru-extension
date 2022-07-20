@@ -1,13 +1,13 @@
 import browser from 'webextension-polyfill'
-import { injectScript } from './injectScript'
-import { PROVIDER_EVENT_NAMES } from '../../share/events'
+import { injectScript } from '../injectScript'
+import { PROVIDER_EVENT_NAMES } from '../../../share/events'
 import {
   ConfirmConnectSite,
   ConfirmPopup,
   GetBalanceRequestMessageCreator,
   GetBalanceResponseMessageCreator
-} from '../../share/message'
-import { isCustomEvent } from '../../share/utils'
+} from '../../../share/message'
+import { isCustomEvent } from '../../../share/utils'
 
 /**
  * setup event listeners related to zkopru provider

@@ -6,8 +6,6 @@ import { EVENT_NAMES } from '../../../share/events'
 import { WalletKeyGeneratedMessageCreator } from '../../../share/message'
 import { BACKGROUND_STATUS, ALLOW_ORIGIN_LIST } from '../../../share/constants'
 
-declare let cloneInto: any
-
 /**
  * Inject inpage.js to ask signature to generate wallet key
  * to initialize L2 wallet.

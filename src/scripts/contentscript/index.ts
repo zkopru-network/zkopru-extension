@@ -2,19 +2,11 @@ import browser from 'webextension-polyfill'
 import { injectScript } from './injectScript'
 import { fetchStatus, checkSiteIsConnected } from './conn'
 import { BACKGROUND_STATUS } from '../../share/constants'
-import { setupProvider } from './setupProvider'
+import { setupProvider } from './setupListeners/provider'
 import { setupWebpageMessageListeners } from './setupListeners/webpage'
 import { setupBackgroundMessageListeners } from './setupListeners/background'
 import { EVENT_NAMES } from '../../share/events'
 import { waitUntilAsync } from '../../share/utils'
-
-// cloneInto is global function to set window.wrappedJSObject
-declare let cloneInto: any
-declare global {
-  interface Window {
-    wrappedJSObject: any
-  }
-}
 
 async function main() {
   injectScript(browser.runtime.getURL('sendL1Tx.js'))
