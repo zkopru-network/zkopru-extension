@@ -4,6 +4,8 @@ import { PROVIDER_EVENT_NAMES } from '../../../share/events'
 import {
   ConfirmConnectSite,
   ConfirmPopup,
+  GetAddressRequestMessageCreator,
+  GetAddressResponseMessageCreator,
   GetBalanceRequestMessageCreator,
   GetBalanceResponseMessageCreator
 } from '../../../share/message'
@@ -49,6 +51,22 @@ export function setupProvider() {
       }
     })
     browser.runtime.sendMessage(null, GetBalanceRequestMessageCreator())
+  })
+
+  window.addEventListener(PROVIDER_EVENT_NAMES.ADDRESS_REQUEST, async (e) => {
+    const reqOrigin = (e.target as Window).origin
+    browser.runtime.onMessage.addListener((message) => {
+      if (GetAddressResponseMessageCreator.match(message)) {
+        window.postMessage(
+          {
+            eventName: PROVIDER_EVENT_NAMES.ADDRES_RESPONSE,
+            payload: message.payload.address
+          },
+          reqOrigin
+        )
+      }
+    })
+    browser.runtime.sendMessage(null, GetAddressRequestMessageCreator())
   })
 
   injectScript(browser.runtime.getURL('zkopruProvider.js'))
