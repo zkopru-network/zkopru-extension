@@ -1,7 +1,9 @@
 /// custom event names
 /// used to exchange messages between injected script and content script
 export const EVENT_NAMES = {
+  // NOTE: GENERATE_WALLET_KEY is dispatched within webpage
   GENERATE_WALLET_KEY: 'ZKOPRU#GENERATE_WALLET_KEY',
+
   WALLET_KEY_GENERATED: 'ZKOPRU#WALLET_KEY_GENERATED',
   DEPOSIT_ETH: 'ZKOPRU#DEPOSIT_ETH',
   SEND_TX: 'ZKOPRU#SEND_TX',
@@ -13,6 +15,8 @@ export const EVENT_NAMES = {
   PROVIDER_CONNECTED: 'ZKOPRU#PROVIDER_CONNECTED'
 } as const
 
+/// event names
+/// communication between content script and provider
 export const PROVIDER_EVENT_NAMES = {
   CONFIRM_POPUP: 'ZKOPRU_PROVIDER#CONFIRM_POPUP',
   CONNECT: 'ZKOPRU_PROVIDER#CONNECT',

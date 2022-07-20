@@ -50,8 +50,8 @@ class ZkopruProvider {
     this.assertConnected()
 
     const res = await this.dispatchAndListen<string>(
-      PROVIDER_EVENT_NAMES.BALANCE_REQUEST,
-      PROVIDER_EVENT_NAMES.BALANCE_RESPONSE
+      PROVIDER_EVENT_NAMES.ADDRESS_REQUEST,
+      PROVIDER_EVENT_NAMES.ADDRES_RESPONSE
     )
     return res
   }
