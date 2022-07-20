@@ -27,7 +27,7 @@ export const parameters = {
     default: 'bg-sanctum-light',
     values: [
       { name: 'bg-sanctum-light', value: '#F9FAFF' },
-      { name: 'bg-sannctum-dark', value: '#15172E' }
+      { name: 'bg-sanctum-dark', value: '#15172E' }
     ]
   }
 }
