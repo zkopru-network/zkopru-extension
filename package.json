@@ -14,7 +14,8 @@
     "lint": "eslint --ext js,jsx,ts,tsx src && tsc --noEmit",
     "lint:fix": "eslint --fix --ext js,jsx,ts,tsx src",
     "storybook": "start-storybook -p 6006",
-    "build-storybook": "build-storybook"
+    "build-storybook": "build-storybook",
+    "svgs": "svgr -d './src/ui/components/common/icons' './src/assets/in-app-icons' --typescript"
   },
   "devDependencies": {
     "@babel/core": ">=7.13.0 <8.0.0",
@@ -67,6 +68,7 @@
     "@linaria/core": "^3.0.0-beta.15",
     "@linaria/react": "^3.0.0-beta.15",
     "@linaria/shaker": "^3.0.0-beta.15",
+    "@svgr/cli": "^6.3.0",
     "@zkopru/client": "^2.0.0-beta.8",
     "bn.js": "^5.2.1",
     "clsx": "^1.1.1",
