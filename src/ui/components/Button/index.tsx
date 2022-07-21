@@ -1,9 +1,9 @@
-import React, { ImgHTMLAttributes, ReactNode } from 'react'
+import React, { ReactNode } from 'react'
 
 interface BtnProps {
   children: ReactNode
   variant: string
-  icon?: string
+  icon?: JSX.Element
 }
 
 export interface BtnVariants {
@@ -18,13 +18,13 @@ const variants: BtnVariants = {
 
 const Button: React.FC<BtnProps> = ({
   variant = 'primary',
-  children = 'Click me',
-  icon = 'None'
+  children = 'New button',
+  icon
 }) => (
   <button className={`${variants[variant as keyof BtnVariants]}`}>
-    <div className="flex gap-2">
+    <div className="flex gap-2 text-inherit justify-center items-center">
       {children}
-      {icon && icon !== 'None' && <img src={icon} alt="icon" />}
+      {icon}
     </div>
   </button>
 )
