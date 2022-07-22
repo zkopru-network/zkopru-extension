@@ -46,5 +46,5 @@ Primary.args = {
 export const Ghost = Template.bind({})
 Ghost.args = {
   variant: 'ghost',
-  children: 'Ghost button 👻'
+  children: 'Ghost button'
 }

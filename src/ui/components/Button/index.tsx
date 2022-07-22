@@ -15,9 +15,11 @@ export interface BtnVariants {
   ghost: string
 }
 
+const commonButtonStyles = `transition disabled:opacity-50 disabled:cursor-not-allowed focus:outline-none focus:ring focus:ring-btn-bright/50 focus:ring-offset-2 focus:ring-offset-transparent font-semibold`
+
 const variants: BtnVariants = {
-  primary: `text-skin-text-primary bg-skin-light-gray hover:bg-btn-bright hover:text-white transition font-semibold text-base rounded-md py-4 px-6 flex focus:outline-none focus:ring focus:ring-btn-bright/50 focus:ring-offset-2 focus:ring-offset-transparent`,
-  ghost: `primary-light bg-btn-bright/33 transition font-medium text-xs rounded-full py-1 px-2 focus:outline-none focus:ring focus:ring-btn-bright/75 focus:ring-offset-1 text-gray-100`
+  primary: `text-skin-text-primary bg-skin-light-gray hover:bg-btn-bright hover:text-white rounded-md py-4 px-6 ${commonButtonStyles}`,
+  ghost: `text-skin-text-primary border-skin-text-primary border-2 bg-transparent hover:border-btn-bright hover:bg-btn-bright hover:text-white rounded-md py-2 px-4 ${commonButtonStyles}`
 }
 
 const Button: React.FC<BtnProps> = ({
