@@ -1,6 +1,10 @@
 import React, { ReactNode } from 'react'
 
-interface BtnProps {
+interface BtnProps
+  extends React.DetailedHTMLProps<
+    React.ButtonHTMLAttributes<HTMLButtonElement>,
+    HTMLButtonElement
+  > {
   children: ReactNode
   variant: string
   icon?: JSX.Element
@@ -19,9 +23,10 @@ const variants: BtnVariants = {
 const Button: React.FC<BtnProps> = ({
   variant = 'primary',
   children = 'New button',
-  icon
+  icon,
+  ...rest
 }) => (
-  <button className={`${variants[variant as keyof BtnVariants]}`}>
+  <button {...rest} className={`${variants[variant as keyof BtnVariants]}`}>
     <div className="flex gap-2 text-inherit justify-center items-center">
       {children}
       {icon}

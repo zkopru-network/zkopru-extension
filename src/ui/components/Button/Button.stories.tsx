@@ -23,17 +23,19 @@ export default {
       },
       control: {
         type: 'select'
-      },
-      defaultValue: 'None'
+      }
     }
   }
 } as ComponentMeta<typeof Button>
 
-const Template: ComponentStory<typeof Button> = (args) => (
-  <Button variant={args.variant} icon={args.icon}>
-    {args.children}
-  </Button>
-)
+const Template: ComponentStory<typeof Button> = (args) => {
+  const { children, icon, variant, ...rest } = args
+  return (
+    <Button {...rest} variant={variant} icon={icon}>
+      {children}
+    </Button>
+  )
+}
 
 export const Primary = Template.bind({})
 Primary.args = {
