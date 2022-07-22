@@ -1,5 +1,6 @@
 {
   "compilerOptions": {
+    "target": "ESNext",
     "strict": true,
     "skipLibCheck": true,
     "isolatedModules": true,
@@ -8,6 +9,7 @@
     "noEmit": true,
     "forceConsistentCasingInFileNames": true,
     "jsx": "react-jsx",
+    "moduleResolution": "node",
     "resolveJsonModule": true
   },
   "include": ["src/**/*"],

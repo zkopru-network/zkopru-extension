@@ -1,7 +1,7 @@
 import React from 'react'
 import { Navigate } from 'react-router-dom'
 import { useAuthStore } from '../store/auth'
-import { ROUTES } from '../../share/constants'
+import ROUTES from '../../routes'
 
 /**
  * check onboarding status and navigate to Onboarding route if not onboarded yet

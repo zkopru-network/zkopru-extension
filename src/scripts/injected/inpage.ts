@@ -1,16 +1,7 @@
 import { sha512_256 } from 'js-sha512'
-import { waitUntil } from '../share/utils'
-import { EVENT_NAMES, WALLET_KEY_MSG_PARAMS } from '../share/constants'
-
-type Provider = {
-  request: (arg: { method: string; params?: string[] }) => Promise<unknown>
-}
-
-declare global {
-  interface Window {
-    ethereum?: Provider
-  }
-}
+import { waitUntil } from '../../share/utils'
+import { WALLET_KEY_MSG_PARAMS } from '../../share/constants'
+import { EVENT_NAMES } from '../../share/events'
 
 // TODO: state management lib
 type State = {
@@ -33,7 +24,7 @@ async function init() {
   await waitUntil(() => {
     return !!window.ethereum
   }, 500)
-  const ethereum = window.ethereum as Provider
+  const ethereum = window.ethereum!
   console.log('[INPAGE] ethereum is initialized')
 
   // try eth_requestAccounts and get selected address

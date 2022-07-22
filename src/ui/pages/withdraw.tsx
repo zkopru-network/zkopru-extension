@@ -12,7 +12,7 @@ import {
   ErrorMessage as E
 } from '../components/Form'
 import useBackgroundConnection from '../hooks/useBackgroundConnection'
-import { ROUTES } from '../../share/constants'
+import ROUTES from '../../routes'
 
 type FormData = {
   amount: number

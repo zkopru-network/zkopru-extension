@@ -24,7 +24,9 @@ const ActivityCell = ({ item }: Props) => {
       </div>
       <div>
         <span>Block Hash:</span>
-        <span>{shortenString(item.proposal.hash)}</span>
+        <span>
+          {item.proposal ? shortenString(item.proposal.hash) : 'Not included'}
+        </span>
       </div>
     </div>
   )

@@ -2,6 +2,7 @@ import browser from 'webextension-polyfill'
 // @ts-ignore
 import Zkopru, { ZkAccount } from '@zkopru/client/browser'
 import { sha512_256 } from 'js-sha512'
+import ROUTES from '../routes'
 import { store as backgroundStore } from './store'
 import {
   WEBSOCKET_URL,
@@ -28,11 +29,18 @@ import {
   WithdrawEthRequest,
   WithdrawEthResponse,
   LoadActivityRequest,
-  LoadActivityResponse
+  LoadActivityResponse,
+  IsConnectedRequest,
+  IsConnectedResponse,
+  ConfirmConnectSite,
+  ConnectSiteRequest,
+  ConnectSiteResponse,
+  DebugMessage,
+  SiteConnected,
+  ConfirmPopup
 } from '../share/message'
 import { waitUntil, toWei, toGwei } from '../share/utils'
 import { showPopupWindow } from './utils'
-import { Tx } from '@zkopru/client/dist/types'
 
 async function initClient(walletKey: string, l1Address: string) {
   const state = backgroundStore.getState()
@@ -51,7 +59,6 @@ async function initClient(walletKey: string, l1Address: string) {
     state.setAddress(wallet.wallet.account.zkAddress.address)
     state.setL1Address(l1Address)
 
-    // wait until tracker.transferTrackers are ready
     // TODO: use await ZkopruWallet.new() when ready
     await waitUntil(() => client.node.tracker.transferTrackers.length === 1)
     await client.start()
@@ -217,6 +224,55 @@ async function main() {
         ]
 
         sendMessage(LoadActivityResponse({ activities: result }))
+      } else if (IsConnectedRequest.match(message)) {
+        const db = await browser.storage.local.get('connectedSites')
+        if (db.connectedSites) {
+          const result = db.connectedSites.includes(message.payload.origin)
+          sendMessage(IsConnectedResponse({ isConnected: result }))
+          return
+        }
+
+        sendMessage(IsConnectedResponse({ isConnected: false }))
+      } else if (ConfirmConnectSite.match(message)) {
+        showPopupWindow(ROUTES.CONFIRM_CONNECTION, {
+          origin: message.payload.origin,
+          tabId: String(sender.tab?.id)
+        })
+      } else if (ConnectSiteRequest.match(message)) {
+        try {
+          const db = await browser.storage.local.get('connectedSites')
+          if (db.connectedSites) {
+            if (!db.connectedSites.includes(message.payload.origin)) {
+              browser.storage.local.set({
+                connectedSites: [...db.connectedSites, message.payload.origin]
+              })
+            }
+          } else {
+            browser.storage.local.set({
+              connectedSites: [message.payload.origin]
+            })
+          }
+          sendMessage(
+            ConnectSiteResponse({
+              result: true
+            })
+          )
+          const tabs = await browser.tabs.query({ active: true })
+          browser.tabs.sendMessage(
+            tabs[0].id as number,
+            SiteConnected({ origin: message.payload.origin })
+          )
+        } catch (e) {
+          sendMessage(
+            ConnectSiteResponse({
+              result: false
+            })
+          )
+        }
+      } else if (ConfirmPopup.match(message)) {
+        showPopupWindow(message.payload.path, message.payload.params)
+      } else if (DebugMessage.match(message)) {
+        console.log(message)
       }
     }
   )

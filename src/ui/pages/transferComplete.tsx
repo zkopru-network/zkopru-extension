@@ -1,6 +1,6 @@
 import React from 'react'
 import { useNavigate } from 'react-router-dom'
-import { ROUTES } from '../../share/constants'
+import ROUTES from '../../routes'
 import PrimaryButton from '../components/PrimaryButton'
 
 const TransferCompletePage = () => {

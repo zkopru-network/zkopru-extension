@@ -13,6 +13,7 @@
   "recipient": "recipient",
   "activity": "activity",
   "instantWithdrawal": "instant withdrawal",
+  "connect": "connect",
   "error_message": {
     "required": "This field is required.",
     "password_not_match": "Password does not match."
