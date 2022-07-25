@@ -3,30 +3,24 @@ import { ComponentStory, ComponentMeta } from '@storybook/react'
 import RoundedButton from '.'
 
 export default {
-  component: RoundedButton,
-  argTypes: {
-    variant: {
-      description:
-        'The variant of the button, determines size and other styles',
-      options: ['primary', 'secondary'],
-      control: 'radio'
-    }
-  }
+  title: 'Buttons/Rounded',
+  component: RoundedButton
 } as ComponentMeta<typeof RoundedButton>
 
 const Template: ComponentStory<typeof RoundedButton> = (args) => (
-  <RoundedButton variant={args.variant}>{args.children}</RoundedButton>
+  <RoundedButton variant={args.variant || 'base'}>
+    {args.children}
+  </RoundedButton>
 )
 
-export const Primary = Template.bind({})
+export const Base = Template.bind({})
 
-Primary.args = {
-  variant: 'primary',
+Base.args = {
   children: 'Click me'
 }
 
-export const Secondary = Template.bind({})
-Secondary.args = {
-  variant: 'secondary',
+export const Small = Template.bind({})
+Small.args = {
+  variant: 'small',
   children: 'Click me'
 }
