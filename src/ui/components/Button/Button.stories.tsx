@@ -9,7 +9,7 @@ const iconOpts = new Map<string, JSX.Element>([
 ])
 
 export default {
-  title: 'Button',
+  title: 'Buttons/Regular',
   component: Button,
   argTypes: {
     children: { description: 'Label of the button', control: 'text' },
@@ -31,15 +31,14 @@ export default {
 const Template: ComponentStory<typeof Button> = (args) => {
   const { children, icon, variant, ...rest } = args
   return (
-    <Button {...rest} variant={variant} icon={icon}>
+    <Button {...rest} variant={variant || 'filled'} icon={icon}>
       {children}
     </Button>
   )
 }
 
-export const Primary = Template.bind({})
-Primary.args = {
-  variant: 'primary',
+export const Filled = Template.bind({})
+Filled.args = {
   children: 'Main button'
 }
 
