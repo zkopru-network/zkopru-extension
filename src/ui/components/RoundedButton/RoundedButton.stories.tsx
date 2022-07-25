@@ -7,20 +7,23 @@ export default {
   component: RoundedButton
 } as ComponentMeta<typeof RoundedButton>
 
-const Template: ComponentStory<typeof RoundedButton> = (args) => (
-  <RoundedButton variant={args.variant || 'base'}>
-    {args.children}
-  </RoundedButton>
-)
+const Template: ComponentStory<typeof RoundedButton> = (args) => {
+  const { variant, children, ...rest } = args
+  return (
+    <RoundedButton variant={variant || 'primary'} {...rest}>
+      {children}
+    </RoundedButton>
+  )
+}
 
-export const Base = Template.bind({})
+export const Primary = Template.bind({})
 
-Base.args = {
+Primary.args = {
   children: 'Click me'
 }
 
-export const Small = Template.bind({})
-Small.args = {
-  variant: 'small',
+export const secondary = Template.bind({})
+secondary.args = {
+  variant: 'secondary',
   children: 'Click me'
 }

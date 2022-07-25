@@ -1,25 +1,35 @@
 import React, { ReactNode } from 'react'
 
-interface BtnProps {
+interface BtnProps
+  extends React.DetailedHTMLProps<
+    React.ButtonHTMLAttributes<HTMLButtonElement>,
+    HTMLButtonElement
+  > {
   children: ReactNode
   variant?: keyof RoundedBtnVariants
 }
 
 export interface RoundedBtnVariants {
-  base: string
-  small: string
+  primary: string
+  secondary: string
 }
 
+const commonButtonStyles = `transition disabled:opacity-50 disabled:cursor-not-allowed focus:outline-none focus:ring focus:ring-btn-bright/50 focus:ring-offset-1 focus:ring-offset-white font-medium rounded-full border-2 border-skin-light-gray/25`
+
 const variants: RoundedBtnVariants = {
-  base: `bg-btn-bright/33 hover:bg-btn-bright transition font-medium text-base text-white rounded-full py-2 px-4 focus:outline-none focus:ring focus:ring-btn-bright/50 focus:ring-offset-2`,
-  small: `primary-light bg-btn-bright/33 transition font-medium text-xs rounded-full py-1 px-2 focus:outline-none focus:ring focus:ring-btn-bright/75 focus:ring-offset-1 text-gray-100`
+  primary: `text-base py-2 px-4 text-white bg-btn-bright/75 hover:bg-btn-bright ${commonButtonStyles}`,
+  secondary: `text-xs py-1 px-2 text-skin-text-primary bg-skin-light-gray hover:bg-btn-bright hover:text-white ${commonButtonStyles}`
 }
 
 const RoundedButton: React.FC<BtnProps> = ({
-  variant = 'base',
-  children = 'Click me'
+  variant = 'primary',
+  children = 'Click me',
+  ...rest
 }) => (
-  <button className={`${variants[variant as keyof RoundedBtnVariants]}`}>
+  <button
+    {...rest}
+    className={`${variants[variant as keyof RoundedBtnVariants]}`}
+  >
     {children}
   </button>
 )
