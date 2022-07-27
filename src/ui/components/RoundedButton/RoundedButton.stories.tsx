@@ -17,13 +17,12 @@ const Template: ComponentStory<typeof RoundedButton> = (args) => {
 }
 
 export const Primary = Template.bind({})
-
 Primary.args = {
   children: 'Click me'
 }
 
-export const secondary = Template.bind({})
-secondary.args = {
+export const Secondary = Template.bind({})
+Secondary.args = {
   variant: 'secondary',
   children: 'Click me'
 }
