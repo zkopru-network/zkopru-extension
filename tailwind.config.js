@@ -14,13 +14,16 @@ module.exports = {
       colors: {
         'btn-bright': 'rgb(var(--color-btn-bright) / <alpha-value>)',
         'skin-light-gray': 'rgb(var(--color-light-gray) / <alpha-value>)',
-        'skin-text-primary': 'rgb(var(--color-text-primary) / <alpha-value>)'
-        // 'primary-dark': '#152059',
-        // 'primary-light': '#CBD4FF',
-        // 'primary-medium': '#3A405F'
+        'skin-back': 'rgb(var(--color-back) / <alpha-value>)' // background color
       },
       opacity: {
         33: '.33'
+      },
+      textColor: {
+        'skin-text-primary': 'rgb(var(--color-text-primary) / <alpha-value>)'
+      },
+      backgroundImage: {
+        'zk-pattern': 'url("assets/onboarding-bg.png")'
       }
     }
   },

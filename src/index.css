@@ -7,16 +7,110 @@
     --color-btn-bright: 48 48 198; /* #3030c6 */
     --color-light-gray: 229 234 254; /* #e5eaf4 */
     --color-text-primary: 73 72 149; /* #494895 */
+    --color-back: 249 250 255; /* #F9FAFF */
   }
 
   .theme-sanctum.mode-light {
     --color-btn-bright: 48 48 198; /* #3030c6 */
     --color-light-gray: 229 234 254; /* #e5eaf4 */
     --color-text-primary: 73 72 149; /* #494895 */
+    --color-back: 249 250 255; /* #F9FAFF */
   }
 
   .theme-sanctum.mode-dark {
     --color-light-gray: 58 64 95; /* #3a4e5f */
     --color-text-primary: 226 230 255; /* #e2eafb */
+    --color-back: 21 23 46; /* #15172E */
+  }
+
+  p,
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6,
+  ul,
+  ol,
+  dl,
+  dt,
+  dd,
+  table,
+  tr,
+  td,
+  th,
+  form,
+  fieldset,
+  legend,
+  blockquote,
+  address,
+  pre,
+  code,
+  samp,
+  label {
+    @apply text-skin-text-primary;
+  }
+
+  label {
+    @apply tracking-wide;
+  }
+
+  .input {
+    @apply flex-shrink transition duration-200 ease-in-out rounded-md bg-gray-200 text-gray-700;
+    @apply h-10 px-4 text-sm leading-loose;
+    @apply focus:outline-none focus:ring focus:ring-white/60 focus:ring-offset-1 focus:ring-offset-skin-light-gray;
+  }
+
+  .input-group {
+    @apply flex w-full items-stretch;
+    > .input {
+      @apply isolate;
+    }
+    > *,
+    > .input {
+      @apply rounded-none;
+    }
+    &-md {
+      @apply text-sm leading-loose;
+    }
+    &-lg {
+      @apply text-lg leading-loose;
+    }
+    &-sm {
+      @apply text-sm leading-8;
+    }
+    &-xs {
+      @apply text-xs leading-relaxed;
+    }
+    :where(span) {
+      @apply flex items-center bg-skin-light-gray px-4;
+    }
+    :first-child {
+      border-top-left-radius: 8px;
+      border-top-right-radius: 0;
+      border-bottom-left-radius: 8px;
+      border-bottom-right-radius: 0;
+    }
+    :last-child {
+      border-top-left-radius: 0;
+      border-top-right-radius: 8px;
+      border-bottom-left-radius: 0;
+      border-bottom-right-radius: 8px;
+    }
+    &-vertical {
+      @apply flex-col;
+      :first-child {
+        border-top-left-radius: 8px;
+        border-top-right-radius: 8px;
+        border-bottom-left-radius: 0;
+        border-bottom-right-radius: 0;
+      }
+      :last-child {
+        border-top-left-radius: 0;
+        border-top-right-radius: 0;
+        border-bottom-left-radius: 8px;
+        border-bottom-right-radius: 8px;
+      }
+    }
   }
 }
