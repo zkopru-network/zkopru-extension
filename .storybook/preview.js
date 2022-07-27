@@ -24,10 +24,10 @@ export const parameters = {
     ]
   },
   backgrounds: {
-    default: 'bg-sanctum-light',
+    default: 'light',
     values: [
-      { name: 'bg-sanctum-light', value: '#F9FAFF' },
-      { name: 'bg-sanctum-dark', value: '#15172E' }
+      { name: 'light', value: '#fff' },
+      { name: 'dark', value: '#000' }
     ]
   },
   options: {
