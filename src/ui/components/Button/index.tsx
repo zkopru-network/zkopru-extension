@@ -15,7 +15,7 @@ export interface BtnVariants {
   ghost: string
 }
 
-const commonButtonStyles = `transition disabled:opacity-50 disabled:cursor-not-allowed focus:outline-none focus:ring focus:ring-btn-bright/50 focus:ring-offset-2 focus:ring-offset-transparent font-semibold`
+const commonButtonStyles = `transition disabled:opacity-50 disabled:cursor-not-allowed focus:outline-none focus:ring focus:ring-btn-bright/50 focus:ring-offset-2 focus:ring-offset-white/50 font-semibold tracking-wide`
 
 const variants: BtnVariants = {
   filled: `text-skin-text-primary bg-skin-light-gray hover:bg-btn-bright hover:text-white rounded-md py-4 px-6 ${commonButtonStyles}`,
