@@ -8,7 +8,7 @@ import { ErrorMessage } from '@hookform/error-message'
 import shallow from 'zustand/shallow'
 import { useAuthStore } from '../store/auth'
 import useBackgroundConnection from '../hooks/useBackgroundConnection'
-import PrimaryButton from '../components/PrimaryButton'
+import RoundedButton from '../components/RoundedButton'
 import {
   Input,
   FieldControl,
@@ -93,7 +93,7 @@ const UnlockPage = () => {
           </FieldControl>
 
           <FieldControl>
-            <PrimaryButton type="submit">{t('unlock')}</PrimaryButton>
+            <RoundedButton type="submit">{t('unlock')}</RoundedButton>
           </FieldControl>
         </form>
       </div>

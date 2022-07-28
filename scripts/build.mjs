@@ -2,6 +2,7 @@ import { build } from 'esbuild'
 import fs from 'fs'
 import linaria from '@linaria/esbuild'
 import yargs from 'yargs/yargs'
+import { execSync } from 'child_process'
 
 // we use esbuild for our build system.
 // it's blazing fast and has enough functionalities for our usecase.
@@ -91,6 +92,10 @@ async function buildFiles(opt) {
   console.log('generating assets files')
   fs.copyFileSync('src/assets/icon-16.png', `${assetsDir}/icon-16.png`)
   fs.copyFileSync('src/assets/icon-32.png', `${assetsDir}/icon-32.png`)
+
+  // build tailwind css with tailwindcss command
+  // NOTE: does not have to be built with esbuild
+  execSync(`npx tailwindcss -i src/index.css -o ${outDir}/tailwind.css`)
 
   console.log('Finish building files for', opt.targetName)
 }
