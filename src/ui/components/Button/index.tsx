@@ -29,7 +29,7 @@ const Button: React.FC<BtnProps> = ({
   ...rest
 }) => (
   <button {...rest} className={`${variants[variant as keyof BtnVariants]}`}>
-    <div className="flex gap-2 text-inherit justify-center items-center">
+    <div className="flex gap-2 text-inherit justify-center items-center capitalize">
       {children}
       {icon}
     </div>
