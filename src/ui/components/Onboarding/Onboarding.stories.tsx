@@ -1,5 +1,6 @@
 import { Ghost } from '../Button/Button.stories'
 import { ZkopruLogoWhite } from '../common/icons'
+import { Password } from '../Input/Input.stories'
 
 export default {
   title: 'Screens/Onboarding'
@@ -19,33 +20,9 @@ export const Onboarding = () => (
       </p>
     </div>
     {/* TODO: Create input components */}
-    <div className="flex flex-col gap-4">
-      <div className="flex flex-col gap-2">
-        <label htmlFor="pass" className="text-sm">
-          Password
-        </label>
-        <input
-          className="input input-md text-base"
-          type="password"
-          name="pass"
-          id="pass"
-          autoFocus
-        />
-        <p className="text-xs bg-red-600/60 text-red-100 p-1 pl-2 rounded-sm tracking-wide">
-          🚨 Try a stronger password
-        </p>
-      </div>
-      <div className="flex flex-col gap-2">
-        <label htmlFor="confirm" className="text-sm">
-          Confirm password
-        </label>
-        <input
-          className="input input-bordered text-base"
-          type="password"
-          name="confirm"
-          id="confirm"
-        />
-      </div>
+    <div className="flex flex-col gap-8">
+      <Password id="password" />
+      <Password id="confirm" label="Confirm password" />
     </div>
     <Ghost variant="ghost">Register</Ghost>
   </div>
