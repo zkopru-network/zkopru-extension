@@ -1,9 +1,9 @@
-import { Ghost } from '../Button/Button.stories'
-import { ZkopruLogoWhite } from '../common/icons'
-import { Password } from '../Input/Input.stories'
+import { Ghost } from '../../components/Button/Button.stories'
+import { ZkopruLogoWhite } from '../../components/common/icons'
+import { Password } from '../../components/Input/Input.stories'
 
 export default {
-  title: 'Screens/Onboarding'
+  title: 'Screens/Auth/Onboarding'
 }
 
 export const Onboarding = () => (
