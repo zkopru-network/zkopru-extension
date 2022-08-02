@@ -1,5 +1,6 @@
 import { Ghost } from '../../components/Button/Button.stories'
 import { ZkopruLogoWhite } from '../../components/common/icons'
+import ExtensionFrameWithImage from '../../components/ExtensionFrameWithImage'
 import { Password } from '../../components/Input/Input.stories'
 
 export default {
@@ -7,7 +8,7 @@ export default {
 }
 
 export const Login = () => (
-  <div className="flex flex-col gap-6 w-[464px] h-[614px] p-8 rounded-lg justify-center bg-zk-pattern bg-cover bg-no-repeat theme-sanctum mode-dark">
+  <ExtensionFrameWithImage>
     <ZkopruLogoWhite />
     <div>
       <h1 className="text-4xl font-medium leading-tight text-white">
@@ -24,5 +25,5 @@ export const Login = () => (
     {/* <a className="cursor-pointer text-skin-text-primary text-xs underline underline-offset-1 font-medium tracking-wide">
       Forgot password?
     </a> */}
-  </div>
+  </ExtensionFrameWithImage>
 )
