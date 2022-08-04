@@ -2,6 +2,7 @@ lockfileVersion: 5.4
 
 specifiers:
   '@babel/core': '>=7.13.0 <8.0.0'
+  '@headlessui/react': ^1.6.6
   '@hookform/error-message': ^2.0.0
   '@linaria/babel-preset': ^3.0.0-beta.15
   '@linaria/core': ^3.0.0-beta.15
@@ -69,6 +70,7 @@ specifiers:
   zustand: ^4.0.0-rc.1
 
 dependencies:
+  '@headlessui/react': 1.6.6_ef5jwxihqo6n7gxfmzogljlgcm
   '@hookform/error-message': 2.0.0_lyxltfjdq2577glazuoajv5jhy
   '@linaria/babel-preset': 3.0.0-beta.15_@babel+core@7.18.5
   '@linaria/core': 3.0.0-beta.15
@@ -2779,6 +2781,17 @@ packages:
 
   /@hapi/bourne/2.1.0:
     resolution: {integrity: sha512-i1BpaNDVLJdRBEKeJWkVO6tYX6DMFBuwMhSuWqLsY4ufeTKGVuV5rBsUhxPayXqnnWHgXUAmWK16H/ykO5Wj4Q==}
+    dev: false
+
+  /@headlessui/react/1.6.6_ef5jwxihqo6n7gxfmzogljlgcm:
+    resolution: {integrity: sha512-MFJtmj9Xh/hhBMhLccGbBoSk+sk61BlP6sJe4uQcVMtXZhCgGqd2GyIQzzmsdPdTEWGSF434CBi8mnhR6um46Q==}
+    engines: {node: '>=10'}
+    peerDependencies:
+      react: ^16 || ^17 || ^18
+      react-dom: ^16 || ^17 || ^18
+    dependencies:
+      react: 18.1.0
+      react-dom: 18.1.0_react@18.1.0
     dev: false
 
   /@hookform/error-message/2.0.0_lyxltfjdq2577glazuoajv5jhy:
