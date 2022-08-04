@@ -3,6 +3,7 @@ import { ComponentMeta, ComponentStory } from '@storybook/react'
 import NetworkSwitcher from '.'
 
 export default {
+  title: 'Network Switcher',
   component: NetworkSwitcher
 } as ComponentMeta<typeof NetworkSwitcher>
 

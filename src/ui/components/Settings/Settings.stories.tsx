@@ -3,6 +3,7 @@ import { ComponentMeta, ComponentStory } from '@storybook/react'
 import Settings from '.'
 
 export default {
+  title: 'Settings Menu',
   component: Settings
 } as ComponentMeta<typeof Settings>
 
