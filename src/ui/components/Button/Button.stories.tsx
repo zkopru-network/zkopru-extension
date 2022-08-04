@@ -1,6 +1,5 @@
 /* eslint-disable react/jsx-key */
-import { ComponentStory, ComponentMeta } from '@storybook/react'
-
+import { ComponentMeta, ComponentStory } from '@storybook/react'
 import Button from '.'
 import { AddCircleLine } from '../common/icons'
 

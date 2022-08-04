@@ -1,18 +1,5 @@
-import React, { ReactNode } from 'react'
-
-interface BtnProps
-  extends React.DetailedHTMLProps<
-    React.ButtonHTMLAttributes<HTMLButtonElement>,
-    HTMLButtonElement
-  > {
-  children: ReactNode
-  variant?: keyof RoundedBtnVariants
-}
-
-export interface RoundedBtnVariants {
-  primary: string
-  secondary: string
-}
+import React from 'react'
+import { BtnProps, RoundedBtnVariants } from '../../interfaces'
 
 const commonButtonStyles = `transition disabled:opacity-50 disabled:cursor-not-allowed focus:outline-none focus:ring focus:ring-btn-bright/50 focus:ring-offset-1 focus:ring-offset-white font-medium rounded-full border-2 border-skin-light-gray/25`
 

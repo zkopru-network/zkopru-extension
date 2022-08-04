@@ -1,3 +1,5 @@
+import { ReactNode } from 'react'
+
 /**
  * Themes for the extension
  * @export
@@ -8,6 +10,7 @@ export interface Theme {
   'sanctum-dark': string
 }
 
+// INPUT INTERFACES
 /**
  * Props for inputs that are not submit buttons.
  * @export
@@ -105,3 +108,36 @@ export interface SubmitProps
 }
 
 export type InputProps = GenericProps | SubmitProps
+
+// BUTTON INTERFACES
+export interface BtnProps
+  extends React.DetailedHTMLProps<
+    React.ButtonHTMLAttributes<HTMLButtonElement>,
+    HTMLButtonElement
+  > {
+  children: ReactNode
+  variant: keyof BtnVariants | keyof RoundedBtnVariants
+  icon?: JSX.Element
+}
+
+export interface BtnVariants {
+  filled: string
+  ghost: string
+}
+
+export interface RoundedBtnVariants {
+  /**
+   *The larger rounded button
+   *
+   * @type {string}
+   * @memberof RoundedBtnVariants
+   */
+  primary: string
+  /**
+   *A smaller rounded button
+   *
+   * @type {string}
+   * @memberof RoundedBtnVariants
+   */
+  secondary: string
+}
