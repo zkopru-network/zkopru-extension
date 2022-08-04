@@ -1,12 +1,12 @@
-import { Ghost } from '../../components/Button/Button.stories'
 import { ZkopruLogoWhite } from '../../components/common/icons'
 import ExtensionFrameWithImage from '../../components/ExtensionFrameWithImage'
-import { Password } from '../../components/Input/Input.stories'
+import { Password, Submit } from '../../components/Input/Input.stories'
 
 export default {
   title: 'Screens/Auth/Login'
 }
 
+// TODO: Extract into own file
 export const Login = () => (
   <ExtensionFrameWithImage>
     <ZkopruLogoWhite />
@@ -17,10 +17,15 @@ export const Login = () => (
       <p className="p-1"></p>
       <p className="text-base">Cheap, private transactions are ahead.</p>
     </div>
-    <div className="flex flex-col gap-8">
-      <Password id="password" />
-    </div>
-    <Ghost variant="ghost">Unlock wallet</Ghost>
+    <form
+      onSubmit={() => console.log('submitted')}
+      className="flex flex-col gap-6"
+    >
+      <div className="flex flex-col gap-8">
+        <Password id="password" label="Password" type="password" />
+      </div>
+      <Submit type="submit" id="submit" as="ghost" label="Unlock wallet" />
+    </form>
     {/* TODO: Implement forgot password */}
     {/* <a className="cursor-pointer text-skin-text-primary text-xs underline underline-offset-1 font-medium tracking-wide">
       Forgot password?
