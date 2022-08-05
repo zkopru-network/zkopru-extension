@@ -4,7 +4,7 @@ export default function ExtensionFrameWithImage({
   children: React.ReactNode
 }) {
   return (
-    <div className="flex flex-col gap-8 justify-center w-[464px] h-[614px] p-8 rounded-lg bg-zk-pattern bg-cover bg-no-repeat theme-sanctum mode-dark">
+    <div className="flex flex-col gap-8 justify-center w-[464px] h-[614px] p-6 rounded-lg bg-zk-pattern bg-cover bg-no-repeat theme-sanctum mode-dark">
       {children}
     </div>
   )
