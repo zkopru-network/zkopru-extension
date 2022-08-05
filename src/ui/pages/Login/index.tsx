@@ -2,11 +2,6 @@ import { ZkopruLogoWhite } from '../../components/common/icons'
 import ExtensionFrameWithImage from '../../components/ExtensionFrameWithImage'
 import { Password, Submit } from '../../components/Input/Input.stories'
 
-export default {
-  title: 'Screens/Auth/Login'
-}
-
-// TODO: Extract into own file
 export const Login = () => (
   <ExtensionFrameWithImage>
     <ZkopruLogoWhite />
@@ -28,7 +23,7 @@ export const Login = () => (
     </form>
     {/* TODO: Implement forgot password */}
     {/* <a className="cursor-pointer text-skin-text-primary text-xs underline underline-offset-1 font-medium tracking-wide">
-      Forgot password?
-    </a> */}
+        Forgot password?
+      </a> */}
   </ExtensionFrameWithImage>
 )

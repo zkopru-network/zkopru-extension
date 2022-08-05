@@ -11,10 +11,14 @@ export const Text: ComponentStory<typeof Input> = () => (
   <Input type="text" label="Test label" id="testlabel" />
 )
 
-export const Password: ComponentStory<typeof Input> = () => {
-  return <Input type="password" label="Password" id={'password'} />
+export const Password: ComponentStory<typeof Input> = (args) => {
+  return <Input type="password" label={args.label} id={args.id} />
+}
+Password.args = {
+  label: 'Password',
+  id: 'password'
 }
 
 export const Submit: ComponentStory<typeof Input> = (args) => {
-  return <Input type="submit" label={args.label} id={'submit'} as={'ghost'} />
+  return <Input type="submit" label={args.label} id={args.label} as={'ghost'} />
 }

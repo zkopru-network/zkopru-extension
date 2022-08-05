@@ -3,7 +3,6 @@ module.exports = {
   mode: 'jit',
   content: [
     './src/ui/components/**/*.{js,ts,jsx,tsx}',
-    './src/ui/stories/**/*.{js,ts,jsx,tsx}',
     './src/ui/pages/**/*.{js,ts,jsx,tsx}',
     './.storybook/**/*.{js,ts,jsx,tsx}'
   ],

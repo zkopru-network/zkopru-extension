@@ -4,7 +4,7 @@ module.exports = {
   stories: [
     '../src/ui/components/**/*.stories.mdx',
     '../src/ui/components/**/*.stories.@(js|jsx|ts|tsx)',
-    '../src/ui/stories/**/*.stories.@(js|jsx|ts|tsx)'
+    '../src/ui/pages/**/*.stories.@(js|jsx|ts|tsx)'
   ],
   addons: [
     'storybook-addon-themes',

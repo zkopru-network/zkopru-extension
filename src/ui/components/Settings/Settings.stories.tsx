@@ -13,4 +13,4 @@ const Template: ComponentStory<typeof Settings> = () => (
   </div>
 )
 
-export const Primary = Template.bind({})
+export const Playground = Template.bind({})

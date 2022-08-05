@@ -1,11 +1,6 @@
-import { Ghost } from '../../components/Button/Button.stories'
 import { ZkopruLogoWhite } from '../../components/common/icons'
 import ExtensionFrameWithImage from '../../components/ExtensionFrameWithImage'
-import { Password } from '../../components/Input/Input.stories'
-
-export default {
-  title: 'Screens/Auth/Onboarding'
-}
+import { Password, Submit } from '../../components/Input/Input.stories'
 
 export const Onboarding = () => (
   <ExtensionFrameWithImage>
@@ -20,11 +15,12 @@ export const Onboarding = () => (
         manager, if you can.
       </p>
     </div>
-    {/* TODO: Create input components */}
-    <div className="flex flex-col gap-8">
-      <Password id="password" />
-      <Password id="confirm" label="Confirm password" />
-    </div>
-    <Ghost variant="ghost">Register</Ghost>
+    <form>
+      <div className="flex flex-col gap-8">
+        <Password type="password" id="password" label="Password" />
+        <Password type="password" id="confirm" label="Confirm password" />
+        <Submit type="submit" label="Create account" as="ghost" id="register" />
+      </div>
+    </form>
   </ExtensionFrameWithImage>
 )
