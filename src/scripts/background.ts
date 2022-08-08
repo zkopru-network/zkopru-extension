@@ -24,6 +24,8 @@ import {
   VerifyPasswordResponse,
   DepositEthRequest,
   DepositEthResponse,
+  DepositERC20Request,
+  DepositERC20Response,
   TransferEthRequest,
   TransferEthResponse,
   WithdrawEthRequest,
@@ -161,11 +163,19 @@ async function main() {
         const wallet = backgroundStore.getState().wallet
 
         // TODO: add onComplete to deposit tx sent listener
-        const { to, data, value, onComplete } = wallet.wallet.depositEtherTx(
-          toWei(amount),
-          toWei(fee)
-        )
+        const { to, data, value } = wallet.wallet.depositEtherTx(amount, fee)
         sendMessage(DepositEthResponse({ params: { to, data, value } }))
+      } else if (DepositERC20Request.match(message)) {
+        const { amount, fee, address } = message.payload.data
+        const wallet = backgroundStore.getState().wallet
+
+        const { to, data, value } = wallet.wallet.depositERC20Tx(
+          0,
+          address,
+          amount,
+          fee
+        )
+        sendMessage(DepositERC20Response({ params: { to, data, value } }))
       } else if (TransferEthRequest.match(message)) {
         const { amount, fee, to } = message.payload
         const wallet = backgroundStore.getState().wallet

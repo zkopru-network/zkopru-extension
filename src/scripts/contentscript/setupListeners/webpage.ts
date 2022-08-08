@@ -1,6 +1,10 @@
 import browser from 'webextension-polyfill'
 import { injectScript } from '../injectScript'
-import { fetchStatus, generateDepositEthTx } from '../conn'
+import {
+  fetchStatus,
+  generateDepositEthTx,
+  generateDepositERC20Tx
+} from '../conn'
 import { isCustomEvent } from '../../../share/utils'
 import { EVENT_NAMES } from '../../../share/events'
 import { WalletKeyGeneratedMessageCreator } from '../../../share/message'
@@ -49,6 +53,18 @@ export function setupWebpageMessageListeners() {
   window.addEventListener(EVENT_NAMES.DEPOSIT_ETH, async (e) => {
     if (!isCustomEvent(e)) throw new Error('Zkopru: invalid event value')
     const params = await generateDepositEthTx(e.detail.data)
+    // clone object into window and make it available for page script
+    window.wrappedJSObject.txParams = cloneInto(params, window, {
+      cloneFunctions: true
+    })
+    window.dispatchEvent(
+      new CustomEvent(EVENT_NAMES.SEND_TX, { detail: { params } })
+    )
+  })
+
+  window.addEventListener(EVENT_NAMES.DEPOSIT_ERC20, async (e) => {
+    if (!isCustomEvent(e)) throw new Error('Zkopru: invalid event value')
+    const params = await generateDepositERC20Tx(e.detail.data)
     // clone object into window and make it available for page script
     window.wrappedJSObject.txParams = cloneInto(params, window, {
       cloneFunctions: true

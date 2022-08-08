@@ -1,5 +1,5 @@
 import { BACKGROUND_STATUS } from './constants'
-import type { DepositData } from './types'
+import type { DepositData, DepositERC20Data } from './types'
 
 export const MESSAGE_TYPE = {
   WALLET_KEY_GENERATED: 'WALLET_KEY_GENERATED',
@@ -15,6 +15,9 @@ export const MESSAGE_TYPE = {
   VERIFY_PASSWORD_RESPONSE: 'VERIFY_PASSWORD_RESPONSE',
   DEPOSIT_ETH_REQUEST: 'DEPOSIT_ETH_REQUEST',
   DEPOSIT_ETH_RESPONSE: 'DEPOSIT_ETH_RESPONSE',
+  DEPOSIT_ERC20_REQUEST: 'DEPOSIT_ERC20_REQUEST',
+  DEPOSIT_ERC20_RESPONSE: 'DEPOSIT_ERC20_RESPONSE',
+
   TRANSFER_ETH_REQUEST: 'TRANSFER_ETH_REQUEST',
   TRANSFER_ETH_RESPONSE: 'TRANSFER_ETH_RESPONSE',
   WITHDRAW_ETH_REQUEST: 'WITHDRAW_ETH_REQUEST',
@@ -137,6 +140,14 @@ export const DepositEthRequest = createMessage<{
 export const DepositEthResponse = createMessage<{
   params: { to: string; data: string; value: string }
 }>(MESSAGE_TYPE.DEPOSIT_ETH_RESPONSE)
+
+export const DepositERC20Request = createMessage<{
+  data: DepositERC20Data
+}>(MESSAGE_TYPE.DEPOSIT_ERC20_REQUEST)
+
+export const DepositERC20Response = createMessage<{
+  params: { to: string; data: string; value: string }
+}>(MESSAGE_TYPE.DEPOSIT_ERC20_RESPONSE)
 
 export const TransferEthRequest = createMessage<{
   to: string
