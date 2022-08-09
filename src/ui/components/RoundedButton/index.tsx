@@ -5,7 +5,7 @@ const commonButtonStyles = `transition disabled:opacity-50 disabled:cursor-not-a
 
 const variants: RoundedBtnVariants = {
   primary: `text-sm py-1 px-3 text-white bg-btn-bright/60 hover:bg-btn-bright ${commonButtonStyles}`,
-  secondary: `text-xs py-1 px-2 text-skin-light-gray bg-skin-light-gray/30 hover:bg-btn-bright hover:text-white ${commonButtonStyles}`
+  secondary: `text-xs py-1 px-2 text-white bg-white/20 border border-skin-inverse/15 hover:bg-btn-bright hover:text-white hover:border-btn-bright ${commonButtonStyles}`
 }
 
 const RoundedButton: React.FC<BtnProps> = ({
