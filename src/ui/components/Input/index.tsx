@@ -15,7 +15,7 @@ const Input: React.FC<InputProps> = ({
     return <input type={type} className={variants[as]} value={label} />
   else {
     return (
-      <div className="flex flex-col gap-2 max-w-sm">
+      <div className="flex flex-col gap-2">
         {label && (
           <label htmlFor={id} className="text-sm">
             {label}

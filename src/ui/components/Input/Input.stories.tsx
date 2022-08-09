@@ -4,7 +4,14 @@ import Input from '.'
 
 export default {
   title: 'Input',
-  component: Input
+  component: Input,
+  decorators: [
+    (Story) => (
+      <div className="max-w-sm">
+        <Story />
+      </div>
+    )
+  ]
 } as ComponentMeta<typeof Input>
 
 export const Text: ComponentStory<typeof Input> = () => (
