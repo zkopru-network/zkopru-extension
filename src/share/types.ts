@@ -1,12 +1,22 @@
 export type DepositData = {
-  amount: number
-  fee: number
+  amount: string
+  fee: string
 }
 
-export type DepositParams = {
+export type DepositERC20Data = {
+  amount: string
+  fee: string
+  address: string
+}
+
+export type L1TxParams = {
   to: string
   data: string
   value: string
+}
+
+export type TokenBalances = {
+  [key: string]: number
 }
 
 // TODO: type correctly

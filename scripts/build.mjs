@@ -68,7 +68,7 @@ async function buildFiles(opt) {
   // FYI: https://esbuild.github.io/api/#define
   // NOTE: background script is too large. need to reduce size or split files
   await build({
-    entryPoints: ['src/scripts/background.ts'],
+    entryPoints: { background: 'src/scripts/background/index.ts' },
     outdir: outDir,
     bundle: true,
     format: 'esm',

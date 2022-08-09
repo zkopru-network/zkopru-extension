@@ -6,6 +6,7 @@ type Provider = {
 }
 
 window.addEventListener(EVENT_NAMES.SEND_TX, async (e: Event) => {
+  console.log('send tx called')
   if (!isCustomEvent(e)) throw new Error('Zkopru: invalid event value')
 
   await waitUntil(() => {
@@ -21,10 +22,13 @@ window.addEventListener(EVENT_NAMES.SEND_TX, async (e: Event) => {
   }
   const account = accounts[0]
 
-  // TODO: typing
   const data = (window as any).txParams
-  await ethereum.request({
-    method: 'eth_sendTransaction',
-    params: [{ ...data, from: account }]
-  })
+  try {
+    await ethereum.request({
+      method: 'eth_sendTransaction',
+      params: [{ ...data, from: account }]
+    })
+  } catch (e) {
+    console.error('[SEND L1 TX] send transaction failed with data', data)
+  }
 })

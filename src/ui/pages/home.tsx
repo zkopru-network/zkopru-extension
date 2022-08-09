@@ -22,11 +22,6 @@ const HomePage = () => {
     <div className={container}>
       <Header />
       <div className={body}>
-        <div className={balanceSection}>
-          <span className={balanceValue}>{balance}</span>
-          <span className={unit}>ETH</span>
-        </div>
-
         <div className={linkSection}>
           <a
             className={linkItem}
@@ -40,12 +35,40 @@ const HomePage = () => {
           <Link to={ROUTES.WITHDRAW} className={linkItem}>
             {t('withdraw')}
           </Link>
+        </div>
+        <div className={linkSection}>
           <Link to={ROUTES.TRANSFER} className={linkItem}>
             {t('transfer')}
           </Link>
           <Link to={ROUTES.ACTIVITY} className={linkItem}>
             {t('activity')}
           </Link>
+        </div>
+
+        <div className={balanceSection}>
+          {balance ? (
+            <>
+              <span className={balanceValue}>{balance.eth}</span>
+              <span className={unit}>ETH</span>
+            </>
+          ) : (
+            <span>Loading...</span>
+          )}
+        </div>
+        <div>
+          {/* Display registered ERC20 balance */}
+          <h3>ERC20</h3>
+          {balance?.tokenBalances && (
+            <div>
+              {Object.keys(balance.tokenBalances).map((token) => (
+                <span key={token}>
+                  {balance.tokenBalances[token]}
+                  {token}
+                </span>
+              ))}
+            </div>
+          )}
+          <div></div>
         </div>
       </div>
     </div>
@@ -81,9 +104,15 @@ const linkSection = css`
   display: flex;
   justify-content: space-between;
   width: 100%;
+  margin-top: 20px;
 `
 
 const linkItem = css`
+  min-width: 100px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
   text-transform: capitalize;
   background-color: #4c49ff;
   color: white;

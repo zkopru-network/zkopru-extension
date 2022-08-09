@@ -8,5 +8,6 @@ export default {
   WITHDRAW: '/withdraw',
   WITHDRAW_COMPLETE: '/withdraw/complete',
   ACTIVITY: '/activity',
-  CONFIRM_CONNECTION: '/confirm-connection'
+  CONFIRM_CONNECTION: '/confirm-connection',
+  SETTINGS: '/settings'
 } as const
