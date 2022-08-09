@@ -22,11 +22,6 @@ const HomePage = () => {
     <div className={container}>
       <Header />
       <div className={body}>
-        <div className={balanceSection}>
-          <span className={balanceValue}>{balance}</span>
-          <span className={unit}>ETH</span>
-        </div>
-
         <div className={linkSection}>
           <a
             className={linkItem}
@@ -48,6 +43,32 @@ const HomePage = () => {
           <Link to={ROUTES.ACTIVITY} className={linkItem}>
             {t('activity')}
           </Link>
+        </div>
+
+        <div className={balanceSection}>
+          {balance ? (
+            <>
+              <span className={balanceValue}>{balance.eth}</span>
+              <span className={unit}>ETH</span>
+            </>
+          ) : (
+            <span>Loading...</span>
+          )}
+        </div>
+        <div>
+          {/* Display registered ERC20 balance */}
+          <h3>ERC20</h3>
+          {balance?.tokenBalances && (
+            <div>
+              {Object.keys(balance.tokenBalances).map((token) => (
+                <span key={token}>
+                  {balance.tokenBalances[token]}
+                  {token}
+                </span>
+              ))}
+            </div>
+          )}
+          <div></div>
         </div>
       </div>
     </div>

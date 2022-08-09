@@ -3,7 +3,6 @@ import browser from 'webextension-polyfill'
 import { useZkopruStore } from './store/zkopru'
 import { useStore } from './store'
 import * as Message from '../share/message'
-import { fromWei } from '../share/utils'
 import { TIMEOUT } from '../share/constants'
 import type { Activity } from '../share/types'
 
@@ -22,7 +21,7 @@ class BackgroundConnection {
     if (Message.GetAddressResponseMessageCreator.match(message)) {
       setZkAddress(message.payload.address)
     } else if (Message.GetBalanceResponseMessageCreator.match(message)) {
-      setBalance(fromWei(message.payload.balance))
+      setBalance(message.payload)
     } else if (Message.GetBackgroundStatusResponse.match(message)) {
       setBackgroundStatus(message.payload.status)
     } else if (Message.GetConnectedSitesResponse.match(message)) {

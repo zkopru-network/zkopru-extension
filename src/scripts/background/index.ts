@@ -1,14 +1,14 @@
 import browser from 'webextension-polyfill'
 // @ts-ignore
-import Zkopru, { ZkAccount } from '@zkopru/client/browser'
+import Zkopru, { ZkAccount, UtxoStatus } from '@zkopru/client/browser'
 import { sha512_256 } from 'js-sha512'
-import ROUTES from '../routes'
-import { store as backgroundStore } from './store'
+import ROUTES from '../../routes'
+import { store as backgroundStore } from '../store'
 import {
   WEBSOCKET_URL,
   ZKOPRU_CONTRACT,
   BACKGROUND_STATUS
-} from '../share/constants'
+} from '../../share/constants'
 import {
   WalletKeyGeneratedMessageCreator,
   GetBalanceRequestMessageCreator,
@@ -42,9 +42,10 @@ import {
   ConfirmPopup,
   GetConnectedSitesRequest,
   GetConnectedSitesResponse
-} from '../share/message'
-import { waitUntil, toWei, toGwei } from '../share/utils'
-import { showPopupWindow } from './utils'
+} from '../../share/message'
+import { waitUntil, toWei, toGwei, fromWei } from '../../share/utils'
+import { showPopupWindow } from '../utils'
+import type { TokenBalances } from '../../share/types'
 
 async function initClient(walletKey: string, l1Address: string) {
   const state = backgroundStore.getState()
@@ -56,7 +57,7 @@ async function initClient(walletKey: string, l1Address: string) {
   state.setClient(client)
   try {
     await client.initNode()
-    console.log('[BACKGROUND] client.initNode() called')
+    console.log('[BACKGROUND] client.initNode()')
     // load wallet to set account in node
     const wallet = new Zkopru.Wallet(client, walletKey)
     state.setWallet(wallet)
@@ -114,6 +115,7 @@ async function main() {
   // TODO: extract listener method
   browser.runtime.onMessage.addListener(
     async (message: UntypedMessage, sender) => {
+      console.log('[BACKGROUND] message received', message)
       // switch send message target based on the message sender.
       // if sender is content script, use browser.tabs.sendMessage
       // otherwise use runtime.sendMessage to send to popup
@@ -121,7 +123,6 @@ async function main() {
       const setStatus = backgroundStore.getState().setStatus
       if (WalletKeyGeneratedMessageCreator.match(message)) {
         setStatus(BACKGROUND_STATUS.LOADING)
-        console.log('[BACKGROUND] generate wallet key')
         const { walletKey, l1Address } = message.payload
         const state = backgroundStore.getState()
 
@@ -134,16 +135,62 @@ async function main() {
         setStatus(BACKGROUND_STATUS.INITIALIZED)
         await showPopupWindow()
       } else if (GetBalanceRequestMessageCreator.match(message)) {
-        const wallet = backgroundStore.getState().wallet
+        const { wallet, client } = backgroundStore.getState()
+
         // TODO: if wallet is not initialized, return error message
         if (!wallet) return
 
-        const spendable = await wallet.wallet.getSpendableAmount()
-        const { eth } = spendable
+        const [spendable, locked, erc20Info, utxos] = await Promise.all([
+          wallet.wallet.getSpendableAmount(),
+          wallet.wallet.getLockedAmount(),
+          client.node.loadERC20Info(),
+          wallet.wallet.getUtxos(null, [
+            UtxoStatus.UNSPENT,
+            UtxoStatus.SPENDING
+          ])
+        ])
 
-        // TODO: add erc20, erc721 asset
+        const { eth, erc20, erc721 } = spendable
+        // TODO: type acc and token
+        const tokensByAddress = erc20Info.reduce((acc: any, token: any) => {
+          return {
+            [token.address.toLowerCase()]: token,
+            ...acc
+          }
+        }, {})
+        const balance = fromWei(eth.toString())
+        let tokenBalances: TokenBalances = {}
+        for (const _address of Object.keys(erc20)) {
+          const token = tokensByAddress[_address.toLowerCase()]
+          if (!token) continue
+          tokenBalances = {
+            ...tokenBalances,
+            [token.symbol]: +erc20[_address].toString() / 10 ** +token.decimals
+          }
+        }
+
+        let lockedTokenBalances: TokenBalances = {}
+        for (const _address of Object.keys(locked.erc20)) {
+          const token = tokensByAddress[_address.toLowerCase()]
+          if (!token) continue
+          lockedTokenBalances = {
+            ...lockedTokenBalances,
+            [token.symbol]:
+              +locked.erc20[_address].toString() / 10 ** +token.decimals
+          }
+        }
+        console.log(
+          'tokenBalances, lockedTokenBalances',
+          tokenBalances,
+          lockedTokenBalances
+        )
+
         sendMessage(
-          GetBalanceResponseMessageCreator({ balance: eth.toString() })
+          GetBalanceResponseMessageCreator({
+            eth: eth.toString(),
+            tokenBalances,
+            lockedTokenBalances
+          })
         )
       } else if (GetAddressRequestMessageCreator.match(message)) {
         // TODO: error handling. how to send back error message?

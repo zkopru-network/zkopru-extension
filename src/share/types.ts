@@ -15,5 +15,9 @@ export type L1TxParams = {
   value: string
 }
 
+export type TokenBalances = {
+  [key: string]: number
+}
+
 // TODO: type correctly
 export type Activity = any

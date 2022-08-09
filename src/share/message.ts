@@ -1,5 +1,5 @@
 import { BACKGROUND_STATUS } from './constants'
-import type { DepositData, DepositERC20Data } from './types'
+import type { DepositData, DepositERC20Data, TokenBalances } from './types'
 
 export const MESSAGE_TYPE = {
   WALLET_KEY_GENERATED: 'WALLET_KEY_GENERATED',
@@ -98,7 +98,9 @@ export const GetBalanceRequestMessageCreator = createMessage(
 )
 
 export const GetBalanceResponseMessageCreator = createMessage<{
-  balance: string
+  eth: string
+  tokenBalances: TokenBalances
+  lockedTokenBalances: TokenBalances
 }>(MESSAGE_TYPE.GET_BALANCE_RESPONSE)
 
 export const GetAddressRequestMessageCreator = createMessage(
