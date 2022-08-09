@@ -1,7 +1,7 @@
 lockfileVersion: 5.4
 
 specifiers:
-  '@babel/core': '>=7.13.0 <8.0.0'
+  '@babel/core': ^7.18.5
   '@headlessui/react': ^1.6.6
   '@hookform/error-message': ^2.0.0
   '@linaria/babel-preset': ^3.0.0-beta.15
@@ -23,13 +23,13 @@ specifiers:
   '@tailwindcss/forms': ^0.5.2
   '@types/bn.js': ^5.1.0
   '@types/download': 8.0.1
-  '@types/node': ^17.0.24
-  '@types/react': ^18.0.8
-  '@types/react-dom': ^18.0.3
+  '@types/node': ^17.0.35
+  '@types/react': ^18.0.9
+  '@types/react-dom': ^18.0.4
   '@types/webextension-polyfill': ^0.8.3
   '@types/yargs': ^17.0.10
-  '@typescript-eslint/eslint-plugin': ^5.22.0
-  '@typescript-eslint/parser': ^5.22.0
+  '@typescript-eslint/eslint-plugin': ^5.25.0
+  '@typescript-eslint/parser': ^5.25.0
   '@zkopru/client': ^2.0.0-beta.8
   autoprefixer: ^10.4.7
   babel-loader: ^8.2.5
@@ -39,14 +39,14 @@ specifiers:
   clsx: ^1.1.1
   dayjs: ^1.11.3
   download: 8.0.0
-  esbuild: ^0.14.36
-  eslint: ^8.14.0
+  esbuild: ^0.14.39
+  eslint: ^8.15.0
   eslint-config-prettier: ^8.5.0
   eslint-plugin-prettier: ^4.0.0
-  eslint-plugin-react: ^7.29.4
+  eslint-plugin-react: ^7.30.0
   eslint-plugin-storybook: ^0.5.13
   express: 4.17.2
-  i18next: ^21.8.9
+  i18next: ^21.8.10
   js-sha512: ^0.8.0
   loglevel: ^1.8.0
   npm-run-all: ^4.1.5
@@ -54,18 +54,18 @@ specifiers:
   prettier: ^2.6.2
   react: ^18.1.0
   react-dom: ^18.1.0
-  react-hook-form: ^7.32.2
-  react-i18next: ^11.17.0
+  react-hook-form: ^7.33.1
+  react-i18next: ^11.17.2
   react-query: ^3.39.1
   react-router-dom: ^6.3.0
   require-from-string: ^2.0.2
   safe-compare: 1.1.4
   storybook-addon-themes: ^6.1.0
   tailwindcss: ^3.1.4
-  typescript: ^4.6.3
+  typescript: ^4.6.4
   web-ext: ^6.8.0
   webextension-polyfill: ^0.9.0
-  webpack: '>=4.0.0 <5.0.0 || >=5.0.0 <6.0.0'
+  webpack: ^5.72.1
   yargs: ^17.5.1
   zustand: ^4.0.0-rc.1
 
@@ -7085,7 +7085,7 @@ packages:
     hasBin: true
     optionalDependencies:
       dtrace-provider: 0.8.8
-      moment: 2.29.3
+      moment: 2.29.4
       mv: 2.1.1
       safe-json-stringify: 1.2.0
     dev: true
@@ -10375,7 +10375,7 @@ packages:
     requiresBuild: true
     dependencies:
       bindings: 1.5.0
-      nan: 2.15.0
+      nan: 2.16.0
     dev: true
     optional: true
 
@@ -10756,7 +10756,7 @@ packages:
       source-map: 0.6.1
       wordwrap: 1.0.0
     optionalDependencies:
-      uglify-js: 3.16.1
+      uglify-js: 3.16.3
     dev: true
 
   /har-schema/2.0.0:
@@ -12902,11 +12902,11 @@ packages:
   /moment-timezone/0.5.34:
     resolution: {integrity: sha512-3zAEHh2hKUs3EXLESx/wsgw6IQdusOT8Bxm3D9UrHPQR7zlMmzwybC8zHEM1tQ4LJwP7fcxrWr8tuBg05fFCbg==}
     dependencies:
-      moment: 2.29.3
+      moment: 2.29.4
     dev: false
 
-  /moment/2.29.3:
-    resolution: {integrity: sha512-c6YRvhEo//6T2Jz/vVtYzqBzwvPT95JBQ+smCytzf7c50oMZRsR/a4w88aD34I+/QVSfnoAnSBFPJHItlOMJVw==}
+  /moment/2.29.4:
+    resolution: {integrity: sha512-5LC9SOxjSc2HF6vO2CyuTDNivEdoz2IvyJJGj6X8DJ0eFyfszE0QiEd+iXmBvUP3WHxSjFH/vIsA0EN00cgr8w==}
 
   /move-concurrently/1.0.1:
     resolution: {integrity: sha512-hdrFxZOycD/g6A6SoI2bB5NA/5NEqD0569+S47WZhPvm46sD50ZHdYaFmnua5lndde9rCHGjmfK7Z8BuCt/PcQ==}
@@ -13008,6 +13008,11 @@ packages:
 
   /nan/2.15.0:
     resolution: {integrity: sha512-8ZtvEnA2c5aYCZYd1cvgdnU6cqwixRoYg70xPLWUws5ORTa/lnw+u4amixRS/Ac5U5mQVgp9pnlSUnbNWFaWZQ==}
+
+  /nan/2.16.0:
+    resolution: {integrity: sha512-UdAqHyFngu7TfQKsCBgAA6pWDkT8MAO7d0jyOecVhN5354xbLqdn8mV9Tat9gepAupm0bt2DbeaSC8vS52MuFA==}
+    dev: true
+    optional: true
 
   /nano-json-stream-parser/0.1.2:
     resolution: {integrity: sha1-DMj20OK2IrR5xA1JnEbWS3Vcb18=}
@@ -16953,8 +16958,8 @@ packages:
     engines: {node: '>=0.1.14'}
     dev: false
 
-  /uglify-js/3.16.1:
-    resolution: {integrity: sha512-X5BGTIDH8U6IQ1TIRP62YC36k+ULAa1d59BxlWvPUJ1NkW5L3FwcGfEzuVvGmhJFBu0YJ5Ge25tmRISqCmLiRQ==}
+  /uglify-js/3.16.3:
+    resolution: {integrity: sha512-uVbFqx9vvLhQg0iBaau9Z75AxWJ8tqM9AV890dIZCLApF4rTcyHwmAvLeEdYRs+BzYWu8Iw81F79ah0EfTXbaw==}
     engines: {node: '>=0.8.0'}
     hasBin: true
     requiresBuild: true
