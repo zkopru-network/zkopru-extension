@@ -15,13 +15,17 @@ module.exports = {
         'btn-bright': 'rgb(var(--color-btn-bright) / <alpha-value>)',
         'skin-light-gray': 'rgb(var(--color-light-gray) / <alpha-value>)',
         'skin-back': 'rgb(var(--color-back) / <alpha-value>)', // background color
-        'skin-text-primary': 'rgb(var(--color-text-primary) / <alpha-value>)'
+        'skin-text-primary': 'rgb(var(--color-text-primary) / <alpha-value>)',
+        'skin-g-primary': 'rgb(var(--color-g-primary) / <alpha-value>)',
+        'skin-g-secondary': 'rgb(var(--color-g-secondary) / <alpha-value>)',
+        'skin-inverse': 'rgb(var(--color-inverse) / <alpha-value>)'
       },
       opacity: {
         33: '.33'
       },
       backgroundImage: {
-        'zk-pattern': 'url("assets/onboarding-bg.png")'
+        'zk-pattern': 'url("assets/onboarding-bg.png")',
+        'zk-logo': 'url("assets/logo-bg.png")'
       }
     }
   },
