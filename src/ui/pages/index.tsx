@@ -2,6 +2,8 @@ import HomePage from './home'
 import TransferPage from './transfer'
 import TransferCompletePage from './transferComplete'
 import TransferConfirmPage from './transferConfirm'
+import SwapConfirmPage from './swapConfirm'
+import SwapCompletePage from './swapComplete'
 import UnlockPage from './unlock'
 import OnboardingPage from './onboarding'
 import WithdrawPage from './withdraw'
@@ -16,6 +18,8 @@ export {
   TransferPage,
   TransferCompletePage,
   TransferConfirmPage,
+  SwapCompletePage,
+  SwapConfirmPage,
   UnlockPage,
   OnboardingPage,
   LoadingPage,

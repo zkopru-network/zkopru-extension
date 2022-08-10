@@ -22,7 +22,15 @@ export declare class ZkopruProvider {
   getAddress(): Promise<string>
   transferEth(to: string, amount: string): Promise<string>
   transferERC20(to: string, token: string, amount: string): Promise<string>
-  swap(): Promise<void>
+  swap(
+    sendToken: string,
+    sendAmount: string,
+    receiveToken: string,
+    receiveAmount: string,
+    counterParty: string,
+    salt: number,
+    fee: string
+  ): Promise<void>
   getBlockNumber(): Promise<void>
 }
 

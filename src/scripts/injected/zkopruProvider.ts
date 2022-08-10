@@ -63,8 +63,28 @@ class ZkopruProvider {
     this.assertConnected()
   }
 
-  async swap() {
+  async swap(
+    sendToken: string,
+    sendAmount: string,
+    receiveToken: string,
+    receiveAmount: string,
+    counterParty: string,
+    salt: number,
+    fee: string
+  ) {
     this.assertConnected()
+    this.dispatch(PROVIDER_EVENT_NAMES.CONFIRM_POPUP, {
+      path: ROUTES.SWAP_CONFIRM,
+      params: {
+        sendToken,
+        sendAmount,
+        receiveToken,
+        receiveAmount,
+        counterParty,
+        salt,
+        fee
+      }
+    })
   }
 
   async getBlockNumber() {
