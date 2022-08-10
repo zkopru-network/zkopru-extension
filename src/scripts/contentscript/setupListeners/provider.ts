@@ -44,7 +44,7 @@ export function setupProvider() {
         window.postMessage(
           {
             eventName: PROVIDER_EVENT_NAMES.BALANCE_RESPONSE,
-            payload: message.payload.balance
+            payload: message.payload
           },
           reqOrigin
         )

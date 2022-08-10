@@ -9,40 +9,7 @@ import {
   ZKOPRU_CONTRACT,
   BACKGROUND_STATUS
 } from '../../share/constants'
-import {
-  WalletKeyGeneratedMessageCreator,
-  GetBalanceRequestMessageCreator,
-  GetBalanceResponseMessageCreator,
-  GetAddressRequestMessageCreator,
-  GetAddressResponseMessageCreator,
-  UntypedMessage,
-  GetBackgroundStatusResponse,
-  GetBackgroundStatusRequest,
-  RegisterPasswordRequest,
-  VerifyPasswordRequest,
-  RegisterPasswordResponse,
-  VerifyPasswordResponse,
-  DepositEthRequest,
-  DepositEthResponse,
-  DepositERC20Request,
-  DepositERC20Response,
-  TransferEthRequest,
-  TransferEthResponse,
-  WithdrawEthRequest,
-  WithdrawEthResponse,
-  LoadActivityRequest,
-  LoadActivityResponse,
-  IsConnectedRequest,
-  IsConnectedResponse,
-  ConfirmConnectSite,
-  ConnectSiteRequest,
-  ConnectSiteResponse,
-  DebugMessage,
-  SiteConnected,
-  ConfirmPopup,
-  GetConnectedSitesRequest,
-  GetConnectedSitesResponse
-} from '../../share/message'
+import * as Message from '../../share/message'
 import { waitUntil, toWei, toGwei, fromWei } from '../../share/utils'
 import { showPopupWindow } from '../utils'
 import type { TokenBalances } from '../../share/types'
@@ -94,7 +61,7 @@ async function init() {
 
 function getSendMessage(sender: browser.Runtime.MessageSender) {
   return sender.tab
-    ? (message: UntypedMessage) =>
+    ? (message: Message.UntypedMessage) =>
         browser.tabs.sendMessage(sender.tab!.id!, message)
     : browser.runtime.sendMessage
 }
@@ -102,10 +69,10 @@ function getSendMessage(sender: browser.Runtime.MessageSender) {
 async function main() {
   // add listener for status request in case message received while initialization
   browser.runtime.onMessage.addListener(
-    async (message: UntypedMessage, sender) => {
-      if (GetBackgroundStatusRequest.match(message)) {
+    async (message: Message.UntypedMessage, sender) => {
+      if (Message.GetBackgroundStatusRequest.match(message)) {
         const { status } = backgroundStore.getState()
-        getSendMessage(sender)(GetBackgroundStatusResponse({ status }))
+        getSendMessage(sender)(Message.GetBackgroundStatusResponse({ status }))
       }
     }
   )
@@ -114,14 +81,13 @@ async function main() {
 
   // TODO: extract listener method
   browser.runtime.onMessage.addListener(
-    async (message: UntypedMessage, sender) => {
-      console.log('[BACKGROUND] message received', message)
+    async (message: Message.UntypedMessage, sender) => {
       // switch send message target based on the message sender.
       // if sender is content script, use browser.tabs.sendMessage
       // otherwise use runtime.sendMessage to send to popup
       const sendMessage = getSendMessage(sender)
       const setStatus = backgroundStore.getState().setStatus
-      if (WalletKeyGeneratedMessageCreator.match(message)) {
+      if (Message.WalletKeyGeneratedMessageCreator.match(message)) {
         setStatus(BACKGROUND_STATUS.LOADING)
         const { walletKey, l1Address } = message.payload
         const state = backgroundStore.getState()
@@ -134,7 +100,7 @@ async function main() {
         await initClient(walletKey, l1Address)
         setStatus(BACKGROUND_STATUS.INITIALIZED)
         await showPopupWindow()
-      } else if (GetBalanceRequestMessageCreator.match(message)) {
+      } else if (Message.GetBalanceRequestMessageCreator.match(message)) {
         const { wallet, client } = backgroundStore.getState()
 
         // TODO: if wallet is not initialized, return error message
@@ -179,40 +145,38 @@ async function main() {
               +locked.erc20[_address].toString() / 10 ** +token.decimals
           }
         }
-        console.log(
-          'tokenBalances, lockedTokenBalances',
-          tokenBalances,
-          lockedTokenBalances
-        )
 
         sendMessage(
-          GetBalanceResponseMessageCreator({
-            eth: eth.toString(),
+          Message.GetBalanceResponseMessageCreator({
+            eth: balance,
             tokenBalances,
             lockedTokenBalances
           })
         )
-      } else if (GetAddressRequestMessageCreator.match(message)) {
+      } else if (Message.GetAddressRequestMessageCreator.match(message)) {
         // TODO: error handling. how to send back error message?
         const { address } = backgroundStore.getState()
-        if (address) sendMessage(GetAddressResponseMessageCreator({ address }))
-      } else if (RegisterPasswordRequest.match(message)) {
+        if (address)
+          sendMessage(Message.GetAddressResponseMessageCreator({ address }))
+      } else if (Message.RegisterPasswordRequest.match(message)) {
         const hash = sha512_256(message.payload.password)
         await browser.storage.local.set({ password: hash })
-        sendMessage(RegisterPasswordResponse())
+        sendMessage(Message.RegisterPasswordResponse())
         setStatus(BACKGROUND_STATUS.NEED_KEY_GENERATION)
-      } else if (VerifyPasswordRequest.match(message)) {
+      } else if (Message.VerifyPasswordRequest.match(message)) {
         const saved = await browser.storage.local.get('password')
         const hash = sha512_256(message.payload.password)
-        sendMessage(VerifyPasswordResponse({ result: saved.password === hash }))
-      } else if (DepositEthRequest.match(message)) {
+        sendMessage(
+          Message.VerifyPasswordResponse({ result: saved.password === hash })
+        )
+      } else if (Message.DepositEthRequest.match(message)) {
         const { amount, fee } = message.payload.data
         const wallet = backgroundStore.getState().wallet
 
         // TODO: add onComplete to deposit tx sent listener
         const { to, data, value } = wallet.wallet.depositEtherTx(amount, fee)
-        sendMessage(DepositEthResponse({ params: { to, data, value } }))
-      } else if (DepositERC20Request.match(message)) {
+        sendMessage(Message.DepositEthResponse({ params: { to, data, value } }))
+      } else if (Message.DepositERC20Request.match(message)) {
         const { amount, fee, address } = message.payload.data
         const wallet = backgroundStore.getState().wallet
 
@@ -222,8 +186,10 @@ async function main() {
           amount,
           fee
         )
-        sendMessage(DepositERC20Response({ params: { to, data, value } }))
-      } else if (TransferEthRequest.match(message)) {
+        sendMessage(
+          Message.DepositERC20Response({ params: { to, data, value } })
+        )
+      } else if (Message.TransferEthRequest.match(message)) {
         const { amount, fee, to } = message.payload
         const wallet = backgroundStore.getState().wallet
 
@@ -237,12 +203,41 @@ async function main() {
           const hash = await wallet.wallet.sendTx({
             tx
           })
-          sendMessage(TransferEthResponse({ hash }))
+          sendMessage(Message.TransferEthResponse({ hash }))
         } catch (e) {
-          // TODO: send error response
           console.error(e)
+          sendMessage(
+            Message.ErrorMessage({ message: `transfer eth failed: ${e}` })
+          )
         }
-      } else if (WithdrawEthRequest.match(message)) {
+      } else if (Message.SwapRequest.match(message)) {
+        const {
+          sendToken,
+          sendAmount,
+          receiveAmount,
+          receiveToken,
+          fee,
+          salt,
+          counterParty
+        } = message.payload
+        const wallet = backgroundStore.getState().wallet
+        try {
+          const tx = await wallet.generateSwapTransaction(
+            counterParty,
+            sendToken,
+            sendAmount.toString(),
+            receiveToken,
+            receiveAmount.toString(),
+            fee,
+            salt
+          )
+          const hash = await wallet.wallet.sendTx({ tx })
+          sendMessage(Message.SwapResponse({ hash }))
+        } catch (e) {
+          console.error(e)
+          sendMessage(Message.ErrorMessage({ message: `swap failed: ${e}` }))
+        }
+      } else if (Message.WithdrawEthRequest.match(message)) {
         // TODO: validate payload
         const { amount, fee, instantWithdrawFee } = message.payload
         const to = backgroundStore.getState().l1Address
@@ -259,12 +254,14 @@ async function main() {
           const hash = await wallet.wallet.sendTx({
             tx
           })
-          sendMessage(WithdrawEthResponse({ hash }))
+          sendMessage(Message.WithdrawEthResponse({ hash }))
         } catch (e) {
-          // TODO: send error response
           console.error(e)
+          sendMessage(
+            Message.ErrorMessage({ message: `withdraw eth failed: ${e}` })
+          )
         }
-      } else if (LoadActivityRequest.match(message)) {
+      } else if (Message.LoadActivityRequest.match(message)) {
         const { wallet, l1Address } = backgroundStore.getState()
         const l2Address = wallet.wallet.account.zkAddress.toString()
         const { history, pending } = await wallet.transactionsFor(
@@ -282,22 +279,21 @@ async function main() {
             )
         ]
 
-        sendMessage(LoadActivityResponse({ activities: result }))
-      } else if (IsConnectedRequest.match(message)) {
+        sendMessage(Message.LoadActivityResponse({ activities: result }))
+      } else if (Message.IsConnectedRequest.match(message)) {
         const db = await browser.storage.local.get('connectedSites')
         if (db.connectedSites) {
           const result = db.connectedSites.includes(message.payload.origin)
-          sendMessage(IsConnectedResponse({ isConnected: result }))
+          sendMessage(Message.IsConnectedResponse({ isConnected: result }))
           return
         }
-
-        sendMessage(IsConnectedResponse({ isConnected: false }))
-      } else if (ConfirmConnectSite.match(message)) {
+        sendMessage(Message.IsConnectedResponse({ isConnected: false }))
+      } else if (Message.ConfirmConnectSite.match(message)) {
         showPopupWindow(ROUTES.CONFIRM_CONNECTION, {
           origin: message.payload.origin,
           tabId: String(sender.tab?.id)
         })
-      } else if (ConnectSiteRequest.match(message)) {
+      } else if (Message.ConnectSiteRequest.match(message)) {
         try {
           const db = await browser.storage.local.get('connectedSites')
           if (db.connectedSites) {
@@ -312,32 +308,32 @@ async function main() {
             })
           }
           sendMessage(
-            ConnectSiteResponse({
+            Message.ConnectSiteResponse({
               result: true
             })
           )
           const tabs = await browser.tabs.query({ active: true })
           browser.tabs.sendMessage(
             tabs[0].id as number,
-            SiteConnected({ origin: message.payload.origin })
+            Message.SiteConnected({ origin: message.payload.origin })
           )
         } catch (e) {
           sendMessage(
-            ConnectSiteResponse({
+            Message.ConnectSiteResponse({
               result: false
             })
           )
         }
-      } else if (GetConnectedSitesRequest.match(message)) {
+      } else if (Message.GetConnectedSitesRequest.match(message)) {
         const db = await browser.storage.local.get('connectedSites')
         sendMessage(
-          GetConnectedSitesResponse({
+          Message.GetConnectedSitesResponse({
             connectedSites: db.connectedSites || []
           })
         )
-      } else if (ConfirmPopup.match(message)) {
+      } else if (Message.ConfirmPopup.match(message)) {
         showPopupWindow(message.payload.path, message.payload.params)
-      } else if (DebugMessage.match(message)) {
+      } else if (Message.DebugMessage.match(message)) {
         console.log(message)
       }
     }

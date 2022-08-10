@@ -115,6 +115,29 @@ class BackgroundConnection {
     )
   }
 
+  public async swap(
+    sendToken: string,
+    sendAmount: string,
+    receiveToken: string,
+    receiveAmount: string,
+    counterParty: string,
+    salt: number,
+    fee: string
+  ): Promise<Message.MessageWithPayload<{ hash: string }>> {
+    return this.sendBackground(
+      Message.SwapRequest({
+        sendToken,
+        sendAmount,
+        receiveToken,
+        receiveAmount,
+        counterParty,
+        salt,
+        fee
+      }),
+      Message.SwapResponse
+    )
+  }
+
   public async loadActivity(): Promise<
     Message.MessageWithPayload<{ activities: Activity[] }>
   > {

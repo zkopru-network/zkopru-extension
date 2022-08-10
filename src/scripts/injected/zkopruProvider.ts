@@ -1,5 +1,6 @@
 import { BACKGROUND_STATUS } from '../../share/constants'
 import { EVENT_NAMES, PROVIDER_EVENT_NAMES } from '../../share/events'
+import { L2Balance } from '../../share/types'
 import ROUTES from '../../routes'
 
 class ZkopruProvider {
@@ -33,7 +34,7 @@ class ZkopruProvider {
   async getBalance() {
     this.assertConnected()
 
-    const res = await this.dispatchAndListen<string>(
+    const res = await this.dispatchAndListen<L2Balance>(
       PROVIDER_EVENT_NAMES.BALANCE_REQUEST,
       PROVIDER_EVENT_NAMES.BALANCE_RESPONSE
     )
@@ -62,8 +63,28 @@ class ZkopruProvider {
     this.assertConnected()
   }
 
-  async swap() {
+  async swap(
+    sendToken: string,
+    sendAmount: string,
+    receiveToken: string,
+    receiveAmount: string,
+    counterParty: string,
+    salt: number,
+    fee: string
+  ) {
     this.assertConnected()
+    this.dispatch(PROVIDER_EVENT_NAMES.CONFIRM_POPUP, {
+      path: ROUTES.SWAP_CONFIRM,
+      params: {
+        sendToken,
+        sendAmount,
+        receiveToken,
+        receiveAmount,
+        counterParty,
+        salt,
+        fee
+      }
+    })
   }
 
   async getBlockNumber() {

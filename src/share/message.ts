@@ -1,5 +1,5 @@
 import { BACKGROUND_STATUS } from './constants'
-import type { DepositData, DepositERC20Data, TokenBalances } from './types'
+import { DepositData, DepositERC20Data, L2Balance } from './types'
 
 export const MESSAGE_TYPE = {
   WALLET_KEY_GENERATED: 'WALLET_KEY_GENERATED',
@@ -22,6 +22,8 @@ export const MESSAGE_TYPE = {
   TRANSFER_ETH_RESPONSE: 'TRANSFER_ETH_RESPONSE',
   WITHDRAW_ETH_REQUEST: 'WITHDRAW_ETH_REQUEST',
   WITHDRAW_ETH_RESPONSE: 'WITHDRAW_ETH_RESPONSE',
+  SWAP_REQUEST: 'SWAP_REQUEST',
+  SWAP_RESPONSE: 'SWAP_RESPONSE',
   LOAD_ACTIVITY_REQUEST: 'LOAD_ACTIVITY_REQUEST',
   LOAD_ACTIVITY_RESPONSE: 'LOAD_ACTIVITY_RESPONSE',
 
@@ -36,6 +38,7 @@ export const MESSAGE_TYPE = {
 
   CONFIRIM_POPUP: 'CONFIRM_POPUP',
 
+  ERROR: 'ERROR',
   DEBUG: 'DEBUG'
 } as const
 
@@ -97,11 +100,9 @@ export const GetBalanceRequestMessageCreator = createMessage(
   MESSAGE_TYPE.GET_BALANCE_REQUEST
 )
 
-export const GetBalanceResponseMessageCreator = createMessage<{
-  eth: string
-  tokenBalances: TokenBalances
-  lockedTokenBalances: TokenBalances
-}>(MESSAGE_TYPE.GET_BALANCE_RESPONSE)
+export const GetBalanceResponseMessageCreator = createMessage<L2Balance>(
+  MESSAGE_TYPE.GET_BALANCE_RESPONSE
+)
 
 export const GetAddressRequestMessageCreator = createMessage(
   MESSAGE_TYPE.GET_ADDRESS_REQUEST
@@ -172,6 +173,20 @@ export const WithdrawEthResponse = createMessage<{ hash: string }>(
   MESSAGE_TYPE.WITHDRAW_ETH_RESPONSE
 )
 
+export const SwapRequest = createMessage<{
+  sendToken: string
+  sendAmount: string
+  receiveToken: string
+  receiveAmount: string
+  counterParty: string
+  salt: number
+  fee: string
+}>(MESSAGE_TYPE.SWAP_REQUEST)
+
+export const SwapResponse = createMessage<{ hash: string }>(
+  MESSAGE_TYPE.SWAP_RESPONSE
+)
+
 export const LoadActivityRequest = createMessage(
   MESSAGE_TYPE.LOAD_ACTIVITY_REQUEST
 )
@@ -216,4 +231,7 @@ export const ConfirmPopup = createMessage<{ path: string; params: any }>(
   MESSAGE_TYPE.CONFIRIM_POPUP
 )
 
+export const ErrorMessage = createMessage<{ message: string }>(
+  MESSAGE_TYPE.ERROR
+)
 export const DebugMessage = createMessage<{ value: any }>(MESSAGE_TYPE.DEBUG)

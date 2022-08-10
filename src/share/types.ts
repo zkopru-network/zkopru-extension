@@ -19,5 +19,11 @@ export type TokenBalances = {
   [key: string]: number
 }
 
+export type L2Balance = {
+  eth: number
+  tokenBalances: TokenBalances
+  lockedTokenBalances: TokenBalances
+}
+
 // TODO: type correctly
 export type Activity = any

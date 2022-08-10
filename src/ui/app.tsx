@@ -7,6 +7,8 @@ import {
   TransferPage,
   TransferConfirmPage,
   TransferCompletePage,
+  SwapConfirmPage,
+  SwapCompletePage,
   UnlockPage,
   OnboardingPage,
   LoadingPage,
@@ -152,6 +154,22 @@ const App = () => {
             element={
               <RequireAuth>
                 <TransferCompletePage />
+              </RequireAuth>
+            }
+          />
+          <Route
+            path={ROUTES.SWAP_CONFIRM}
+            element={
+              <RequireAuth>
+                <SwapConfirmPage />
+              </RequireAuth>
+            }
+          />
+          <Route
+            path={ROUTES.SWAP_COMPLETE}
+            element={
+              <RequireAuth>
+                <SwapCompletePage />
               </RequireAuth>
             }
           />
