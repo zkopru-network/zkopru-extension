@@ -2,7 +2,8 @@ import React, { useState } from 'react'
 import { useQuery } from 'react-query'
 import './App.css'
 import { useZkopru } from './zkopru/useZkopru'
-import { toWei, fromWei, shortenAddress } from './utils'
+import type { L2Balance } from './zkopru/detectZkopru'
+import { toWei, shortenAddress } from './utils'
 
 function App() {
   const { zkopru, active } = useZkopru()
@@ -28,7 +29,7 @@ function App() {
     { enabled: active && !!zkopru }
   )
 
-  const balanceQuery = useQuery<string>(
+  const balanceQuery = useQuery<L2Balance>(
     ['balance'],
     async () => {
       const res = await zkopru?.getBalance()
@@ -59,9 +60,7 @@ function App() {
           </p>
           <p>
             Your balance:{' '}
-            {balanceQuery?.data
-              ? `${fromWei(balanceQuery.data)} ETH`
-              : 'loading'}
+            {balanceQuery.data ? `${balanceQuery.data?.eth} ETH` : 'loading'}
           </p>
           <div className="Form">
             <input

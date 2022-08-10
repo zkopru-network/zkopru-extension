@@ -179,15 +179,10 @@ async function main() {
               +locked.erc20[_address].toString() / 10 ** +token.decimals
           }
         }
-        console.log(
-          'tokenBalances, lockedTokenBalances',
-          tokenBalances,
-          lockedTokenBalances
-        )
 
         sendMessage(
           GetBalanceResponseMessageCreator({
-            eth: eth.toString(),
+            eth: balance,
             tokenBalances,
             lockedTokenBalances
           })
