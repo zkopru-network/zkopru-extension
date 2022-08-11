@@ -17,9 +17,7 @@ export default function DashboardTabs() {
 
   return (
     <Tab.Group>
-      <Tab.List
-        className={`grid grid-cols-${tabs.length} text-tab-selected/80 font-medium text-sm`}
-      >
+      <Tab.List className="grid grid-cols-2 text-tab-selected/80 font-medium text-sm">
         {tabs.map(({ name }, index) => (
           <Tab
             defaultChecked={index === 0}

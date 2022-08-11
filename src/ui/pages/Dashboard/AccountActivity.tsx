@@ -84,7 +84,8 @@ export default function AccountActivity() {
                 >
                   <div className="flex justify-between items-center text-xs text-skin-text-primary">
                     <div className="flex justify-between items-center gap-2">
-                      <p>↗️</p>
+                      {/* TODO: Swap out for arrow icons */}
+                      ↗️
                       <div className="flex flex-col">
                         <p>
                           {activity.amount} {activity.type}
