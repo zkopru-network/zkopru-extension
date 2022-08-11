@@ -18,7 +18,8 @@ module.exports = {
         'skin-text-primary': 'rgb(var(--color-text-primary) / <alpha-value>)',
         'skin-g-primary': 'rgb(var(--color-g-primary) / <alpha-value>)',
         'skin-g-secondary': 'rgb(var(--color-g-secondary) / <alpha-value>)',
-        'skin-inverse': 'rgb(var(--color-inverse) / <alpha-value>)'
+        'skin-inverse': 'rgb(var(--color-inverse) / <alpha-value>)',
+        'tab-selected': 'rgb(var(--color-tab-selected) / <alpha-value>)'
       },
       opacity: {
         33: '.33'

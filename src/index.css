@@ -12,14 +12,17 @@
     --color-g-primary: 64 90 224; /* #4054e0 */
     --color-g-secondary: 190 98 230; /* #b26ee6 */
     --color-inverse: 255 255 255; /* #FFFFFF */
+    --color-tab-selected: var(--color-btn-bright);
   }
 
   .mode-light {
     --color-inverse: 21 23 46; /* #15172E */
+    --color-tab-selected: var(--color-btn-bright);
   }
 
   .mode-dark {
     --color-inverse: 249 250 255; /* #F9FAFF */
+    --color-tab-selected: var(--color-inverse);
   }
 
   .theme-sanctum.mode-light {
