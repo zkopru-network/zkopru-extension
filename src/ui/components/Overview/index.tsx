@@ -24,7 +24,7 @@ export const Overview = () => (
         </div>
         <div className="flex gap-4 text-white items-center relative">
           <p className="text-white text-xl font-medium" title="Current balance">
-            $0.00
+            $2022.08
           </p>
           {/* TODO: Swap with other icon and trigger privacy */}
           <EyeLine
