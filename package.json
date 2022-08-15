@@ -67,6 +67,7 @@
   "dependencies": {
     "@headlessui/react": "^1.6.6",
     "@hookform/error-message": "^2.0.0",
+    "@hookform/resolvers": "^2.9.7",
     "@linaria/babel-preset": "^3.0.0-beta.15",
     "@linaria/core": "^3.0.0-beta.15",
     "@linaria/react": "^3.0.0-beta.15",
@@ -86,6 +87,7 @@
     "react-query": "^3.39.1",
     "react-router-dom": "^6.3.0",
     "yargs": "^17.5.1",
+    "zod": "^3.18.0",
     "zustand": "^4.0.0-rc.1"
   }
 }
