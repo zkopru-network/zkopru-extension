@@ -21,11 +21,13 @@ const RegistrationForm = () => {
       path: ['confirmPassword']
     })
 
+  type FormData = z.infer<typeof validationSchema>
+
   const {
     register,
     handleSubmit,
     formState: { errors }
-  } = useForm({
+  } = useForm<FormData>({
     resolver: zodResolver(validationSchema)
   })
 
