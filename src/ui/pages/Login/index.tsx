@@ -1,6 +1,45 @@
+import { zodResolver } from '@hookform/resolvers/zod'
+import { useForm } from 'react-hook-form'
+import { z } from 'zod'
 import { ZkopruLogoWhite } from '../../components/common/icons'
 import ExtensionFrameWithImage from '../../components/ExtensionFrameWithImage'
-import { Password, Submit } from '../../components/Input/Input.stories'
+import Input from '../../components/Input'
+
+const LoginForm = () => {
+  const validationSchema = z.object({
+    password: z.string().min(1, { message: 'Please enter a password' })
+  })
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors }
+  } = useForm({
+    resolver: zodResolver(validationSchema)
+  })
+
+  return (
+    <form
+      onSubmit={handleSubmit((d) => console.log(d))}
+      className="flex flex-col gap-6"
+    >
+      <div className="flex flex-col gap-8">
+        <Input
+          type="password"
+          id="password"
+          label="Password"
+          error={
+            errors.password?.message
+              ? errors.password.message.toString()
+              : undefined
+          }
+          {...register('password')}
+        />
+      </div>
+      <Input type="submit" label="Unlock wallet" as="ghost" id="loginBtn" />
+    </form>
+  )
+}
 
 export const Login = () => (
   <ExtensionFrameWithImage>
@@ -12,18 +51,6 @@ export const Login = () => (
       <p className="p-1"></p>
       <p className="text-base">Cheap, private transactions are ahead.</p>
     </div>
-    <form
-      onSubmit={() => console.log('submitted')}
-      className="flex flex-col gap-6"
-    >
-      <div className="flex flex-col gap-8">
-        <Password id="password" label="Password" type="password" />
-      </div>
-      <Submit type="submit" id="submit" as="ghost" label="Unlock wallet" />
-    </form>
-    {/* TODO: Implement forgot password */}
-    {/* <a className="cursor-pointer text-skin-text-primary text-xs underline underline-offset-1 font-medium tracking-wide">
-        Forgot password?
-      </a> */}
+    <LoginForm />
   </ExtensionFrameWithImage>
 )
