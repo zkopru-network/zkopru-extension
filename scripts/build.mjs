@@ -89,8 +89,10 @@ async function buildFiles(opt) {
 
   // copy icons
   console.log('generating assets files')
-  fs.copyFileSync('src/assets/icon-16.png', `${assetsDir}/icon-16.png`)
-  fs.copyFileSync('src/assets/icon-32.png', `${assetsDir}/icon-32.png`)
+  fs.copyFileSync('src/assets/logo_16.png', `${assetsDir}/logo_16.png`)
+  fs.copyFileSync('src/assets/logo_32.png', `${assetsDir}/logo_32.png`)
+  fs.copyFileSync('src/assets/logo_48.png', `${assetsDir}/logo_48.png`)
+  fs.copyFileSync('src/assets/logo_128.png', `${assetsDir}/logo_128.png`)
 
   console.log('Finish building files for', opt.targetName)
 }
