@@ -28,7 +28,7 @@ const Input = React.forwardRef(
       )
     else {
       return (
-        <div className="flex flex-col gap-[6px]">
+        <div className="flex flex-col gap-[5px]">
           {label && (
             <label htmlFor={id} className="text-sm">
               {label}
@@ -36,9 +36,9 @@ const Input = React.forwardRef(
           )}
 
           <input
-            className={`rounded-md bg-skin-light-gray text-skin-text-primary border-2 border-skin-text-primary/33 shadow-sm focus:border-skin-text-primary focus:ring focus:ring-skin-text-primary focus:ring-opacity-60 peer ${
+            className={`rounded-md bg-skin-light-gray text-skin-text-primary border-2 border-skin-text-primary/33 shadow-sm focus:border-skin-text-primary focus:ring focus:ring-skin-text-primary focus:ring-opacity-60 peer placeholder:text-sm placeholder:text-current placeholder:opacity-60 ${
               error ? 'border-red-400/60' : ''
-            }  ${addClasses ? addClasses : ''}`}
+            } ${addClasses ? addClasses : ''}`}
             type={type || 'text'}
             name={id}
             id={id}
@@ -46,13 +46,14 @@ const Input = React.forwardRef(
             ref={ref}
           />
 
-          <p
-            className={`text-xs bg-red-600/60 text-red-100 p-1 pl-2 rounded-sm tracking-wide ${
+          <div
+            className={`text-xs bg-red-600/70  p-1 pl-2 rounded-sm tracking-wide flex ${
               error ? 'visible' : 'invisible'
             }`}
           >
-            {error ? `⚠️ ${error}` : 'Something went wrong'}
-          </p>
+            <p className="pr-2">⚠️</p>
+            <p className="text-red-50">{error ? error : ''}</p>
+          </div>
         </div>
       )
     }
