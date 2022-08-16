@@ -5,23 +5,6 @@ import { ZkopruLogoWhite } from '../../components/common/icons'
 import ExtensionFrameWithImage from '../../components/ExtensionFrameWithImage'
 import Input from '../../components/Input'
 
-export const Onboarding = () => (
-  <ExtensionFrameWithImage>
-    <ZkopruLogoWhite />
-    <div>
-      <h1 className="text-4xl font-medium leading-tight text-white">
-        First things first
-      </h1>
-      <p className="p-2"></p>
-      <p className="text-base tracking-wide">
-        To get started, enter a strong password. We suggest using a password
-        manager, if you can.
-      </p>
-    </div>
-    <RegistrationForm />
-  </ExtensionFrameWithImage>
-)
-
 const RegistrationForm = () => {
   const validationSchema = z
     .object({
@@ -81,3 +64,20 @@ const RegistrationForm = () => {
     </form>
   )
 }
+
+export const Onboarding = () => (
+  <ExtensionFrameWithImage>
+    <ZkopruLogoWhite />
+    <div>
+      <h1 className="text-4xl font-medium leading-tight text-white">
+        First things first
+      </h1>
+      <p className="p-2"></p>
+      <p className="text-base tracking-wide">
+        To get started, enter a strong password. We suggest using a password
+        manager, if you can.
+      </p>
+    </div>
+    <RegistrationForm />
+  </ExtensionFrameWithImage>
+)
