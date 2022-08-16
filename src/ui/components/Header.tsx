@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useCallback } from 'react'
 import { css } from '@linaria/core'
 import { styled } from '@linaria/react'
 import { shortenAddress } from '../../share/utils'
@@ -8,13 +8,20 @@ import ROUTES from '../../routes'
 
 const Header = () => {
   const address = useZkopruStore((state) => state.zkAddress)
+  const copyAddress = useCallback(() => {
+    if (!address) return
+    navigator.clipboard.writeText(address)
+  }, [address])
+
   return (
     <header className={container}>
       <div className={selectNetwork}>
         <NetworkStatus />
         <span className={networkName}>Local</span>
       </div>
-      <div className={addressSection}>{shortenAddress(address)}</div>
+      <div className={addressSection} onClick={copyAddress}>
+        {shortenAddress(address)}
+      </div>
       <Link to={ROUTES.SETTINGS}>setting</Link>
     </header>
   )
@@ -52,6 +59,13 @@ const NetworkStatus = styled.span`
   background-color: #1ce076;
 `
 
-const addressSection = css``
+const addressSection = css`
+  border-radius: 12px;
+  padding: 4px 6px;
+  cursor: pointer;
+  :hover {
+    background-color: var(--color-surface2);
+  }
+`
 
 export default Header
