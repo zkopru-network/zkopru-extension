@@ -69,9 +69,9 @@ export default function AccountActivity() {
 
   return (
     <ul className="max-h-64 overflow-y-auto mb-2">
-      {[...activityData].map(([date, activities]) => {
+      {[...activityData].map(([date, activities], index) => {
         return (
-          <>
+          <div key={index}>
             <li className="text-center bg-skin-light-gray w-full py-1 mb-1 text-xs font-medium">
               {date}
             </li>
@@ -112,7 +112,7 @@ export default function AccountActivity() {
                 </li>
               )
             })}
-          </>
+          </div>
         )
       })}
     </ul>
