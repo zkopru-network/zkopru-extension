@@ -11,6 +11,7 @@
   "fee": "fee",
   "amount": "amount",
   "recipient": "recipient",
+  "token": "token",
   "activity": "activity",
   "instantWithdrawal": "instant withdrawal",
   "connect": "connect",

@@ -8,12 +8,14 @@
     "tabs"
   ],
   "icons": {
-    "16": "assets/icon-16.png",
-    "32": "assets/icon-32.png"
+    "16": "assets/logo_16.png",
+    "32": "assets/logo_32.png",
+    "48": "assets/logo_48.png",
+    "128": "assets/logo_128.png"
   },
   "browser_action": {
     "default_title": "Zkopru",
-    "default_icon": "assets/icon-32.png",
+    "default_icon": "assets/logo_48.png",
     "default_popup": "popup.html"
   },
   "background": {

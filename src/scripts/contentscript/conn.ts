@@ -6,10 +6,16 @@ import {
   GetBackgroundStatusResponse,
   DepositEthRequest,
   DepositEthResponse,
+  DepositERC20Request,
+  DepositERC20Response,
   IsConnectedResponse,
   IsConnectedRequest
 } from '../../share/message'
-import type { DepositData, DepositParams } from '../../share/types'
+import type {
+  DepositData,
+  DepositERC20Data,
+  L1TxParams
+} from '../../share/types'
 
 /**
  * fetch background status from background script
@@ -47,8 +53,8 @@ export async function checkSiteIsConnected(): Promise<boolean> {
 
 export async function generateDepositEthTx(
   data: DepositData
-): Promise<DepositParams> {
-  return new Promise<DepositParams>((resolve) => {
+): Promise<L1TxParams> {
+  return new Promise((resolve) => {
     function handleMessage(message: UntypedMessage) {
       if (DepositEthResponse.match(message)) {
         browser.runtime.onMessage.removeListener(handleMessage)
@@ -58,5 +64,21 @@ export async function generateDepositEthTx(
 
     browser.runtime.onMessage.addListener(handleMessage)
     browser.runtime.sendMessage(DepositEthRequest({ data }))
+  })
+}
+
+export async function generateDepositERC20Tx(
+  data: DepositERC20Data
+): Promise<L1TxParams> {
+  return new Promise((resolve) => {
+    function handleMessage(message: UntypedMessage) {
+      if (DepositERC20Response.match(message)) {
+        browser.runtime.onMessage.removeListener(handleMessage)
+        resolve(message.payload.params)
+      }
+    }
+
+    browser.runtime.onMessage.addListener(handleMessage)
+    browser.runtime.sendMessage(DepositERC20Request({ data }))
   })
 }

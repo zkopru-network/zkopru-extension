@@ -7,6 +7,7 @@ export const globalStyle = css`
       font-size: 14px;
       margin: 0;
       min-width: 100vw;
+      background-color: #eeedff;
     }
     input {
       appearance: textfield;

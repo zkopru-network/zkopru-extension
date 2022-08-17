@@ -4,15 +4,33 @@ declare global {
   }
 }
 
+export type TokenBalances = {
+  [key: string]: number
+}
+
+export type L2Balance = {
+  eth: number
+  tokenBalances: TokenBalances
+  lockedTokenBalances: TokenBalances
+}
+
 export declare class ZkopruProvider {
   constructor()
   get connected(): boolean
   connect(): void
-  getBalance(): Promise<string>
+  getBalance(): Promise<L2Balance>
   getAddress(): Promise<string>
   transferEth(to: string, amount: string): Promise<string>
   transferERC20(to: string, token: string, amount: string): Promise<string>
-  swap(): Promise<void>
+  swap(
+    sendToken: string,
+    sendAmount: string,
+    receiveToken: string,
+    receiveAmount: string,
+    counterParty: string,
+    salt: number,
+    fee: string
+  ): Promise<void>
   getBlockNumber(): Promise<void>
 }
 

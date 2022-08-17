@@ -69,7 +69,7 @@ async function buildFiles(opt) {
   // FYI: https://esbuild.github.io/api/#define
   // NOTE: background script is too large. need to reduce size or split files
   await build({
-    entryPoints: ['src/scripts/background.ts'],
+    entryPoints: { background: 'src/scripts/background/index.ts' },
     outdir: outDir,
     bundle: true,
     format: 'esm',
@@ -90,8 +90,10 @@ async function buildFiles(opt) {
 
   // copy icons
   console.log('generating assets files')
-  fs.copyFileSync('src/assets/icon-16.png', `${assetsDir}/icon-16.png`)
-  fs.copyFileSync('src/assets/icon-32.png', `${assetsDir}/icon-32.png`)
+  fs.copyFileSync('src/assets/logo_16.png', `${assetsDir}/logo_16.png`)
+  fs.copyFileSync('src/assets/logo_32.png', `${assetsDir}/logo_32.png`)
+  fs.copyFileSync('src/assets/logo_48.png', `${assetsDir}/logo_48.png`)
+  fs.copyFileSync('src/assets/logo_128.png', `${assetsDir}/logo_128.png`)
 
   // build tailwind css with tailwindcss command
   // NOTE: does not have to be built with esbuild

@@ -1,19 +1,17 @@
-import React from 'react'
-import browser from 'webextension-polyfill'
+import React, { useCallback } from 'react'
 import { css } from '@linaria/core'
 import { styled } from '@linaria/react'
-import { useAuthStore } from '../store/auth'
 import { shortenAddress } from '../../share/utils'
 import { useZkopruStore } from '../store/zkopru'
+import { Link } from 'react-router-dom'
+import ROUTES from '../../routes'
 
 const Header = () => {
   const address = useZkopruStore((state) => state.zkAddress)
-  const setAuthenticated = useAuthStore((state) => state.setAuthenticated)
-  const lock = async () => {
-    await browser.storage.local.set({ unlocktime: 0 })
-
-    setAuthenticated(false)
-  }
+  const copyAddress = useCallback(() => {
+    if (!address) return
+    navigator.clipboard.writeText(address)
+  }, [address])
 
   return (
     <header className={container}>
@@ -21,10 +19,10 @@ const Header = () => {
         <NetworkStatus />
         <span className={networkName}>Local</span>
       </div>
-      <div className={addressSection}>{shortenAddress(address)}</div>
-      <div>
-        <button onClick={lock}>Lock wallet</button>
+      <div className={addressSection} onClick={copyAddress}>
+        {shortenAddress(address)}
       </div>
+      <Link to={ROUTES.SETTINGS}>setting</Link>
     </header>
   )
 }
@@ -61,6 +59,13 @@ const NetworkStatus = styled.span`
   background-color: #1ce076;
 `
 
-const addressSection = css``
+const addressSection = css`
+  border-radius: 12px;
+  padding: 4px 6px;
+  cursor: pointer;
+  :hover {
+    background-color: var(--color-surface2);
+  }
+`
 
 export default Header

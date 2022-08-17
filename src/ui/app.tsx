@@ -7,13 +7,16 @@ import {
   TransferPage,
   TransferConfirmPage,
   TransferCompletePage,
+  SwapConfirmPage,
+  SwapCompletePage,
   UnlockPage,
   OnboardingPage,
   LoadingPage,
   WithdrawPage,
   WithdrawCompletePage,
   ActivityPage,
-  ConfirmConnectionPage
+  ConfirmConnectionPage,
+  SettingsPage
 } from './pages'
 import RequireOnboard from './helper/RequireOnboard'
 import RequireAuth from './helper/RequireAuth'
@@ -90,6 +93,7 @@ const App = () => {
     // TODO: check if background client is ready or not
     if (onboardingCompleted) {
       background.syncZkAddress()
+      background.syncConnectedSites()
     }
   }, [onboardingCompleted])
 
@@ -154,6 +158,22 @@ const App = () => {
             }
           />
           <Route
+            path={ROUTES.SWAP_CONFIRM}
+            element={
+              <RequireAuth>
+                <SwapConfirmPage />
+              </RequireAuth>
+            }
+          />
+          <Route
+            path={ROUTES.SWAP_COMPLETE}
+            element={
+              <RequireAuth>
+                <SwapCompletePage />
+              </RequireAuth>
+            }
+          />
+          <Route
             path={ROUTES.WITHDRAW}
             element={
               <RequireAuth>
@@ -182,6 +202,14 @@ const App = () => {
             element={
               <RequireAuth>
                 <ConfirmConnectionPage />
+              </RequireAuth>
+            }
+          />
+          <Route
+            path={ROUTES.SETTINGS}
+            element={
+              <RequireAuth>
+                <SettingsPage />
               </RequireAuth>
             }
           />

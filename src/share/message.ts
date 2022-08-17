@@ -1,5 +1,5 @@
 import { BACKGROUND_STATUS } from './constants'
-import type { DepositData } from './types'
+import { DepositData, DepositERC20Data, L2Balance, ERC20Info } from './types'
 
 export const MESSAGE_TYPE = {
   WALLET_KEY_GENERATED: 'WALLET_KEY_GENERATED',
@@ -15,22 +15,35 @@ export const MESSAGE_TYPE = {
   VERIFY_PASSWORD_RESPONSE: 'VERIFY_PASSWORD_RESPONSE',
   DEPOSIT_ETH_REQUEST: 'DEPOSIT_ETH_REQUEST',
   DEPOSIT_ETH_RESPONSE: 'DEPOSIT_ETH_RESPONSE',
+  DEPOSIT_ERC20_REQUEST: 'DEPOSIT_ERC20_REQUEST',
+  DEPOSIT_ERC20_RESPONSE: 'DEPOSIT_ERC20_RESPONSE',
+
   TRANSFER_ETH_REQUEST: 'TRANSFER_ETH_REQUEST',
   TRANSFER_ETH_RESPONSE: 'TRANSFER_ETH_RESPONSE',
+  TRANSFER_ERC20_REQUEST: 'TRANSFER_ERC20_REQUEST',
+  TRANSFER_ERC20_RESPONSE: 'TRANSFER_ERC20_RESPONSE',
+
   WITHDRAW_ETH_REQUEST: 'WITHDRAW_ETH_REQUEST',
   WITHDRAW_ETH_RESPONSE: 'WITHDRAW_ETH_RESPONSE',
+  SWAP_REQUEST: 'SWAP_REQUEST',
+  SWAP_RESPONSE: 'SWAP_RESPONSE',
   LOAD_ACTIVITY_REQUEST: 'LOAD_ACTIVITY_REQUEST',
   LOAD_ACTIVITY_RESPONSE: 'LOAD_ACTIVITY_RESPONSE',
+  LOAD_ERC20_REQUEST: 'LOAD_ERC20_REQUEST',
+  LOAD_ERC20_RESPONSE: 'LOAD_ERC20_RESPONSE',
 
   CONFIRM_CONNECT_SITE: 'CONFIRM_CONNECT_SITE',
   CONNECT_SITE_REQUEST: 'CONNECT_SITE_REQUEST',
   CONNECT_SITE_RESPONSE: 'CONNECT_SITE_RESPONSE',
   IS_CONNECTED_REQUEST: 'IS_CONNECTED_REQUEST',
   IS_CONNECTED_RESPONSE: 'IS_CONNECTED_RESPONSE',
+  GET_CONNECTED_SITES_REQUEST: 'GET_CONNECTED_SITES_REQUEST',
+  GET_CONNECTED_SITES_RESPONSE: 'GET_CONNECTED_SITES_RESPONSE',
   SITE_CONNECTED: 'SITE_CONNECTED',
 
   CONFIRIM_POPUP: 'CONFIRM_POPUP',
 
+  ERROR: 'ERROR',
   DEBUG: 'DEBUG'
 } as const
 
@@ -92,9 +105,9 @@ export const GetBalanceRequestMessageCreator = createMessage(
   MESSAGE_TYPE.GET_BALANCE_REQUEST
 )
 
-export const GetBalanceResponseMessageCreator = createMessage<{
-  balance: string
-}>(MESSAGE_TYPE.GET_BALANCE_RESPONSE)
+export const GetBalanceResponseMessageCreator = createMessage<L2Balance>(
+  MESSAGE_TYPE.GET_BALANCE_RESPONSE
+)
 
 export const GetAddressRequestMessageCreator = createMessage(
   MESSAGE_TYPE.GET_ADDRESS_REQUEST
@@ -136,14 +149,33 @@ export const DepositEthResponse = createMessage<{
   params: { to: string; data: string; value: string }
 }>(MESSAGE_TYPE.DEPOSIT_ETH_RESPONSE)
 
+export const DepositERC20Request = createMessage<{
+  data: DepositERC20Data
+}>(MESSAGE_TYPE.DEPOSIT_ERC20_REQUEST)
+
+export const DepositERC20Response = createMessage<{
+  params: { to: string; data: string; value: string }
+}>(MESSAGE_TYPE.DEPOSIT_ERC20_RESPONSE)
+
 export const TransferEthRequest = createMessage<{
   to: string
-  amount: number
+  amount: string
   fee: number
 }>(MESSAGE_TYPE.TRANSFER_ETH_REQUEST)
 
 export const TransferEthResponse = createMessage<{ hash: string }>(
   MESSAGE_TYPE.TRANSFER_ETH_RESPONSE
+)
+
+export const TransferERC20Request = createMessage<{
+  to: string
+  token: string
+  amount: string
+  fee: number
+}>(MESSAGE_TYPE.TRANSFER_ERC20_REQUEST)
+
+export const TransferERC20Response = createMessage<{ hash: string }>(
+  MESSAGE_TYPE.TRANSFER_ERC20_RESPONSE
 )
 
 // TODO: add token field
@@ -157,12 +189,33 @@ export const WithdrawEthResponse = createMessage<{ hash: string }>(
   MESSAGE_TYPE.WITHDRAW_ETH_RESPONSE
 )
 
+export const SwapRequest = createMessage<{
+  sendToken: string
+  sendAmount: string
+  receiveToken: string
+  receiveAmount: string
+  counterParty: string
+  salt: number
+  fee: string
+}>(MESSAGE_TYPE.SWAP_REQUEST)
+
+export const SwapResponse = createMessage<{ hash: string }>(
+  MESSAGE_TYPE.SWAP_RESPONSE
+)
+
 export const LoadActivityRequest = createMessage(
   MESSAGE_TYPE.LOAD_ACTIVITY_REQUEST
 )
 
 export const LoadActivityResponse = createMessage<{ activities: any[] }>(
   MESSAGE_TYPE.LOAD_ACTIVITY_RESPONSE
+)
+
+export const LoadERC20InfoRequest = createMessage(
+  MESSAGE_TYPE.LOAD_ERC20_REQUEST
+)
+export const LoadERC20InfoResponse = createMessage<ERC20Info[]>(
+  MESSAGE_TYPE.LOAD_ERC20_RESPONSE
 )
 
 export const ConfirmConnectSite = createMessage<{
@@ -185,7 +238,13 @@ export const IsConnectedResponse = createMessage<{ isConnected: boolean }>(
   MESSAGE_TYPE.IS_CONNECTED_RESPONSE
 )
 
-export const DebugMessage = createMessage<{ value: any }>(MESSAGE_TYPE.DEBUG)
+export const GetConnectedSitesRequest = createMessage(
+  MESSAGE_TYPE.GET_CONNECTED_SITES_REQUEST
+)
+
+export const GetConnectedSitesResponse = createMessage<{
+  connectedSites: string[]
+}>(MESSAGE_TYPE.GET_CONNECTED_SITES_RESPONSE)
 
 export const SiteConnected = createMessage<{ origin: string }>(
   MESSAGE_TYPE.SITE_CONNECTED
@@ -194,3 +253,8 @@ export const SiteConnected = createMessage<{ origin: string }>(
 export const ConfirmPopup = createMessage<{ path: string; params: any }>(
   MESSAGE_TYPE.CONFIRIM_POPUP
 )
+
+export const ErrorMessage = createMessage<{ message: string }>(
+  MESSAGE_TYPE.ERROR
+)
+export const DebugMessage = createMessage<{ value: any }>(MESSAGE_TYPE.DEBUG)
