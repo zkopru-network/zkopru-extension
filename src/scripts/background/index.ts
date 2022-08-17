@@ -195,15 +195,31 @@ async function main() {
 
         // TODO: error handling
         try {
-          const tx = await wallet.generateEtherTransfer(
+          const tx = await wallet.generateEtherTransfer(to, amount, toGwei(fee))
+          const hash = await wallet.wallet.sendTx({
+            tx
+          })
+          sendMessage(Message.TransferEthResponse({ hash }))
+        } catch (e) {
+          console.error(e)
+          sendMessage(
+            Message.ErrorMessage({ message: `transfer eth failed: ${e}` })
+          )
+        }
+      } else if (Message.TransferERC20Request.match(message)) {
+        const { amount, fee, to, token } = message.payload
+        const wallet = backgroundStore.getState().wallet
+        try {
+          const tx = await wallet.generateTokenTransfer(
             to,
-            toWei(amount),
+            amount,
+            token,
             toGwei(fee)
           )
           const hash = await wallet.wallet.sendTx({
             tx
           })
-          sendMessage(Message.TransferEthResponse({ hash }))
+          sendMessage(Message.TransferERC20Response({ hash }))
         } catch (e) {
           console.error(e)
           sendMessage(
@@ -288,6 +304,10 @@ async function main() {
           return
         }
         sendMessage(Message.IsConnectedResponse({ isConnected: false }))
+      } else if (Message.LoadERC20InfoRequest.match(message)) {
+        const { client } = backgroundStore.getState()
+        const erc20Info = await client.node.loadERC20Info()
+        sendMessage(Message.LoadERC20InfoResponse(erc20Info))
       } else if (Message.ConfirmConnectSite.match(message)) {
         showPopupWindow(ROUTES.CONFIRM_CONNECTION, {
           origin: message.payload.origin,

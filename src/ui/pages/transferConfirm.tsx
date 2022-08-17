@@ -20,9 +20,8 @@ const TransferConfirmPage = () => {
   const fee = 24000
 
   const handleTransfer = async () => {
-    console.log('transfer', to, fromWei(amount), fee)
     setLoading(true)
-    const response = await background.transferEth(to, fromWei(amount), fee)
+    const response = await background.transferEth(to, amount, fee)
     if (response.payload.hash) navigate(ROUTES.TRANFER_COMPLETE)
   }
 

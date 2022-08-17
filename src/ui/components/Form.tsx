@@ -7,6 +7,14 @@ export const Input = styled.input<{ error?: boolean }>`
   font-size: 16px;
 `
 
+export const Select = styled.select`
+  padding: 8px;
+  border-radius: 8px;
+  border: 1px solid #9b9b9b;
+  font-size: 16px;
+  background-color: white;
+`
+
 export const Label = styled.label`
   text-transform: capitalize;
   font-weight: 600;

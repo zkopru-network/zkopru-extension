@@ -91,7 +91,7 @@ class BackgroundConnection {
 
   public async transferEth(
     to: string,
-    amount: number,
+    amount: string,
     fee: number
   ): Promise<Message.MessageWithPayload<{ hash: string }>> {
     return this.sendBackground(
@@ -112,6 +112,23 @@ class BackgroundConnection {
         instantWithdrawFee
       }),
       Message.WithdrawEthResponse
+    )
+  }
+
+  public async transferERC20(
+    to: string,
+    amount: string,
+    token: string,
+    fee: number
+  ): Promise<Message.MessageWithPayload<{ hash: string }>> {
+    return this.sendBackground(
+      Message.TransferERC20Request({
+        to,
+        token,
+        amount,
+        fee
+      }),
+      Message.TransferERC20Response
     )
   }
 
@@ -162,6 +179,13 @@ class BackgroundConnection {
     return this.sendBackground(
       Message.GetConnectedSitesRequest(),
       Message.GetConnectedSitesResponse
+    )
+  }
+
+  public async loadERC20Info() {
+    return this.sendBackground(
+      Message.LoadERC20InfoRequest(),
+      Message.LoadERC20InfoResponse
     )
   }
 
