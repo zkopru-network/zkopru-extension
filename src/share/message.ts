@@ -1,5 +1,5 @@
 import { BACKGROUND_STATUS } from './constants'
-import { DepositData, DepositERC20Data, L2Balance } from './types'
+import { DepositData, DepositERC20Data, L2Balance, ERC20Info } from './types'
 
 export const MESSAGE_TYPE = {
   WALLET_KEY_GENERATED: 'WALLET_KEY_GENERATED',
@@ -20,12 +20,17 @@ export const MESSAGE_TYPE = {
 
   TRANSFER_ETH_REQUEST: 'TRANSFER_ETH_REQUEST',
   TRANSFER_ETH_RESPONSE: 'TRANSFER_ETH_RESPONSE',
+  TRANSFER_ERC20_REQUEST: 'TRANSFER_ERC20_REQUEST',
+  TRANSFER_ERC20_RESPONSE: 'TRANSFER_ERC20_RESPONSE',
+
   WITHDRAW_ETH_REQUEST: 'WITHDRAW_ETH_REQUEST',
   WITHDRAW_ETH_RESPONSE: 'WITHDRAW_ETH_RESPONSE',
   SWAP_REQUEST: 'SWAP_REQUEST',
   SWAP_RESPONSE: 'SWAP_RESPONSE',
   LOAD_ACTIVITY_REQUEST: 'LOAD_ACTIVITY_REQUEST',
   LOAD_ACTIVITY_RESPONSE: 'LOAD_ACTIVITY_RESPONSE',
+  LOAD_ERC20_REQUEST: 'LOAD_ERC20_REQUEST',
+  LOAD_ERC20_RESPONSE: 'LOAD_ERC20_RESPONSE',
 
   CONFIRM_CONNECT_SITE: 'CONFIRM_CONNECT_SITE',
   CONNECT_SITE_REQUEST: 'CONNECT_SITE_REQUEST',
@@ -154,12 +159,23 @@ export const DepositERC20Response = createMessage<{
 
 export const TransferEthRequest = createMessage<{
   to: string
-  amount: number
+  amount: string
   fee: number
 }>(MESSAGE_TYPE.TRANSFER_ETH_REQUEST)
 
 export const TransferEthResponse = createMessage<{ hash: string }>(
   MESSAGE_TYPE.TRANSFER_ETH_RESPONSE
+)
+
+export const TransferERC20Request = createMessage<{
+  to: string
+  token: string
+  amount: string
+  fee: number
+}>(MESSAGE_TYPE.TRANSFER_ERC20_REQUEST)
+
+export const TransferERC20Response = createMessage<{ hash: string }>(
+  MESSAGE_TYPE.TRANSFER_ERC20_RESPONSE
 )
 
 // TODO: add token field
@@ -193,6 +209,13 @@ export const LoadActivityRequest = createMessage(
 
 export const LoadActivityResponse = createMessage<{ activities: any[] }>(
   MESSAGE_TYPE.LOAD_ACTIVITY_RESPONSE
+)
+
+export const LoadERC20InfoRequest = createMessage(
+  MESSAGE_TYPE.LOAD_ERC20_REQUEST
+)
+export const LoadERC20InfoResponse = createMessage<ERC20Info[]>(
+  MESSAGE_TYPE.LOAD_ERC20_RESPONSE
 )
 
 export const ConfirmConnectSite = createMessage<{

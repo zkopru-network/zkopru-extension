@@ -4,20 +4,27 @@ import { useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { useForm } from 'react-hook-form'
 import { ErrorMessage } from '@hookform/error-message'
+import shallow from 'zustand/shallow'
+import { parseUnits } from '@ethersproject/units'
 import PrimaryButton from '../components/PrimaryButton'
 import {
   FieldControl,
   Input,
+  Select,
   Label,
   ErrorMessage as E
 } from '../components/Form'
 import ROUTES from '../../routes'
 import useBackgroundConnection from '../hooks/useBackgroundConnection'
+import { toWei } from '../../share/utils'
+import { useZkopruStore } from '../store/zkopru'
+import { useQuery } from 'react-query'
 
 type FormData = {
   amount: number
   fee: number
   recipient: string
+  token: string
 }
 
 const TransferPage = () => {
@@ -33,17 +40,41 @@ const TransferPage = () => {
 
   const { t } = useTranslation()
   const navigate = useNavigate()
-  const transfer = handleSubmit(async ({ recipient, amount, fee }) => {
+  const { balance } = useZkopruStore(
+    (state) => ({
+      balance: state.balance,
+      zkAddress: state.zkAddress
+    }),
+    shallow
+  )
+  const erc20InfoQuery = useQuery(['erc20Info'], async () => {
+    return (await background.loadERC20Info()).payload
+  })
+  console.log(erc20InfoQuery)
+
+  const transfer = handleSubmit(async ({ recipient, amount, fee, token }) => {
     setLoading(true)
 
     // TODO: validate input, amount
-    const msg = await background.transferEth(recipient, amount, fee)
-    console.log(msg)
+    if (token === 'ETH') {
+      const amountWei = toWei(amount)
+      await background.transferEth(recipient, amountWei, fee)
+    } else {
+      const erc20 = erc20InfoQuery.data?.find((info) => info.symbol === token)
+      if (!erc20) throw new Error('ERC20 not loaded')
+
+      const amountDecimal = parseUnits(amount.toString(), erc20.decimals)
+      await background.transferERC20(
+        recipient,
+        amountDecimal.toString(),
+        erc20.address,
+        fee
+      )
+    }
 
     setLoading(false)
     navigate(ROUTES.TRANFER_COMPLETE)
   })
-
   if (loading) {
     return (
       <div className={container}>
@@ -68,6 +99,18 @@ const TransferPage = () => {
         </a>
       </div>
       <form onSubmit={transfer}>
+        <FieldControl>
+          <Label>{t('token')}</Label>
+          <Select {...register('token')}>
+            <option value="ETH">ETH</option>
+            {balance?.tokenBalances &&
+              Object.keys(balance.tokenBalances || {}).map((token) => (
+                <option value={token} key={token}>
+                  {token}
+                </option>
+              ))}
+          </Select>
+        </FieldControl>
         <FieldControl>
           <Label>{t('recipient')}</Label>
           <Input

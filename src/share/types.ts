@@ -25,5 +25,11 @@ export type L2Balance = {
   lockedTokenBalances: TokenBalances
 }
 
+export type ERC20Info = {
+  address: string
+  symbol: string
+  decimals: number
+}
+
 // TODO: type correctly
 export type Activity = any
