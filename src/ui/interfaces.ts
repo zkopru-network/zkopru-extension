@@ -1,4 +1,5 @@
 import { ReactNode } from 'react'
+import { Noop, RefCallBack } from 'react-hook-form'
 
 /**
  * Themes for the extension
@@ -140,4 +141,32 @@ export interface RoundedBtnVariants {
    * @memberof RoundedBtnVariants
    */
   secondary: string
+}
+
+export interface TokenSelectorProps {
+  /**
+   * The onChange callback for `Controller`
+   *
+   * @memberof TokenSelectorProps
+   */
+  onChange: (...event: any[]) => void
+  /**
+   * The onBlur callback for `Controller`
+   *
+   * @memberof TokenSelectorProps
+   */
+  onBlur: Noop
+  /**
+   * The value to send back to `Controller`
+   *
+   * @memberof TokenSelectorProps
+   */
+  value: string
+  inputRef?: RefCallBack
+  /**
+   * The identifier to associate with `Controller`
+   *
+   * @memberof TokenSelectorProps
+   */
+  name: string
 }
