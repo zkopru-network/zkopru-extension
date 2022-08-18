@@ -1,8 +1,9 @@
 import { zodResolver } from '@hookform/resolvers/zod'
-import { useForm } from 'react-hook-form'
+import { Controller, useForm } from 'react-hook-form'
 import { z } from 'zod'
 import ExtensionFrame from '../../components/ExtensionFrame'
 import Input from '../../components/Input'
+import { TokenSelector } from '../../components/TokenSelector'
 
 const TransferForm = () => {
   const minValue = 0.00001
@@ -19,13 +20,15 @@ const TransferForm = () => {
     fee: z.number({
       required_error: 'Please enter a fee',
       invalid_type_error: 'Fee must be a number'
-    })
+    }),
+    token: z.string().min(1, { message: 'Please select a token' })
   })
 
   type FormData = z.infer<typeof validationSchema>
 
   const {
     register,
+    control,
     handleSubmit,
     formState: { errors }
   } = useForm<FormData>({
@@ -33,6 +36,7 @@ const TransferForm = () => {
   })
 
   return (
+    // TODO: Update form with new token balances + fees after successful transfer
     <form onSubmit={handleSubmit((d) => console.log(d))}>
       <div className="flex flex-col gap-2">
         <Input
@@ -47,8 +51,9 @@ const TransferForm = () => {
           {...register('recepient')}
           placeholder="ZKOPRU address"
         />
-        <div className="grid grid-cols-5 gap-3">
-          <div className="col-span-3">
+
+        <div className="grid grid-cols-6 gap-3 items-center">
+          <div className="col-span-4">
             <Input
               type="text"
               id="amount"
@@ -63,21 +68,35 @@ const TransferForm = () => {
             />
           </div>
           <div className="col-span-2">
-            <Input
-              type="text"
-              id="fee"
-              label="Fees"
-              error={
-                errors.fee?.message ? errors.fee.message.toString() : undefined
-              }
-              {...register('fee', { valueAsNumber: true })}
-              defaultValue={minValue}
+            <Controller
+              control={control}
+              name="token"
+              defaultValue="ETH"
+              render={({ field: { onChange, onBlur, value, name, ref } }) => (
+                <TokenSelector
+                  onBlur={onBlur}
+                  onChange={onChange}
+                  value={value}
+                  inputRef={ref}
+                  name={name}
+                />
+              )}
             />
           </div>
         </div>
         <Input
+          type="text"
+          id="fee"
+          label="Fees"
+          error={
+            errors.fee?.message ? errors.fee.message.toString() : undefined
+          }
+          {...register('fee', { valueAsNumber: true })}
+          defaultValue={minValue}
+        />
+        <Input
           type="submit"
-          label="Send"
+          label="Send tokens"
           as="ghost"
           id="loginBtn"
           extendClasses="self-stretch"
@@ -89,10 +108,11 @@ const TransferForm = () => {
 
 export const Transfer = () => (
   <ExtensionFrame>
+    {/* TODO: Make back button component @thebeyondr */}
     <p>
       <button className="text-sm">&lt; Home</button>
     </p>
-    <h1 className="text-2xl font-semibold leading-tight">Send tokens</h1>
+    <h1 className="text-2xl font-bold leading-tight">Send</h1>
     <TransferForm />
   </ExtensionFrame>
 )
