@@ -36,8 +36,8 @@ const Input = React.forwardRef(
           )}
 
           <input
-            className={`rounded-md bg-skin-light-gray text-skin-text-primary border-2 border-skin-text-primary/33 shadow-sm focus:border-skin-text-primary focus:ring focus:ring-skin-text-primary focus:ring-opacity-60 peer placeholder:text-sm placeholder:text-current placeholder:opacity-60 ${
-              error ? 'border-red-400/60' : ''
+            className={`rounded-md bg-skin-light-gray text-skin-text-primary border-2 border-skin-text-primary/33 shadow-sm focus:border-skin-text-primary focus:ring focus:ring-skin-text-primary focus:ring-opacity-60 peer placeholder:text-sm placeholder:text-skin-text-primary placeholder:opacity-60 ${
+              error ? 'border-red-400' : ''
             } ${addClasses ? addClasses : ''}`}
             type={type || 'text'}
             name={id}
