@@ -1,4 +1,4 @@
-export default function AccountActivity() {
+const AccountActivity = () => {
   // TODO: Replace with actual fetched data
   const mockData = [
     {
@@ -118,3 +118,5 @@ export default function AccountActivity() {
     </ul>
   )
 }
+
+export default AccountActivity

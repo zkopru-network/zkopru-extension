@@ -42,7 +42,7 @@ const totalUSDValue = mockData.reduce((acc, curr) => {
   return acc + parseFloat(curr.usdValue)
 }, 0)
 
-export default function Wallet() {
+const Wallet = () => {
   const [tokenData] = useState({ data: mockData, totalUSDValue })
 
   return (
@@ -81,3 +81,5 @@ export default function Wallet() {
     </>
   )
 }
+
+export default Wallet

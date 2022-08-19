@@ -1,10 +1,9 @@
 import { Tab } from '@headlessui/react'
-import { useState } from 'react'
 import AccountActivity from './AccountActivity'
 import Wallet from './Wallet'
 
-export default function DashboardTabs() {
-  const [tabs] = useState([
+const DashboardTabs = () => {
+  const tabs = [
     {
       name: 'Wallet',
       content: <Wallet />
@@ -13,7 +12,7 @@ export default function DashboardTabs() {
       name: 'Activity',
       content: <AccountActivity />
     }
-  ])
+  ]
 
   return (
     <Tab.Group>
@@ -42,3 +41,5 @@ export default function DashboardTabs() {
     </Tab.Group>
   )
 }
+
+export default DashboardTabs
