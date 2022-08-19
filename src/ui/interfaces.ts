@@ -170,3 +170,13 @@ export interface TokenSelectorProps {
    */
   name: string
 }
+
+export interface NetworkProps {
+  label: string
+  chainId: number
+}
+
+export interface NetworkSwitcherProps {
+  networks?: NetworkProps[]
+  onNetworkChange?: (chainId: number) => void
+}

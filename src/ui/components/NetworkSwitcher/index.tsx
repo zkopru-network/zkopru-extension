@@ -1,13 +1,9 @@
 import { Menu, Transition } from '@headlessui/react'
+import { NetworkProps, NetworkSwitcherProps } from '../../interfaces'
 import { ArrowDownSFill } from '../common/icons'
 
-interface NetworkSwitcherProps {
-  label: string
-  chainId: number
-}
-
 // TODO: Replace with actual networks @tkmct
-const Networks = [
+const Networks: NetworkProps[] = [
   {
     label: 'Optimism',
     chainId: 1
@@ -22,10 +18,9 @@ const linkStyles =
   'flex items-center justify-between px-4 py-2 text-skin-text-primary hover:bg-btn-bright hover:text-white rounded-md'
 
 const NetworkSwitcher = ({
-  networks = Networks
-}: {
-  networks?: NetworkSwitcherProps[]
-}) => (
+  networks = Networks,
+  onNetworkChange
+}: NetworkSwitcherProps) => (
   <Menu as="div" className="relative text-xs text-skin-text-primary">
     <Menu.Button
       type="button"
@@ -54,8 +49,7 @@ const NetworkSwitcher = ({
                     ? `${linkStyles} bg-btn-bright text-white`
                     : `${linkStyles}`
                 }
-                // Replace with someFn(chainId)
-                onClick={() => console.log(chainId)}
+                onClick={() => onNetworkChange && onNetworkChange(chainId)}
               >
                 {label}
               </a>
