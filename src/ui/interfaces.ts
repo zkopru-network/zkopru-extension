@@ -18,7 +18,7 @@ export interface Theme {
  * @interface GenericProps
  * @extends {React.DetailedHTMLProps<React.InputHTMLAttributes<HTMLInputElement>, HTMLInputElement>}
  */
-export interface GenericProps
+export interface GenericInputProps
   extends React.DetailedHTMLProps<
     React.InputHTMLAttributes<HTMLInputElement>,
     HTMLInputElement
@@ -108,7 +108,7 @@ export interface SubmitProps
   extendClasses?: string
 }
 
-export type InputProps = GenericProps | SubmitProps
+export type InputProps = GenericInputProps | SubmitProps
 
 // BUTTON INTERFACES
 export interface BtnProps
