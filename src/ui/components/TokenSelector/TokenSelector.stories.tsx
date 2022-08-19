@@ -16,6 +16,26 @@ export const Playground: ComponentStory<typeof TokenSelector> = () => (
       onChange={() => null}
       value="ETH"
       name="token"
+      data={[
+        {
+          id: 1,
+          name: 'Ethereum',
+          symbol: 'ETH',
+          icon: '✨'
+        },
+        {
+          id: 2,
+          name: 'USD Coin',
+          symbol: 'USDC',
+          icon: '💵'
+        },
+        {
+          id: 3,
+          name: 'Ripple',
+          symbol: 'XRP',
+          icon: '💸'
+        }
+      ]}
     />
   </div>
 )

@@ -3,28 +3,6 @@ import { useState } from 'react'
 import { TokenSelectorProps } from '../../interfaces'
 import { ArrowDownSFill } from '../common/icons'
 
-// This should be cached data in my opinion
-const tokenData = [
-  {
-    id: 1,
-    name: 'Ethereum',
-    symbol: 'ETH',
-    icon: '✨'
-  },
-  {
-    id: 2,
-    name: 'USD Coin',
-    symbol: 'USDC',
-    icon: '💵'
-  },
-  {
-    id: 3,
-    name: 'Ripple',
-    symbol: 'XRP',
-    icon: '💸'
-  }
-]
-
 /**
  * The token selector component
  * @tutorial Wrap with `Controller` component in a `react-hook-form` form
@@ -49,7 +27,8 @@ const tokenData = [
 export const TokenSelector = ({
   onChange,
   value,
-  inputRef
+  inputRef,
+  data
 }: TokenSelectorProps) => {
   const [selectedToken, setSelectedToken] = useState(value)
 
@@ -78,7 +57,7 @@ export const TokenSelector = ({
             className="absolute mt-1 max-h-60 w-full overflow-auto rounded-md bg-skin-light-gray p-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm"
             ref={inputRef}
           >
-            {tokenData.map((token) => (
+            {data.map((token) => (
               <Listbox.Option key={token.id} value={token.symbol}>
                 {({ active, selected }) => (
                   <div

@@ -79,6 +79,26 @@ const TransferForm = () => {
                   value={value}
                   inputRef={ref}
                   name={name}
+                  data={[
+                    {
+                      id: 1,
+                      name: 'Ethereum',
+                      symbol: 'ETH',
+                      icon: '✨'
+                    },
+                    {
+                      id: 2,
+                      name: 'USD Coin',
+                      symbol: 'USDC',
+                      icon: '💵'
+                    },
+                    {
+                      id: 3,
+                      name: 'Ripple',
+                      symbol: 'XRP',
+                      icon: '💸'
+                    }
+                  ]}
                 />
               )}
             />

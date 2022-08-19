@@ -143,6 +143,13 @@ export interface RoundedBtnVariants {
   secondary: string
 }
 
+export interface TokenData {
+  id: number
+  name: string
+  symbol: string
+  icon: string
+}
+
 export interface TokenSelectorProps {
   /**
    * The onChange callback for `Controller`
@@ -169,6 +176,7 @@ export interface TokenSelectorProps {
    * @memberof TokenSelectorProps
    */
   name: string
+  data: TokenData[]
 }
 
 export interface NetworkProps {
