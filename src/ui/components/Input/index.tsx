@@ -2,6 +2,7 @@ import React from 'react'
 import { Ref } from 'react'
 import { InputProps } from '../../interfaces'
 import { variants } from '../Button'
+import clsx from 'clsx'
 
 const Input = React.forwardRef(
   (
@@ -36,9 +37,11 @@ const Input = React.forwardRef(
           )}
 
           <input
-            className={`rounded-md bg-skin-light-gray text-skin-text-primary border-2 border-skin-text-primary/33 shadow-sm focus:border-skin-text-primary focus:ring focus:ring-skin-text-primary focus:ring-opacity-60 peer placeholder:text-sm placeholder:text-skin-text-primary placeholder:opacity-60 ${
-              error ? 'border-red-400' : ''
-            } ${addClasses ? addClasses : ''}`}
+            className={clsx(
+              'rounded-md bg-skin-light-gray text-skin-text-primary border-2 border-skin-text-primary/33 shadow-sm focus:border-skin-text-primary focus:ring focus:ring-skin-text-primary focus:ring-opacity-60 peer placeholder:text-sm placeholder:text-skin-text-primary placeholder:opacity-60',
+              error && 'border-red-400',
+              addClasses
+            )}
             type={type || 'text'}
             name={id}
             id={id}
@@ -47,9 +50,10 @@ const Input = React.forwardRef(
           />
 
           <div
-            className={`text-xs bg-red-600/70  p-1 pl-2 rounded-sm tracking-wide flex ${
+            className={clsx(
+              'text-xs bg-red-600/70  p-1 pl-2 rounded-sm tracking-wide flex',
               error ? 'visible' : 'invisible'
-            }`}
+            )}
           >
             <p className="pr-2">⚠️</p>
             <p className="text-red-50">{error ? error : ''}</p>

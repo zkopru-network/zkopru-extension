@@ -1,11 +1,18 @@
+import clsx from 'clsx'
 import React from 'react'
 import { BtnProps, BtnVariants } from '../../interfaces'
 
 const commonButtonStyles = `transition disabled:opacity-50 disabled:cursor-not-allowed focus:outline-none focus:ring focus:ring-btn-bright/50 focus:ring-offset-2 focus:ring-offset-white/50 font-semibold`
 
 export const variants: BtnVariants = {
-  filled: `text-skin-text-primary bg-skin-light-gray hover:bg-btn-bright hover:text-white rounded-md py-3 px-6 ${commonButtonStyles}`,
-  ghost: `text-skin-text-primary border-skin-text-primary border-2 bg-transparent hover:border-btn-bright hover:bg-btn-bright hover:text-white rounded-md py-3 px-6 ${commonButtonStyles}`
+  filled: clsx(
+    'text-skin-text-primary bg-skin-light-gray hover:bg-btn-bright hover:text-white rounded-md py-3 px-6',
+    commonButtonStyles
+  ),
+  ghost: clsx(
+    'text-skin-text-primary border-skin-text-primary border-2 bg-transparent hover:border-btn-bright hover:bg-btn-bright hover:text-white rounded-md py-3 px-6',
+    commonButtonStyles
+  )
 }
 
 const Button: React.FC<BtnProps> = ({
