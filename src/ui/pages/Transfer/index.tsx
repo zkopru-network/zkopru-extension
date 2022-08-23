@@ -1,12 +1,27 @@
 import React from 'react'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Controller, useForm } from 'react-hook-form'
+import { useNavigate } from 'react-router-dom'
 import { z } from 'zod'
 import ExtensionFrame from '../../components/ExtensionFrame'
 import Input from '../../components/Input'
 import { TokenSelector } from '../../components/TokenSelector'
+import { TokenData } from '../../interfaces'
+import ROUTES from '../../../routes'
 
-const TransferForm = () => {
+export type FormData = {
+  amount: number
+  fee: number
+  recipient: string
+  token: string
+}
+
+type TransferFormProps = {
+  onSubmit: (data: FormData) => void
+  tokens: TokenData[]
+}
+
+const TransferForm = ({ onSubmit, tokens }: TransferFormProps) => {
   const minValue = 0.00001
 
   const validationSchema = z.object({
@@ -15,7 +30,7 @@ const TransferForm = () => {
       required_error: 'Please enter an amount',
       invalid_type_error: 'Amount must be a number'
     }),
-    recepient: z
+    recipient: z
       .string()
       .min(1, { message: 'What address are you sending to?' }),
     fee: z.number({
@@ -38,18 +53,18 @@ const TransferForm = () => {
 
   return (
     // TODO: Update form with new token balances + fees after successful transfer
-    <form onSubmit={handleSubmit((d) => console.log(d))}>
+    <form onSubmit={handleSubmit(onSubmit)}>
       <div className="flex flex-col gap-2">
         <Input
           type="text"
-          id="recepient"
+          id="recipient"
           label="To"
           error={
-            errors.recepient?.message
-              ? errors.recepient.message.toString()
+            errors.recipient?.message
+              ? errors.recipient.message.toString()
               : undefined
           }
-          {...register('recepient')}
+          {...register('recipient')}
           placeholder="ZKOPRU address"
         />
 
@@ -80,26 +95,7 @@ const TransferForm = () => {
                   value={value}
                   inputRef={ref}
                   name={name}
-                  data={[
-                    {
-                      id: 1,
-                      name: 'Ethereum',
-                      symbol: 'ETH',
-                      icon: '✨'
-                    },
-                    {
-                      id: 2,
-                      name: 'USD Coin',
-                      symbol: 'USDC',
-                      icon: '💵'
-                    },
-                    {
-                      id: 3,
-                      name: 'Ripple',
-                      symbol: 'XRP',
-                      icon: '💸'
-                    }
-                  ]}
+                  data={tokens}
                 />
               )}
             />
@@ -127,13 +123,23 @@ const TransferForm = () => {
   )
 }
 
-export const Transfer = () => (
-  <ExtensionFrame>
-    {/* TODO: Make back button component @thebeyondr */}
-    <p>
-      <button className="text-sm">&lt; Home</button>
-    </p>
-    <h1 className="text-2xl font-bold leading-tight">Send</h1>
-    <TransferForm />
-  </ExtensionFrame>
-)
+type TransferProps = {
+  onSubmit: (data: FormData) => void
+  tokens: TokenData[]
+}
+
+export const Transfer = ({ onSubmit, tokens }: TransferProps) => {
+  const navigate = useNavigate()
+  return (
+    <ExtensionFrame>
+      {/* TODO: Make back button component @thebeyondr */}
+      <p>
+        <button className="text-sm" onClick={() => navigate(ROUTES.HOME)}>
+          &lt; Home
+        </button>
+      </p>
+      <h1 className="text-2xl font-bold leading-tight">Send</h1>
+      <TransferForm onSubmit={onSubmit} tokens={tokens} />
+    </ExtensionFrame>
+  )
+}

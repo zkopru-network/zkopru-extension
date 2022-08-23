@@ -144,10 +144,10 @@ export interface RoundedBtnVariants {
 }
 
 export interface TokenData {
-  id: number
-  name: string
+  name?: string
   symbol: string
-  icon: string
+  address: string
+  icon?: string
 }
 
 export interface TokenSelectorProps {

@@ -1,5 +1,5 @@
 import HomePage from './home'
-import TransferPage from './transfer'
+import TransferPage from './Transfer/page'
 import TransferCompletePage from './transferComplete'
 import TransferConfirmPage from './transferConfirm'
 import SwapConfirmPage from './swapConfirm'

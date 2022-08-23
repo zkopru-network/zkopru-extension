@@ -59,7 +59,7 @@ export const TokenSelector = ({
             ref={inputRef}
           >
             {data.map((token) => (
-              <Listbox.Option key={token.id} value={token.symbol}>
+              <Listbox.Option key={token.symbol} value={token.symbol}>
                 {({ active, selected }) => (
                   <div
                     className={`${
