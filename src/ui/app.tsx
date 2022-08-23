@@ -112,7 +112,7 @@ const App = () => {
   if (loading) return <LoadingPage />
 
   return (
-    <div className={clsx(theme)}>
+    <div className={clsx(theme, 'w-[464px]', 'h-[614px]')}>
       <Router>
         <Routes>
           <Route path={ROUTES.ONBOARDING} element={<OnboardingPage />} />

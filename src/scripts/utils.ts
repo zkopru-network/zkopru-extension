@@ -1,7 +1,7 @@
 import browser, { Windows } from 'webextension-polyfill'
 
-const NOTIFICATION_HEIGHT = 480
-const NOTIFICATION_WIDTH = 320
+const NOTIFICATION_HEIGHT = 614
+const NOTIFICATION_WIDTH = 464
 
 export async function showPopupWindow(
   path = '',
