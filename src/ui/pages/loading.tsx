@@ -1,12 +1,12 @@
 import React from 'react'
 import { css } from '@linaria/core'
 import clsx from 'clsx'
-import { globalStyle, container } from '../globalStyle'
+import { globalStyle } from '../globalStyle'
 import { LightTheme } from '../theme'
 
 const LoadingPage = () => {
   return (
-    <div className={clsx(LightTheme, globalStyle, container, content)}>
+    <div className={clsx(LightTheme, globalStyle, content)}>
       Now Loading ...
     </div>
   )

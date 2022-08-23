@@ -1,3 +1,4 @@
+import React from 'react'
 import NetworkSwitcher from '../NetworkSwitcher'
 import Settings from '../Settings'
 import { ZkopruLogo } from './icons'
