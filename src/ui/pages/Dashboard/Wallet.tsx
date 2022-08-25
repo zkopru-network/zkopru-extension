@@ -1,28 +1,54 @@
-import { useState } from 'react'
+import React, { useEffect, useState } from 'react'
+import shallow from 'zustand/shallow'
+import { useZkopruStore } from '../../store/zkopru'
 import Button from '../../components/Button'
 
-// @tkmct - I'm assuming we can convert to USD to start with
-const mockData = [
-  {
-    symbol: 'ETH',
-    icon: '🤫',
-    value: '12.98',
-    usdValue: '18293.02'
-  },
-  {
-    symbol: 'USDC',
-    icon: '💀',
-    value: '12.98',
-    usdValue: '18293.02'
-  }
-]
-
-const totalUSDValue = mockData.reduce((acc, curr) => {
-  return acc + parseFloat(curr.usdValue)
-}, 0)
+type TokenData = {
+  symbol: string
+  icon: string
+  value: string
+  usdValue: string
+}
 
 const Wallet = () => {
-  const [tokenData] = useState({ data: mockData, totalUSDValue })
+  const [tokenData, setTokenData] = useState<{
+    data: TokenData[]
+    totalUSDValue: number
+  }>({ data: [], totalUSDValue: 0 })
+
+  const { balance } = useZkopruStore(
+    (state) => ({
+      balance: state.balance
+    }),
+    shallow
+  )
+
+  useEffect(() => {
+    if (balance) {
+      const data = [
+        {
+          symbol: 'ETH',
+          value: balance.eth.toString(),
+          usdValue: '0', // TODO: get use value from oracle
+          icon: '💸'
+        },
+        ...Object.keys(balance.tokenBalances).map((key) => ({
+          symbol: key,
+          value: balance.tokenBalances[key].toString(),
+          usdValue: '0',
+          icon: '💸'
+        }))
+      ]
+      const totalUSDValue = data.reduce((acc, curr) => {
+        return acc + parseFloat(curr.usdValue)
+      }, 0)
+
+      setTokenData({
+        data,
+        totalUSDValue
+      })
+    }
+  }, [balance])
 
   return (
     <>

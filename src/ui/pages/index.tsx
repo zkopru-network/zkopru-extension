@@ -1,4 +1,4 @@
-import HomePage from './home'
+import DashboardPage from './Dashboard/page'
 import TransferPage from './Send/page'
 import TransferCompletePage from './transferComplete'
 import TransferConfirmPage from './transferConfirm'
@@ -14,7 +14,7 @@ import ConfirmConnectionPage from './confirmConnection'
 import SettingsPage from './settings'
 
 export {
-  HomePage,
+  DashboardPage,
   TransferPage,
   TransferCompletePage,
   TransferConfirmPage,

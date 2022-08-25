@@ -3,7 +3,7 @@ import browser from 'webextension-polyfill'
 import { HashRouter as Router, Routes, Route } from 'react-router-dom'
 import clsx from 'clsx'
 import {
-  HomePage,
+  DashboardPage,
   TransferPage,
   TransferConfirmPage,
   TransferCompletePage,
@@ -129,7 +129,7 @@ const App = () => {
             path={ROUTES.HOME}
             element={
               <RequireAuth>
-                <HomePage />
+                <DashboardPage />
               </RequireAuth>
             }
           />
