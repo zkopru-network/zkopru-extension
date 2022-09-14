@@ -60,6 +60,7 @@ specifiers:
   react-i18next: ^11.17.2
   react-query: ^3.39.1
   react-router-dom: ^6.3.0
+  react-toastify: ^9.0.8
   require-from-string: ^2.0.2
   safe-compare: 1.1.4
   storybook-addon-themes: ^6.1.0
@@ -95,6 +96,7 @@ dependencies:
   react-i18next: 11.17.2_tsc6wv675msxhpngmtsofyecne
   react-query: 3.39.1_ef5jwxihqo6n7gxfmzogljlgcm
   react-router-dom: 6.3.0_ef5jwxihqo6n7gxfmzogljlgcm
+  react-toastify: 9.0.8_ef5jwxihqo6n7gxfmzogljlgcm
   yargs: 17.5.1
   zod: 3.18.0
   zustand: 4.0.0-rc.1_react@18.1.0
@@ -14866,6 +14868,17 @@ packages:
       react: 18.1.0
       refractor: 3.6.0
     dev: true
+
+  /react-toastify/9.0.8_ef5jwxihqo6n7gxfmzogljlgcm:
+    resolution: {integrity: sha512-EwM+teWt49HSHx+67qI08yLAW1zAsBxCXLCsUfxHYv1W7/R3ZLhrqKalh7j+kjgPna1h5LQMSMwns4tB4ww2yQ==}
+    peerDependencies:
+      react: '>=16'
+      react-dom: '>=16'
+    dependencies:
+      clsx: 1.1.1
+      react: 18.1.0
+      react-dom: 18.1.0_react@18.1.0
+    dev: false
 
   /react/18.1.0:
     resolution: {integrity: sha512-4oL8ivCz5ZEPyclFQXaNksK3adutVS8l2xzZU0cqEFrE9Sb7fC0EFK5uEk74wIreL1DERyjvsU915j1pcT2uEQ==}
