@@ -1,5 +1,5 @@
 import { ComponentMeta, ComponentStory } from '@storybook/react'
-import { Onboarding } from '.'
+import { Onboarding } from './index'
 
 export default {
   title: 'Pages/Onboarding',

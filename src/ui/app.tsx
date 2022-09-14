@@ -21,7 +21,7 @@ import {
 import RequireOnboard from './helper/RequireOnboard'
 import RequireAuth from './helper/RequireAuth'
 import { checkUnlockNeeded } from './helper/unlockNeeded'
-import { globalStyle, container } from './globalStyle'
+import { globalStyle } from './globalStyle'
 import { BACKGROUND_STATUS, ONBOARDING_URL } from '../share/constants'
 import { LightTheme } from './theme'
 import { useAuthStore } from './store/auth'
@@ -112,7 +112,7 @@ const App = () => {
   if (loading) return <LoadingPage />
 
   return (
-    <div className={clsx(theme, globalStyle, container)}>
+    <div className={clsx(theme, 'w-[464px]', 'h-[614px]')}>
       <Router>
         <Routes>
           <Route path={ROUTES.ONBOARDING} element={<OnboardingPage />} />

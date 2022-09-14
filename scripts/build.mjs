@@ -1,5 +1,5 @@
 import { build } from 'esbuild'
-import fs from 'fs'
+import fs from 'fs-extra'
 import linaria from '@linaria/esbuild'
 import yargs from 'yargs/yargs'
 import { execSync } from 'child_process'
@@ -90,10 +90,7 @@ async function buildFiles(opt) {
 
   // copy icons
   console.log('generating assets files')
-  fs.copyFileSync('src/assets/logo_16.png', `${assetsDir}/logo_16.png`)
-  fs.copyFileSync('src/assets/logo_32.png', `${assetsDir}/logo_32.png`)
-  fs.copyFileSync('src/assets/logo_48.png', `${assetsDir}/logo_48.png`)
-  fs.copyFileSync('src/assets/logo_128.png', `${assetsDir}/logo_128.png`)
+  fs.copy('src/assets', assetsDir)
 
   // build tailwind css with tailwindcss command
   // NOTE: does not have to be built with esbuild

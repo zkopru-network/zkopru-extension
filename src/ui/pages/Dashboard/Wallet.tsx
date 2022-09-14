@@ -4,39 +4,18 @@ import Button from '../../components/Button'
 // @tkmct - I'm assuming we can convert to USD to start with
 const mockData = [
   {
-    name: 'ETH',
+    symbol: 'ETH',
     icon: '🤫',
     value: '12.98',
     usdValue: '18293.02'
   },
   {
-    name: 'USDC',
+    symbol: 'USDC',
     icon: '💀',
-    value: '12.98',
-    usdValue: '18293.02'
-  },
-  {
-    name: 'XRP',
-    icon: '🏎️',
-    value: '12.98',
-    usdValue: '18293.02'
-  },
-  {
-    name: 'DAI',
-    icon: '👻',
-    value: '12.98',
-    usdValue: '18293.02'
-  },
-  {
-    name: 'BSC',
-    icon: '✨',
     value: '12.98',
     usdValue: '18293.02'
   }
 ]
-
-// sort by name A-Z
-mockData.sort((a, b) => (a.name > b.name ? 1 : -1))
 
 const totalUSDValue = mockData.reduce((acc, curr) => {
   return acc + parseFloat(curr.usdValue)
@@ -56,12 +35,12 @@ const Wallet = () => {
           <li
             tabIndex={0}
             className="w-full hover:bg-skin-light-gray/80 hover:cursor-pointer p-2 rounded-lg transition duration-200 ease-out focus:outline-none border-2 border-transparent focus:border-skin-inverse/40"
-            key={token.name}
+            key={token.symbol}
           >
             <div className="flex justify-between items-center text-sm text-skin-text-primary">
               <div className="left font-medium flex justify-between items-center gap-2">
                 {token.icon}
-                <p>{token.name}</p>
+                <p>{token.symbol}</p>
               </div>
               <div className="right flex gap-2">
                 <div className="flex flex-col items-end font-medium">

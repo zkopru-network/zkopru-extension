@@ -1,3 +1,4 @@
+import React from 'react'
 import { Listbox, Transition } from '@headlessui/react'
 import { useState } from 'react'
 import { TokenSelectorProps } from '../../interfaces'
@@ -58,7 +59,7 @@ export const TokenSelector = ({
             ref={inputRef}
           >
             {data.map((token) => (
-              <Listbox.Option key={token.id} value={token.symbol}>
+              <Listbox.Option key={token.symbol} value={token.symbol}>
                 {({ active, selected }) => (
                   <div
                     className={`${

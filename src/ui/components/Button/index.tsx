@@ -1,5 +1,5 @@
-import clsx from 'clsx'
 import React from 'react'
+import clsx from 'clsx'
 import { BtnProps, BtnVariants } from '../../interfaces'
 
 const commonButtonStyles = `transition disabled:opacity-50 disabled:cursor-not-allowed focus:outline-none focus:ring focus:ring-btn-bright/50 focus:ring-offset-2 focus:ring-offset-white/50 font-semibold`

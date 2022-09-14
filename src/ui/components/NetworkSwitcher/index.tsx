@@ -1,3 +1,4 @@
+import React from 'react'
 import { Menu, Transition } from '@headlessui/react'
 import { NetworkProps, NetworkSwitcherProps } from '../../interfaces'
 import { ArrowDownSFill } from '../common/icons'

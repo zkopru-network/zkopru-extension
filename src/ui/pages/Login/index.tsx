@@ -1,3 +1,4 @@
+import React from 'react'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
@@ -5,7 +6,15 @@ import { ZkopruLogoWhite } from '../../components/common/icons'
 import ExtensionFrameWithImage from '../../components/ExtensionFrameWithImage'
 import Input from '../../components/Input'
 
-const LoginForm = () => {
+export type FormData = {
+  password: string
+}
+
+type LoginFormProps = {
+  onSubmit: (data: FormData) => void
+}
+
+const LoginForm = ({ onSubmit }: LoginFormProps) => {
   const validationSchema = z.object({
     password: z.string().min(1, { message: 'Please enter a password' })
   })
@@ -21,10 +30,7 @@ const LoginForm = () => {
   })
 
   return (
-    <form
-      onSubmit={handleSubmit((d) => console.log(d))}
-      className="flex flex-col gap-6"
-    >
+    <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-6">
       <div className="flex flex-col gap-8">
         <Input
           type="password"
@@ -43,7 +49,11 @@ const LoginForm = () => {
   )
 }
 
-export const Login = () => (
+type LoginProps = {
+  onSubmit: (data: FormData) => void
+}
+
+export const Login = ({ onSubmit }: LoginProps) => (
   <ExtensionFrameWithImage>
     <ZkopruLogoWhite />
     <div>
@@ -53,6 +63,6 @@ export const Login = () => (
       <p className="p-1"></p>
       <p className="text-base">Cheap, private transactions are ahead.</p>
     </div>
-    <LoginForm />
+    <LoginForm onSubmit={onSubmit} />
   </ExtensionFrameWithImage>
 )

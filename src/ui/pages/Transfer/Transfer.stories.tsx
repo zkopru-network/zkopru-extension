@@ -1,5 +1,5 @@
 import { ComponentMeta, ComponentStory } from '@storybook/react'
-import { Transfer } from '.'
+import { Transfer } from './index'
 
 export default {
   title: 'Pages/Transfer',

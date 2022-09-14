@@ -1,3 +1,4 @@
+import React from 'react'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 import * as z from 'zod'
@@ -5,7 +6,16 @@ import { ZkopruLogoWhite } from '../../components/common/icons'
 import ExtensionFrameWithImage from '../../components/ExtensionFrameWithImage'
 import Input from '../../components/Input'
 
-const RegistrationForm = () => {
+export type FormData = {
+  password: string
+  confirmPassword: string
+}
+
+type RegistrationFormProps = {
+  onSubmit: (data: FormData) => void
+}
+
+const RegistrationForm = ({ onSubmit }: RegistrationFormProps) => {
   const validationSchema = z
     .object({
       password: z
@@ -32,7 +42,7 @@ const RegistrationForm = () => {
   })
 
   return (
-    <form onSubmit={handleSubmit((d) => console.log(d))}>
+    <form onSubmit={handleSubmit(onSubmit)}>
       <div className="flex flex-col gap-4">
         <Input
           type="password"
@@ -67,7 +77,11 @@ const RegistrationForm = () => {
   )
 }
 
-export const Onboarding = () => (
+type OnboardingProps = {
+  onSubmit: (data: FormData) => void
+}
+
+export const Onboarding = ({ onSubmit }: OnboardingProps) => (
   <ExtensionFrameWithImage>
     <ZkopruLogoWhite />
     <div>
@@ -80,6 +94,6 @@ export const Onboarding = () => (
         manager, if you can.
       </p>
     </div>
-    <RegistrationForm />
+    <RegistrationForm onSubmit={onSubmit} />
   </ExtensionFrameWithImage>
 )
