@@ -32,11 +32,3 @@ export const globalStyle = css`
     }
   }
 `
-
-export const container = css`
-  width: 320px;
-  height: 480px;
-  background-color: var(--color-background);
-  color: var(--color-on-background);
-  padding: 12px 20px;
-`

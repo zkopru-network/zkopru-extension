@@ -1,3 +1,5 @@
+import React from 'react'
+
 const AccountActivity = () => {
   // TODO: Replace with actual fetched data
   const mockData = [

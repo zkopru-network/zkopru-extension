@@ -1,3 +1,4 @@
+import React from 'react'
 import ExtensionFrame from '../../components/ExtensionFrame'
 import { Overview } from '../../components/Overview'
 import DashboardTabs from './DashboardTabs'
