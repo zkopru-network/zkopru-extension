@@ -16,11 +16,13 @@
   }
 
   .mode-light {
+    --color-pure: 250 250 250; /* #FFFFFF */
     --color-inverse: 21 23 46; /* #15172E */
     --color-tab-selected: var(--color-btn-bright);
   }
 
   .mode-dark {
+    --color-pure: 0 0 0; /* #000000 */
     --color-inverse: 249 250 255; /* #F9FAFF */
     --color-tab-selected: var(--color-inverse);
   }
