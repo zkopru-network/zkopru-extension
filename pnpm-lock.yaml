@@ -48,6 +48,7 @@ specifiers:
   eslint-plugin-react: ^7.30.0
   eslint-plugin-storybook: ^0.5.13
   express: 4.17.2
+  fs-extra: ^10.1.0
   i18next: ^21.8.10
   js-sha512: ^0.8.0
   loglevel: ^1.8.0
@@ -57,6 +58,7 @@ specifiers:
   react: ^18.1.0
   react-dom: ^18.1.0
   react-hook-form: ^7.33.1
+  react-hot-toast: ^2.4.0
   react-i18next: ^11.17.2
   react-query: ^3.39.1
   react-router-dom: ^6.3.0
@@ -87,12 +89,14 @@ dependencies:
   bn.js: 5.2.1
   clsx: 1.1.1
   dayjs: 1.11.3
+  fs-extra: 10.1.0
   i18next: 21.8.10
   js-sha512: 0.8.0
   loglevel: 1.8.0
   react: 18.1.0
   react-dom: 18.1.0_react@18.1.0
   react-hook-form: 7.33.1_react@18.1.0
+  react-hot-toast: 2.4.0_2bum4g2y5s4cgzgzu5mbjuolai
   react-i18next: 11.17.2_tsc6wv675msxhpngmtsofyecne
   react-query: 3.39.1_ef5jwxihqo6n7gxfmzogljlgcm
   react-router-dom: 6.3.0_ef5jwxihqo6n7gxfmzogljlgcm
@@ -8148,7 +8152,6 @@ packages:
 
   /csstype/3.1.0:
     resolution: {integrity: sha512-uX1KG+x9h5hIJsaKR9xHUeUraxf8IODOwq9JLNPq6BwB04a/xgpq3rcx47l5BZu5zBPlgD342tdke3Hom/nJRA==}
-    dev: true
 
   /currently-unhandled/0.4.1:
     resolution: {integrity: sha512-/fITjgjGU50vjQ4FH6eUoYu+iUoUKIXws2hL15JJpIR+BbTxaXQsMuuyjtNh2WqsSBS5nsaZHFsFecyw5CCAng==}
@@ -10334,7 +10337,6 @@ packages:
       graceful-fs: 4.2.10
       jsonfile: 6.1.0
       universalify: 2.0.0
-    dev: true
 
   /fs-extra/4.0.3:
     resolution: {integrity: sha512-q6rbdDd1o2mAnQreO7YADIxf/Whx4AHBiRf6d+/cVT8h44ss+lHgxf1FemcqDnQt9X3ct4McHr+JMGlYSsK7Cg==}
@@ -10693,6 +10695,14 @@ packages:
     transitivePeerDependencies:
       - supports-color
     dev: true
+
+  /goober/2.1.11_csstype@3.1.0:
+    resolution: {integrity: sha512-5SS2lmxbhqH0u9ABEWq7WPU69a4i2pYcHeCxqaNq6Cw3mnrF0ghWNM4tEGid4dKy8XNIAUbuThuozDHHKJVh3A==}
+    peerDependencies:
+      csstype: ^3.0.10
+    dependencies:
+      csstype: 3.1.0
+    dev: false
 
   /got/7.1.0:
     resolution: {integrity: sha512-Y5WMo7xKKq1muPsxD+KmrR8DH5auG7fBdDVueZwETwV6VytKyU9OX/ddpq2/1hp1vIPvVb4T81dKQz3BivkNLw==}
@@ -12061,7 +12071,7 @@ packages:
     hasBin: true
 
   /jsonfile/4.0.0:
-    resolution: {integrity: sha1-h3Gq4HmbZAdrdmQPygWPnBDjPss=}
+    resolution: {integrity: sha512-m6F1R3z8jjlf2imQHS2Qez5sjKWQzbuuhuJ/FKYFRZvPE3PuHcSMVZzfsLhGVOkfd20obL5SWEBew5ShlquNxg==}
     optionalDependencies:
       graceful-fs: 4.2.10
     dev: false
@@ -14756,6 +14766,20 @@ packages:
       react: ^16.8.0 || ^17 || ^18
     dependencies:
       react: 18.1.0
+    dev: false
+
+  /react-hot-toast/2.4.0_2bum4g2y5s4cgzgzu5mbjuolai:
+    resolution: {integrity: sha512-qnnVbXropKuwUpriVVosgo8QrB+IaPJCpL8oBI6Ov84uvHZ5QQcTp2qg6ku2wNfgJl6rlQXJIQU5q+5lmPOutA==}
+    engines: {node: '>=10'}
+    peerDependencies:
+      react: '>=16'
+      react-dom: '>=16'
+    dependencies:
+      goober: 2.1.11_csstype@3.1.0
+      react: 18.1.0
+      react-dom: 18.1.0_react@18.1.0
+    transitivePeerDependencies:
+      - csstype
     dev: false
 
   /react-i18next/11.17.2_tsc6wv675msxhpngmtsofyecne:
