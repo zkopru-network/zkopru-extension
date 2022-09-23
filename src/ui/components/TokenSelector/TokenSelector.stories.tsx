@@ -18,22 +18,25 @@ export const Playground: ComponentStory<typeof TokenSelector> = () => (
       name="token"
       data={[
         {
-          id: 1,
           name: 'Ethereum',
           symbol: 'ETH',
-          icon: '✨'
+          icon: '✨',
+          address: 'x0000939378200',
+          decimals: 18
         },
         {
-          id: 2,
           name: 'USD Coin',
           symbol: 'USDC',
-          icon: '💵'
+          icon: '💵',
+          address: 'x0000939378200',
+          decimals: 18
         },
         {
-          id: 3,
           name: 'Ripple',
           symbol: 'XRP',
-          icon: '💸'
+          icon: '💸',
+          address: 'x0000939378200',
+          decimals: 18
         }
       ]}
     />
