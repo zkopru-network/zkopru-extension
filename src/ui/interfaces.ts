@@ -148,6 +148,7 @@ export interface TokenData {
   symbol: string
   address: string
   icon?: string
+  decimals: number
 }
 
 export interface TokenSelectorProps {
