@@ -45,7 +45,7 @@ const Modal = ({
                 leaveFrom="opacity-100 scale-100"
                 leaveTo="opacity-0 scale-95"
               >
-                <Dialog.Panel className="w-full max-w-md transform overflow-hidden rounded-2xl bg-mode-pure p-6 text-left align-middle shadow-xl transition-all">
+                <Dialog.Panel className="w-full max-w-md transform overflow-hidden rounded-2xl bg-skin-back p-6 text-left align-middle shadow-xl transition-all border-2 border-skin-text-primary/5">
                   <Dialog.Title
                     as="h3"
                     className="text-lg font-semibold leading-6 text-skin-text-primary"
@@ -56,13 +56,17 @@ const Modal = ({
 
                   <div className="mt-8 flex justify-between items-baseline">
                     {cancellable && (
-                      <RoundedButton variant="primary" onClick={closeModal}>
+                      <RoundedButton variant="secondary" onClick={closeModal}>
                         Cancel
                       </RoundedButton>
                     )}
 
                     {mainAction && (
-                      <Button variant="filled" onClick={mainAction.action}>
+                      <Button
+                        variant="filled"
+                        onClick={mainAction.action}
+                        addClasses="hover:scale-105 hover:shadow-md"
+                      >
                         {mainAction.label}
                       </Button>
                     )}
