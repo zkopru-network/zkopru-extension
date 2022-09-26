@@ -1,51 +1,8 @@
-import { useCallback, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
-import routes from '../../../routes'
+import { useState } from 'react'
 import ExtensionFrame from '../../components/ExtensionFrame'
 import Modal from '../../components/Modal'
-import useBackgroundConnection from '../../hooks/useBackgroundConnection'
 
 const ConfirmSwapPage = () => {
-  // // TODO: validation
-  // const navigate = useNavigate()
-  // const background = useBackgroundConnection()
-
-  // // TODO: get params once
-  // const {
-  //   sendToken,
-  //   sendAmount,
-  //   receiveToken,
-  //   receiveAmount,
-  //   counterParty,
-  //   salt,
-  //   fee
-  // } = new Proxy(new URLSearchParams(window.location.search), {
-  //   get: (searchParams, prop) => searchParams.get(prop as string)
-  // }) as any
-  // const [loading, setLoading] = useState(false)
-
-  // const handleSwap = useCallback(async () => {
-  //   setLoading(true)
-  //   const response = await background.swap(
-  //     sendToken,
-  //     sendAmount,
-  //     receiveToken,
-  //     receiveAmount,
-  //     counterParty,
-  //     Number(salt),
-  //     fee
-  //   )
-  //   if (response.payload.hash) navigate(routes.SWAP_COMPLETE)
-  // }, [])
-
-  // if (loading) {
-  //   return (
-  //     <div>
-  //       <h1>Sending transaction...</h1>
-  //     </div>
-  //   )
-  // }
-
   const [isOpen, setIsOpen] = useState(true)
 
   function closeModal() {
@@ -86,7 +43,7 @@ const ConfirmSwapPage = () => {
               <p className="font-medium">{'ETH'}</p>
             </div>
           </div>
-          <div className="absolute left-1/2 top-[4.5rem] ring-1 ring-offset-transparent ring-mode-pure ring-offset-2 h-8 w-8 bg-skin-light-gray text-skin-text-primary rounded-xl flex justify-center items-center">
+          <div className="absolute left-1/2 top-[4.5rem] ring-1 ring-offset-transparent ring-skin-back ring-offset-4 h-8 w-8 bg-skin-light-gray text-skin-text-primary rounded-xl flex justify-center items-center">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="currentColor"
@@ -118,15 +75,4 @@ const ConfirmSwapPage = () => {
   )
 }
 
-// const container = css`
-//   display: flex;
-//   flex-direction: column;
-//   padding: 12px 24px;
-//   overflow-y: scroll;
-// `
-
-// const buttonSection = css`
-//   display: flex;
-//   justify-content: space-between;
-// `
 export default ConfirmSwapPage
