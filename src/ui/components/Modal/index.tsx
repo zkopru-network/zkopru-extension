@@ -31,7 +31,7 @@ const Modal = ({
             leaveFrom="opacity-100"
             leaveTo="opacity-0"
           >
-            <div className="fixed inset-0 bg-black bg-opacity-25" />
+            <div className="fixed inset-0 bg-mode-pure bg-opacity-25" />
           </Transition.Child>
 
           <div className="fixed inset-0 overflow-y-auto">
@@ -48,7 +48,7 @@ const Modal = ({
                 <Dialog.Panel className="w-full max-w-md transform overflow-hidden rounded-2xl bg-mode-pure p-6 text-left align-middle shadow-xl transition-all">
                   <Dialog.Title
                     as="h3"
-                    className="text-xl font-semibold leading-6 text-skin-text-primary"
+                    className="text-lg font-semibold leading-6 text-skin-text-primary"
                   >
                     {title}
                   </Dialog.Title>
