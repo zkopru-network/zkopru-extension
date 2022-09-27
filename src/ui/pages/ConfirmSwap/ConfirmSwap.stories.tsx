@@ -3,7 +3,7 @@ import { BrowserRouter } from 'react-router-dom'
 import ConfirmSwapPage from '.'
 
 export default {
-  title: 'Pages/Swap',
+  title: 'Confirmations/Swap',
   component: ConfirmSwapPage
 } as ComponentMeta<typeof ConfirmSwapPage>
 
