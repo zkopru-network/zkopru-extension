@@ -1,73 +1,105 @@
 import React from 'react'
+import { formatEther, formatUnits } from '@ethersproject/units'
+import dayjs from 'dayjs'
+import type { Activity } from '../../../share/types'
 
-const AccountActivity = () => {
-  // TODO: Replace with actual fetched data
-  const mockData = [
-    {
-      date: '2020-01-01',
-      type: 'Deposit',
-      amount: '0.0029',
-      token: 'ETH',
-      explorerLink:
-        'https://etherscan.io/tx/0x1234567890123456789012345678901234567890'
-    },
-    {
-      date: '2020-01-01',
-      type: 'Withdrawal',
-      amount: '2.98',
-      token: 'ETH',
-      explorerLink:
-        'https://etherscan.io/tx/0x1234567890123456789012345678901234567890'
-    },
-    {
-      date: '2020-01-01',
-      type: 'Send',
-      amount: '5000',
-      to: '0x1234567890123456789012345678901234567890',
-      token: 'USDC',
-      explorerLink:
-        'https://etherscan.io/tx/0x1234567890123456789012345678901234567890'
-    },
-    {
-      date: '2022-01-01',
-      type: 'Withdrawal',
-      amount: '2.38',
-      token: 'ETH',
-      explorerLink:
-        'https://etherscan.io/tx/0x234567890123456789012345678901234567890'
-    },
-    {
-      date: '2022-01-01',
-      type: 'Deposit',
-      amount: '0.0029',
-      token: 'ETH',
-      explorerLink:
-        'https://etherscan.io/tx/0xa3der67890123456789012345678901234567890'
-    },
-    {
-      date: '2021-10-01',
-      type: 'Withdrawal',
-      amount: '2.98',
-      to: '0x1234567890123456789012345678901234567890',
-      token: 'ETH',
-      explorerLink:
-        'https://etherscan.io/tx/0x1234567890123456789012345678901234567890'
-    }
-  ]
+type AccountActivityProps = {
+  activities: Activity[] | undefined
+}
+
+type Data = Array<{
+  date: string
+  type: string
+  amount: string
+  token: string
+  to?: string
+}>
+
+const AccountActivity = ({ activities }: AccountActivityProps) => {
+  if (activities === undefined) return <div>Loading</div>
+
+  // TODO: get from token lib
+  const erc20Decimal = 18
+
+  const data = activities.map((activity) => ({
+    date: activity.proposal
+      ? dayjs.unix(activity.proposal.timestamp).format('YYYY-MM-DD')
+      : 'Pending',
+    type: activity.type,
+    token: activity.tokenAddr,
+    amount:
+      activity.tokenAddr === '0x0'
+        ? formatEther(activity.eth).toString()
+        : formatUnits(activity.erc20Amount, erc20Decimal).toString()
+  }))
+
+  // // TODO: Replace with actual fetched data
+  // const mockData = [
+  //   {
+  //     date: '2020-01-01',
+  //     type: 'Deposit',
+  //     amount: '0.0029',
+  //     token: 'ETH',
+  //     explorerLink:
+  //       'https://etherscan.io/tx/0x1234567890123456789012345678901234567890'
+  //   },
+  //   {
+  //     date: '2020-01-01',
+  //     type: 'Withdrawal',
+  //     amount: '2.98',
+  //     token: 'ETH',
+  //     explorerLink:
+  //       'https://etherscan.io/tx/0x1234567890123456789012345678901234567890'
+  //   },
+  //   {
+  //     date: '2020-01-01',
+  //     type: 'Send',
+  //     amount: '5000',
+  //     to: '0x1234567890123456789012345678901234567890',
+  //     token: 'USDC',
+  //     explorerLink:
+  //       'https://etherscan.io/tx/0x1234567890123456789012345678901234567890'
+  //   },
+  //   {
+  //     date: '2022-01-01',
+  //     type: 'Withdrawal',
+  //     amount: '2.38',
+  //     token: 'ETH',
+  //     explorerLink:
+  //       'https://etherscan.io/tx/0x234567890123456789012345678901234567890'
+  //   },
+  //   {
+  //     date: '2022-01-01',
+  //     type: 'Deposit',
+  //     amount: '0.0029',
+  //     token: 'ETH',
+  //     explorerLink:
+  //       'https://etherscan.io/tx/0xa3der67890123456789012345678901234567890'
+  //   },
+  //   {
+  //     date: '2021-10-01',
+  //     type: 'Withdrawal',
+  //     amount: '2.98',
+  //     to: '0x1234567890123456789012345678901234567890',
+  //     token: 'ETH',
+  //     explorerLink:
+  //       'https://etherscan.io/tx/0x1234567890123456789012345678901234567890'
+  //   }
+  // ]
 
   // Map works better here since the data has no definite shape (i.e. no standard keys)
-  const groupByDate = (data: typeof mockData) => {
+  const groupByDate = (data: Data) => {
     return data.reduce((acc, curr) => {
       const date = curr.date
       if (!acc.has(date)) {
         acc.set(date, [])
       }
-      acc.set(date, [...(acc.get(date) as typeof mockData), curr])
+      acc.set(date, [...(acc.get(date) as Data), curr])
       return acc
-    }, new Map<string, typeof mockData>())
+    }, new Map<string, Data>())
   }
 
-  const activityData = groupByDate(mockData)
+  const activityData = groupByDate(data)
 
   return (
     <ul className="max-h-64 overflow-y-auto mb-2">
@@ -104,7 +136,7 @@ const AccountActivity = () => {
                     </div>
                     <div className="">
                       <a
-                        href={activity.explorerLink}
+                        // href={activity.explorerLink}
                         className="underline text-tab-selected hover:opacity-50"
                       >
                         View on explorer 🡕

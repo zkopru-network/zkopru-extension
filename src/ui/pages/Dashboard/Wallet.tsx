@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from 'react'
 import shallow from 'zustand/shallow'
+import { useNavigate } from 'react-router-dom'
 import { useZkopruStore } from '../../store/zkopru'
 import Button from '../../components/Button'
+import routes from '../../../routes'
 
 type TokenData = {
   symbol: string
@@ -15,6 +17,7 @@ const Wallet = () => {
     data: TokenData[]
     totalUSDValue: number
   }>({ data: [], totalUSDValue: 0 })
+  const navigate = useNavigate()
 
   const { balance } = useZkopruStore(
     (state) => ({
@@ -62,6 +65,7 @@ const Wallet = () => {
             tabIndex={0}
             className="w-full hover:bg-skin-light-gray/80 hover:cursor-pointer p-2 rounded-lg transition duration-200 ease-out focus:outline-none border-2 border-transparent focus:border-skin-inverse/40"
             key={token.symbol}
+            onClick={() => navigate(routes.TRANSFER)}
           >
             <div className="flex justify-between items-center text-sm text-skin-text-primary">
               <div className="left font-medium flex justify-between items-center gap-2">
