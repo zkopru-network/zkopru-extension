@@ -16,8 +16,6 @@ const ActivityPage = () => {
     return (await background.loadActivity()).payload.activities
   })
 
-  console.log(activityQuery.data)
-
   return (
     <div className={container}>
       <div className={header}>
