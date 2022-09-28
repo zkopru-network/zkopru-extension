@@ -8,16 +8,12 @@ import {
 import RoundedButton from '../RoundedButton'
 
 export const Overview = () => (
-  //  TODO: Update bg gradient
-  // <div className="h-32 flex flex-col justify-between bg-zk-pattern bg-cover bg-no-repeat rounded-3xl p-5 text-white text-sm">
   <div className="h-32 bg-gradient-to-br from-skin-g-primary to-skin-g-secondary rounded-3xl overflow-clip">
     <div className="h-full flex flex-col justify-between bg-zk-logo bg-no-repeat bg-right p-5 text-white text-sm">
       <section className="flex justify-between items-center">
         {/* TODO: Maybe this is its own component? */}
         <div className="flex gap-1 justify-center items-center relative">
-          {/* <div className="relative"> */}
           <IconShield />
-          {/* </div> */}
           <p className="text-xs text-white" title="Account name">
             Jörmungandr
           </p>
@@ -29,7 +25,7 @@ export const Overview = () => (
           </p>
           {/* TODO: Swap with other icon and trigger privacy */}
           <EyeLine
-            className="peer hover:opacity-70"
+            className="peer hover:opacity-70 hover:cursor-pointer"
             aria-describedby="privacy-tip"
           />
           {/* TODO: Make a tooltip component? */}
@@ -44,12 +40,7 @@ export const Overview = () => (
         </div>
       </section>
       <section className="flex justify-between items-center">
-        <RoundedButton
-          variant="secondary"
-          addClasses="text-white bg-skin-inverse/20"
-        >
-          Copy address
-        </RoundedButton>
+        <RoundedButton variant="secondary">Copy address</RoundedButton>
         <div className="flex gap-2">
           <RoundedButton variant="primary">Deposit</RoundedButton>
           <RoundedButton variant="primary">Withdraw</RoundedButton>
