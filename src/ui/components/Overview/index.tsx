@@ -44,7 +44,12 @@ export const Overview = () => (
         </div>
       </section>
       <section className="flex justify-between items-center">
-        <RoundedButton variant="secondary">Copy address</RoundedButton>
+        <RoundedButton
+          variant="secondary"
+          addClasses="text-white bg-skin-inverse/20"
+        >
+          Copy address
+        </RoundedButton>
         <div className="flex gap-2">
           <RoundedButton variant="primary">Deposit</RoundedButton>
           <RoundedButton variant="primary">Withdraw</RoundedButton>

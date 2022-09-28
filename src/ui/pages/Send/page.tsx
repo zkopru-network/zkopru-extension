@@ -8,7 +8,7 @@ import useBackgroundConnection from '../../hooks/useBackgroundConnection'
 import { toWei } from '../../../share/utils'
 import { useZkopruStore } from '../../store/zkopru'
 
-import { Transfer, FormData } from './index'
+import { Send, FormData } from './index'
 
 const TransferPage = () => {
   const background = useBackgroundConnection()
@@ -48,7 +48,7 @@ const TransferPage = () => {
     navigate(ROUTES.TRANFER_COMPLETE)
   }
   return (
-    <Transfer
+    <Send
       onSubmit={onSubmit}
       tokens={
         erc20InfoQuery.data

@@ -1,13 +1,12 @@
-import React from 'react'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Controller, useForm } from 'react-hook-form'
 import { useNavigate } from 'react-router-dom'
 import { z } from 'zod'
+import ROUTES from '../../../routes'
 import ExtensionFrame from '../../components/ExtensionFrame'
 import Input from '../../components/Input'
 import { TokenSelector } from '../../components/TokenSelector'
 import { TokenData } from '../../interfaces'
-import ROUTES from '../../../routes'
 
 export type FormData = {
   amount: number
@@ -16,12 +15,12 @@ export type FormData = {
   token: string
 }
 
-type TransferFormProps = {
+type SendFormProps = {
   onSubmit: (data: FormData) => void
   tokens: TokenData[]
 }
 
-const TransferForm = ({ onSubmit, tokens }: TransferFormProps) => {
+const SendForm = ({ onSubmit, tokens }: SendFormProps) => {
   const minValue = 0.00001
 
   const validationSchema = z.object({
@@ -123,12 +122,12 @@ const TransferForm = ({ onSubmit, tokens }: TransferFormProps) => {
   )
 }
 
-type TransferProps = {
+type SendProps = {
   onSubmit: (data: FormData) => void
   tokens: TokenData[]
 }
 
-export const Transfer = ({ onSubmit, tokens }: TransferProps) => {
+export const Send = ({ onSubmit, tokens }: SendProps) => {
   const navigate = useNavigate()
   return (
     <ExtensionFrame>
@@ -139,7 +138,7 @@ export const Transfer = ({ onSubmit, tokens }: TransferProps) => {
         </button>
       </p>
       <h1 className="text-2xl font-bold leading-tight">Send</h1>
-      <TransferForm onSubmit={onSubmit} tokens={tokens} />
+      <SendForm onSubmit={onSubmit} tokens={tokens} />
     </ExtensionFrame>
   )
 }

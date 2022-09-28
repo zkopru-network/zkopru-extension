@@ -6,7 +6,7 @@ const commonButtonStyles = `transition disabled:opacity-50 disabled:cursor-not-a
 
 export const variants: BtnVariants = {
   filled: clsx(
-    'text-skin-text-primary bg-skin-light-gray hover:bg-btn-bright hover:text-white rounded-md py-3 px-6',
+    'text-white bg-btn-bright/90 hover:bg-btn-bright rounded-md py-3 px-6',
     commonButtonStyles
   ),
   ghost: clsx(
@@ -19,9 +19,13 @@ const Button: React.FC<BtnProps> = ({
   variant = 'filled',
   children = 'New button',
   icon,
+  addClasses,
   ...rest
 }) => (
-  <button {...rest} className={`${variants[variant as keyof BtnVariants]}`}>
+  <button
+    {...rest}
+    className={clsx(`${variants[variant as keyof BtnVariants]}`, addClasses)}
+  >
     <div className="flex gap-2 text-inherit justify-center items-center">
       {children}
       {icon}

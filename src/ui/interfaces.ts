@@ -119,6 +119,7 @@ export interface BtnProps
   children: ReactNode
   variant: keyof BtnVariants | keyof RoundedBtnVariants
   icon?: JSX.Element
+  addClasses?: string
 }
 
 export interface BtnVariants {
@@ -148,6 +149,7 @@ export interface TokenData {
   symbol: string
   address: string
   icon?: string
+  decimals: number
 }
 
 export interface TokenSelectorProps {

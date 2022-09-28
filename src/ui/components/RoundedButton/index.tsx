@@ -1,3 +1,4 @@
+import clsx from 'clsx'
 import React from 'react'
 import { BtnProps, RoundedBtnVariants } from '../../interfaces'
 
@@ -5,17 +6,21 @@ const commonButtonStyles = `transition disabled:opacity-50 disabled:cursor-not-a
 
 const variants: RoundedBtnVariants = {
   primary: `text-sm py-1 px-3 text-white bg-btn-bright/60 hover:bg-btn-bright ${commonButtonStyles}`,
-  secondary: `text-xs py-1 px-2 text-white bg-white/20 border border-skin-inverse/15 hover:bg-btn-bright hover:text-white hover:border-btn-bright ${commonButtonStyles}`
+  secondary: `text-xs py-1 px-2 text-skin-text-primary bg-skin-light-gray/40 border border-skin-inverse/20 hover:bg-btn-bright hover:text-white hover:border-btn-bright backdrop-blur-sm ${commonButtonStyles}`
 }
 
 const RoundedButton: React.FC<BtnProps> = ({
   variant = 'primary',
   children = 'Click me',
+  addClasses,
   ...rest
 }) => (
   <button
     {...rest}
-    className={`${variants[variant as keyof RoundedBtnVariants]}`}
+    className={clsx(
+      `${variants[variant as keyof RoundedBtnVariants]}`,
+      addClasses
+    )}
   >
     {children}
   </button>
