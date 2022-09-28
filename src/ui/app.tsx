@@ -21,7 +21,6 @@ import {
 import RequireOnboard from './helper/RequireOnboard'
 import RequireAuth from './helper/RequireAuth'
 import { checkUnlockNeeded } from './helper/unlockNeeded'
-import { globalStyle } from './globalStyle'
 import { BACKGROUND_STATUS, ONBOARDING_URL } from '../share/constants'
 import { LightTheme } from './theme'
 import { useAuthStore } from './store/auth'

@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom'
 import { useZkopruStore } from '../../store/zkopru'
 import Button from '../../components/Button'
 import routes from '../../../routes'
+import toast from 'react-hot-toast'
 
 type TokenData = {
   symbol: string
@@ -86,7 +87,14 @@ const Wallet = () => {
           </li>
         ))}
       </ul>
-      <Button variant="filled">Manage tokens</Button>
+      <Button
+        variant="filled"
+        onClick={() => {
+          toast('manage token!')
+        }}
+      >
+        Manage tokens
+      </Button>
     </>
   )
 }
