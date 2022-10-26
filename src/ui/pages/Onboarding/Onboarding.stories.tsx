@@ -7,5 +7,5 @@ export default {
 } as ComponentMeta<typeof Onboarding>
 
 export const Playground: ComponentStory<typeof Onboarding> = () => (
-  <Onboarding />
+  <Onboarding onSubmit={() => null} />
 )

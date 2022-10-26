@@ -1,5 +1,6 @@
-import React from 'react'
 import { useNavigate } from 'react-router-dom'
+import ROUTES from '../../../routes'
+import { ONBOARDING_URL } from '../../../share/constants'
 import {
   ArrowDownSFill,
   EyeLine,
@@ -7,23 +8,17 @@ import {
   ThreeDotsVertical
 } from '../common/icons'
 import RoundedButton from '../RoundedButton'
-import { ONBOARDING_URL } from '../../../share/constants'
-import ROUTES from '../../../routes'
 
 export const Overview = () => {
   const navigate = useNavigate()
 
-  //  TODO: Update bg gradient
-  // <div className="h-32 flex flex-col justify-between bg-zk-pattern bg-cover bg-no-repeat rounded-3xl p-5 text-white text-sm">
   return (
     <div className="h-32 bg-gradient-to-br from-skin-g-primary to-skin-g-secondary rounded-3xl overflow-clip">
       <div className="h-full flex flex-col justify-between bg-zk-logo bg-no-repeat bg-right p-5 text-white text-sm">
         <section className="flex justify-between items-center">
           {/* TODO: Maybe this is its own component? */}
           <div className="flex gap-1 justify-center items-center relative">
-            {/* <div className="relative"> */}
             <IconShield />
-            {/* </div> */}
             <p className="text-xs text-white" title="Account name">
               Jörmungandr
             </p>
