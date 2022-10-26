@@ -1,3 +1,4 @@
+import React from 'react'
 import toast, { ToastBar, Toaster } from 'react-hot-toast'
 
 /**

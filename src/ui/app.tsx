@@ -3,7 +3,7 @@ import browser from 'webextension-polyfill'
 import { HashRouter as Router, Routes, Route } from 'react-router-dom'
 import clsx from 'clsx'
 import {
-  HomePage,
+  DashboardPage,
   TransferPage,
   TransferConfirmPage,
   TransferCompletePage,
@@ -21,7 +21,6 @@ import {
 import RequireOnboard from './helper/RequireOnboard'
 import RequireAuth from './helper/RequireAuth'
 import { checkUnlockNeeded } from './helper/unlockNeeded'
-import { globalStyle } from './globalStyle'
 import { BACKGROUND_STATUS, ONBOARDING_URL } from '../share/constants'
 import { LightTheme } from './theme'
 import { useAuthStore } from './store/auth'
@@ -129,7 +128,7 @@ const App = () => {
             path={ROUTES.HOME}
             element={
               <RequireAuth>
-                <HomePage />
+                <DashboardPage />
               </RequireAuth>
             }
           />

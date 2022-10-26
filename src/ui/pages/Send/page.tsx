@@ -3,12 +3,14 @@ import { useNavigate } from 'react-router-dom'
 import shallow from 'zustand/shallow'
 import { parseUnits } from '@ethersproject/units'
 import { useQuery } from 'react-query'
+import toast from 'react-hot-toast'
 import ROUTES from '../../../routes'
 import useBackgroundConnection from '../../hooks/useBackgroundConnection'
 import { toWei } from '../../../share/utils'
 import { useZkopruStore } from '../../store/zkopru'
 
 import { Send, FormData } from './index'
+import ToastContainer from '../../components/Toast'
 
 const TransferPage = () => {
   const background = useBackgroundConnection()
@@ -25,6 +27,7 @@ const TransferPage = () => {
     return (await background.loadERC20Info()).payload
   })
   const onSubmit = async ({ recipient, amount, fee, token }: FormData) => {
+    toast('submitting')
     setLoading(true)
 
     // TODO: validate input, amount
@@ -47,22 +50,32 @@ const TransferPage = () => {
     setLoading(false)
     navigate(ROUTES.TRANFER_COMPLETE)
   }
+
   return (
-    <Send
-      onSubmit={onSubmit}
-      tokens={
-        erc20InfoQuery.data
-          ? [
-              {
-                symbol: 'ETH',
-                address: '0x00000000000000000000',
-                decimals: 18
-              },
-              ...erc20InfoQuery.data
-            ]
-          : [{ symbol: 'ETH', address: '0x00000000000000000000', decimals: 18 }]
-      }
-    />
+    <>
+      <ToastContainer />
+      <Send
+        onSubmit={onSubmit}
+        tokens={
+          erc20InfoQuery.data
+            ? [
+                {
+                  symbol: 'ETH',
+                  address: '0x00000000000000000000',
+                  decimals: 18
+                },
+                ...erc20InfoQuery.data
+              ]
+            : [
+                {
+                  symbol: 'ETH',
+                  address: '0x00000000000000000000',
+                  decimals: 18
+                }
+              ]
+        }
+      />
+    </>
   )
 }
 

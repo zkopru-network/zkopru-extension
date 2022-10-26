@@ -2,8 +2,13 @@ import React from 'react'
 import { Tab } from '@headlessui/react'
 import AccountActivity from './AccountActivity'
 import Wallet from './Wallet'
+import type { Activity } from '../../../share/types'
 
-const DashboardTabs = () => {
+type DashboardTabsProps = {
+  activities: Activity[] | undefined
+}
+
+const DashboardTabs = ({ activities }: DashboardTabsProps) => {
   const tabs = [
     {
       name: 'Wallet',
@@ -11,7 +16,7 @@ const DashboardTabs = () => {
     },
     {
       name: 'Activity',
-      content: <AccountActivity />
+      content: <AccountActivity activities={activities} />
     }
   ]
 
