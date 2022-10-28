@@ -1,9 +1,5 @@
-export const ALLOW_ORIGIN_LIST = [
-  'https://zkopru.network',
-  'http://localhost:3000'
-]
-
 export const ONBOARDING_URL = 'http://localhost:3000'
+export const ALLOW_ORIGIN_LIST = ['https://zkopru.network', ONBOARDING_URL]
 
 export const WALLET_KEY_MSG_PARAMS = JSON.stringify({
   domain: {
