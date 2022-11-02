@@ -51,8 +51,6 @@ $ WEB_EXT_FIREFOX_PROFILE=$PROFILE_LOCATION npm run web-ext:firefox
 
 **Note: before loading the extension, you need to install metamask addon to newly added firefox profile. To do that, open firefox with the profile and install Metamask.**
 
----
-
 To load extension manually, follow [this guide](https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/Your_first_WebExtension).
 
 ## Run onboarding site
