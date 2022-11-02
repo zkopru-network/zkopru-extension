@@ -66,3 +66,8 @@ $ yarn dev
 ```
 
 If you change the port of onboarding site, you need to change the value of `ONBOARDING_URL` in `src/share/constants.ts#1` and build entire extension project again.
+
+## Open onboarding site to setup browser
+
+Onboarding site is automatically opened if you use web-ext build.
+If you're not using web-ext build, open the site running on http://localhost:3000 or just click wallet extension icon installed on firefox toolbar.
