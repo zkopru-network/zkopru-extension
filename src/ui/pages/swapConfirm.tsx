@@ -12,6 +12,7 @@ const SwapConfirmPage = () => {
   const background = useBackgroundConnection()
 
   // TODO: get params once
+  // TODO: type and validate params
   const {
     sendToken,
     sendAmount,

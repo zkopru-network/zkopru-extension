@@ -6,10 +6,12 @@ import * as Message from '../share/message'
 import { TIMEOUT } from '../share/constants'
 import type { Activity } from '../share/types'
 
+export type BackgroundConnectionT = Omit<BackgroundConnection, 'sendBackground'>
+
 /**
  *
  */
-class BackgroundConnection {
+export class BackgroundConnection {
   constructor() {
     browser.runtime.onMessage.addListener(this.handleMessage)
   }
