@@ -1,36 +1,36 @@
-import React, { useState } from 'react'
+import React from 'react'
 import ExtensionFrame from '../../components/ExtensionFrame'
 import Modal from '../../components/Modal'
+import { ERC20Info } from '../../../share/types'
 
-const ConfirmSwapPage = () => {
-  const [isOpen, setIsOpen] = useState(true)
+type Props = {
+  onCancel: () => void
+  handleSwap: () => Promise<void>
+  sendAmount: string
+  receiveAmount: string
+  sendErc20?: ERC20Info
+  receiveErc20?: ERC20Info
+  fee: number
+}
 
-  function closeModal() {
-    setIsOpen(false)
-  }
-
-  function openModal() {
-    setIsOpen(true)
-  }
-
+const ConfirmSwapPage = ({
+  onCancel,
+  handleSwap,
+  sendAmount,
+  sendErc20,
+  receiveAmount,
+  receiveErc20,
+  fee
+}: Props) => {
   return (
     <ExtensionFrame>
-      <div className="inset-0 flex items-center justify-center">
-        <button
-          type="button"
-          onClick={openModal}
-          className="rounded-md bg-btn-bright px-4 py-2 text-sm font-medium text-white hover:bg-opacity-30 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75"
-        >
-          Confirm swap
-        </button>
-      </div>
       <Modal
-        opened={isOpen}
-        closeModal={closeModal}
+        opened
+        closeModal={onCancel}
         title="Confirm swap"
         mainAction={{
           label: 'Confirm Swap',
-          action: () => Promise.resolve(console.log('swap'))
+          action: handleSwap
         }}
       >
         <div className="flex flex-col gap-2.5 relative text-base">
@@ -39,8 +39,8 @@ const ConfirmSwapPage = () => {
               Send
             </p>
             <div className="flex justify-between">
-              <p className="text-xl">{'0.00293'}</p>
-              <p className="font-medium">{'ETH'}</p>
+              <p className="text-xl">{sendAmount}</p>
+              <p className="font-medium">{sendErc20?.symbol || ''}</p>
             </div>
           </div>
           <div className="absolute left-1/2 top-[4.5rem] ring-1 ring-offset-transparent ring-skin-back ring-offset-4 h-8 w-8 bg-skin-light-gray text-skin-text-primary rounded-xl flex justify-center items-center">
@@ -62,12 +62,12 @@ const ConfirmSwapPage = () => {
               Receive
             </p>
             <div className="flex justify-between">
-              <p className="text-xl">{'0.329'}</p>
-              <p className="font-medium">{'USDC'}</p>
+              <p className="text-xl">{receiveAmount}</p>
+              <p className="font-medium">{receiveErc20?.symbol || ''}</p>
             </div>
           </div>
           <p className="text-xs tracking-wide opacity-80 pt-2">
-            Network fee: {'0.00000003'}
+            Network fee: {fee}
           </p>
         </div>
       </Modal>

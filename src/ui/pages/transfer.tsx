@@ -50,7 +50,6 @@ const TransferPage = () => {
   const erc20InfoQuery = useQuery(['erc20Info'], async () => {
     return (await background.loadERC20Info()).payload
   })
-  console.log(erc20InfoQuery)
 
   const transfer = handleSubmit(async ({ recipient, amount, fee, token }) => {
     setLoading(true)

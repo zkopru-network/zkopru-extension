@@ -9,19 +9,25 @@ import useBackgroundConnection from '../hooks/useBackgroundConnection'
 const TransferConfirmPage = () => {
   const navigate = useNavigate()
   const background = useBackgroundConnection()
-  const params = new Proxy(new URLSearchParams(window.location.search), {
-    get: (searchParams, prop) => searchParams.get(prop as string)
-  }) as any
+  // const params = new Proxy(new URLSearchParams(window.location.search), {
+  //   get: (searchParams, prop) => searchParams.get(prop as string)
+  // }) as any
+  const params = {
+    to: '0x1234',
+    amount: '1000000000000000000',
+    fee: '24000',
+    token: '0x00'
+  }
   const to = params.to
   const amount = params.amount
-  const [loading, setLoading] = useState(false)
+  const token = params.token
+  const fee = params.fee
 
-  // TODO: get and show on popup
-  const fee = 24000
+  const [loading, setLoading] = useState(false)
 
   const handleTransfer = async () => {
     setLoading(true)
-    const response = await background.transferEth(to, amount, fee)
+    const response = await background.transferEth(to, amount, Number(fee))
     if (response.payload.hash) navigate(ROUTES.TRANFER_COMPLETE)
   }
 
