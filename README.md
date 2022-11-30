@@ -71,3 +71,66 @@ If you change the port of onboarding site, you need to change the value of `ONBO
 
 Onboarding site is automatically opened if you use web-ext build.
 If you're not using web-ext build, open the site running on http://localhost:3000 or just click wallet extension icon installed on firefox toolbar.
+
+# Provider API
+
+Once zkopru extension is ready, client web app can access zkopru client throguth provider api.
+
+## Detect provider
+
+Zkopru provider instance will be injected in `window.zkopru` after `ZKOPRU#PROVIDER_CONNECTED` event is emitted.
+
+## APIs
+
+### `connected: boolean`
+
+Getter. Returns if the host of the page is connected to zkopru
+
+### `status: BACKGROUND_STATUS`
+
+Getter. Returns the background client status. either `STARTINGUP | NOT_ONBOARDED | NEED_KEY_GENERATION | LOADING | INITIALIZED | SYNCING | SYNCED`.
+
+### `connect(): void`
+
+Connect zkopru extension to the opened web page.
+
+### `async getBalance(): Promise<L2Balance>`
+
+Get zkopru balance of the connected wallet.
+
+```ts
+type L2Balance = {
+  eth: number
+  tokenBalances: [key: string]: number
+  lockedTokenBalances: [key: string]: number
+}
+```
+
+### `async getAddress(): Promise<string>`
+
+Get zkopru address correspondiong to the connected wallet.
+
+### `transferEth(to: string, amount: string)`
+
+Generate eth transfer transaction and broadcast the transaction to zkopru coordinator.
+`to: string`: recipient zk address
+`amount: string`: eth amount to send
+
+### `transferERC20(to: string, token: string, amount: string)`
+
+Generate erc20 transfer transaction and broadcast the transaction to zkopru coordinator.
+`to: string`: recipient zk address
+`token: string`: token address to send
+`amount: string`: erc20 amount to send
+
+### `swap(sendToken: string, sendAmount: string, receiveToken: string, receiveAmount: string, counterParty: string, salt: number, fee: string)`
+
+Generate atomic swap transaction and broad cast the transaction to zkopru coordinator.
+
+`sendToken: string` address of token to to send
+`sendAmount: string`: amount of the sending token
+`receiveToken: string`: address of token to receive
+`receiveAmount: string`: amount of the receiving token
+`counterParty: string`: address of the counterparty of the swap
+`salt: string`: transaction salt
+`fee: string`: transaction fee
