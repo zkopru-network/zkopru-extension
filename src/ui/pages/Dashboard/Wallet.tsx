@@ -5,6 +5,7 @@ import { useZkopruStore } from '../../store/zkopru'
 import Button from '../../components/Button'
 import routes from '../../../routes'
 import toast from 'react-hot-toast'
+import { ArrowRightSLine } from '../../components/common/icons'
 
 type TokenData = {
   symbol: string
@@ -80,8 +81,7 @@ const Wallet = () => {
                     USD {token.usdValue}
                   </p>
                 </div>
-                {/* TODO: add proper icon and connect it to token page */}
-                <p className="opacity-60">➥</p>
+                <ArrowRightSLine className="fill-skin-text-primary/60 group-hover:fill-skin-g-primary transition duration-200 ease-out group-hover:translate-x-1" />
               </div>
             </div>
           </li>
