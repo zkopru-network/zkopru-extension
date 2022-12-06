@@ -9,7 +9,9 @@ import {
   GetBalanceRequestMessageCreator,
   GetBalanceResponseMessageCreator,
   GenerateSwapTxRequest,
-  GenerateSwapTxResponse
+  GenerateSwapTxResponse,
+  BroadcastTxRequest,
+  BroadcastTxResponse
 } from '../../../share/message'
 import { isCustomEvent } from '../../../share/utils'
 
@@ -90,6 +92,30 @@ export function setupProvider() {
       browser.runtime.sendMessage(
         null,
         GenerateSwapTxRequest({
+          ...(e as any).detail
+        })
+      )
+    }
+  )
+
+  window.addEventListener(
+    PROVIDER_EVENT_NAMES.SEND_TRANSACTIONS_REQUEST,
+    async (e) => {
+      const reqOrigin = (e.target as Window).origin
+      browser.runtime.onMessage.addListener((message) => {
+        if (BroadcastTxResponse.match(message)) {
+          window.postMessage(
+            {
+              eventName: PROVIDER_EVENT_NAMES.SEND_TRANSACTIONS_RESPONSE,
+              payload: message.payload
+            },
+            reqOrigin
+          )
+        }
+      })
+      browser.runtime.sendMessage(
+        null,
+        BroadcastTxRequest({
           ...(e as any).detail
         })
       )

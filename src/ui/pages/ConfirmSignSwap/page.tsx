@@ -76,27 +76,11 @@ const ConfirmSignSwapPage = () => {
 
     if (res.payload.result) {
       setSuccess(true)
+      navigate(routes.SWAP_SIGN_COMPLETE)
     } else {
       toast('Something went wrong')
     }
   }, [])
-
-  if (success) {
-    return (
-      <ExtensionFrame>
-        <div>
-          <h1 className="text-2xl font-bold leading-tight">
-            Sign Swap Complete
-          </h1>
-          <div className="my-2 gap-2 flex justify-center">
-            <Button variant="ghost" onClick={window.close}>
-              Close
-            </Button>
-          </div>
-        </div>
-      </ExtensionFrame>
-    )
-  }
 
   return (
     <ConfirmSignSwap

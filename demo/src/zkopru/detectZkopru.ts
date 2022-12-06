@@ -40,6 +40,7 @@ export declare class ZkopruProvider {
     salt: number,
     fee: string
   ): Promise<{ tx: string }>
+  broadcastTransactions(transactions: string[]): Promise<{ result: boolean }>
 
   getBlockNumber(): Promise<void>
 }

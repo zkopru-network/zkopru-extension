@@ -17,7 +17,8 @@ import {
   ActivityPage,
   ConfirmConnectionPage,
   SettingsPage,
-  ConfirmSignSwapPage
+  ConfirmSignSwapPage,
+  SwapSignCompletePage
 } from './pages'
 import RequireOnboard from './helper/RequireOnboard'
 import RequireAuth from './helper/RequireAuth'
@@ -180,6 +181,14 @@ const App = () => {
             element={
               <RequireAuth>
                 <ConfirmSignSwapPage />
+              </RequireAuth>
+            }
+          />
+          <Route
+            path={ROUTES.SWAP_SIGN_COMPLETE}
+            element={
+              <RequireAuth>
+                <SwapSignCompletePage />
               </RequireAuth>
             }
           />

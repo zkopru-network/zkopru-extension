@@ -94,3 +94,8 @@ label {
 .full-width {
   width: 100%;
 }
+
+.TxStatus {
+  font-weight: bold;
+  font-size: 18px;
+}

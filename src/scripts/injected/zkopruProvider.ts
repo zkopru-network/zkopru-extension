@@ -114,6 +114,22 @@ class ZkopruProvider {
     return res
   }
 
+  /**
+   *
+   * @param transactions array of JSON stringified zk transactions
+   * @returns promise of array of transaction hashes
+   */
+  async broadcastTransactions(transactions: string[]) {
+    this.assertConnected()
+    return await this.dispatchAndListen<string>(
+      PROVIDER_EVENT_NAMES.SEND_TRANSACTIONS_REQUEST,
+      PROVIDER_EVENT_NAMES.SEND_TRANSACTIONS_RESPONSE,
+      {
+        transactions
+      }
+    )
+  }
+
   async getBlockNumber() {
     this.assertConnected()
   }

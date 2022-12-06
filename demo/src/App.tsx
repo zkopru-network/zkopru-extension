@@ -25,6 +25,10 @@ function App() {
   // generated tx
   const [generatedTx, setGeneratedTx] = useState('')
 
+  // send generated tx
+  const [sending, setSending] = useState(false)
+  const [sent, setSent] = useState(false)
+
   const handleConnect = () => {
     zkopru?.connect()
   }
@@ -81,7 +85,14 @@ function App() {
     zkopru
   ])
 
-  const handleSendTx = useCallback(() => {}, [])
+  const handleSendTx = useCallback(async () => {
+    setSending(true)
+    const res = await zkopru?.broadcastTransactions([generatedTx])
+    if (res?.result) {
+      setSending(false)
+      setSent(true)
+    }
+  }, [generatedTx, zkopru])
 
   const addressQuery = useQuery<string>(
     ['address'],
@@ -242,6 +253,10 @@ function App() {
               <button onClick={handleSendTx} className="Primary full-width">
                 Send TX
               </button>
+              {sending && (
+                <span className="TxStatus">Sending transaction...</span>
+              )}
+              {sent && <span className="TxStatus">Transaction sent!!</span>}
             </div>
           )}
         </div>

@@ -264,7 +264,9 @@ async function main() {
           if (meta?.tabId) {
             browser.tabs.sendMessage(
               Number(meta!.tabId!),
-              Message.GenerateSwapTxResponse({ tx: JSON.stringify(zkTx) })
+              Message.GenerateSwapTxResponse({
+                tx: zkTx.encode().toString('hex')
+              })
             )
           }
         } catch (e) {
@@ -272,7 +274,32 @@ async function main() {
             Message.ErrorMessage({ message: `generating swap tx failed {e}` })
           )
         }
-        // } else if (Message.SendL2Tx.match(message)) {
+      } else if (Message.BroadcastTxRequest.match(message)) {
+        const { transactions } = message.payload
+        const wallet = backgroundStore.getState().wallet
+        try {
+          const coordinatorUrl =
+            await wallet.wallet.coordinatorManager.activeCoordinatorUrl()
+          const response = await fetch(`${coordinatorUrl}/txs`, {
+            method: 'post',
+            headers: {
+              'content-type': 'application/json'
+            },
+            body: JSON.stringify(transactions)
+          })
+
+          sendMessage(
+            Message.BroadcastTxResponse({
+              result: response.status === 200,
+              message: response.status === 200 ? '' : await response.text()
+            })
+          )
+        } catch (e) {
+          console.log('error', e)
+          sendMessage(
+            Message.ErrorMessage({ message: 'broadcast transactions fail' })
+          )
+        }
       } else if (Message.SwapRequest.match(message)) {
         const {
           sendToken,

@@ -12,6 +12,7 @@ import WithdrawCompletePage from './withdrawComplete'
 import LoadingPage from './loading'
 import ActivityPage from './activity'
 import ConfirmConnectionPage from './ConfirmConnect/page'
+import SwapSignCompletePage from './swapSignComplete'
 import SettingsPage from './settings'
 
 export {
@@ -29,5 +30,6 @@ export {
   ActivityPage,
   ConfirmConnectionPage,
   SettingsPage,
-  ConfirmSignSwapPage
+  ConfirmSignSwapPage,
+  SwapSignCompletePage
 }
