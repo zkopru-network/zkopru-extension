@@ -31,6 +31,16 @@ export declare class ZkopruProvider {
     salt: number,
     fee: string
   ): Promise<void>
+  generateSwapTx(
+    sendToken: string,
+    sendAmount: string,
+    receiveToken: string,
+    receiveAmount: string,
+    counterParty: string,
+    salt: number,
+    fee: string
+  ): Promise<{ tx: string }>
+
   getBlockNumber(): Promise<void>
 }
 

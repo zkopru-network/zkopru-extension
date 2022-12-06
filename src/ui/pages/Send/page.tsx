@@ -61,7 +61,7 @@ const TransferPage = () => {
             ? [
                 {
                   symbol: 'ETH',
-                  address: '0x00000000000000000000',
+                  address: '0x0000000000000000000000000000000000000000',
                   decimals: 18
                 },
                 ...erc20InfoQuery.data
@@ -69,7 +69,7 @@ const TransferPage = () => {
             : [
                 {
                   symbol: 'ETH',
-                  address: '0x00000000000000000000',
+                  address: '0x0000000000000000000000000000000000000000',
                   decimals: 18
                 }
               ]

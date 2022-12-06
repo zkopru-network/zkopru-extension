@@ -226,6 +226,53 @@ async function main() {
             Message.ErrorMessage({ message: `transfer eth failed: ${e}` })
           )
         }
+      } else if (Message.GenerateSwapTxRequest.match(message)) {
+        showPopupWindow(ROUTES.SWAP_SIGN_CONFIRM, {
+          ...message.payload,
+          tabId: sender.tab?.id?.toString() || ''
+        })
+      } else if (Message.SignSwapTxRequest.match(message)) {
+        const {
+          sendToken,
+          sendAmount,
+          receiveAmount,
+          receiveToken,
+          fee,
+          salt,
+          counterParty,
+          meta
+        } = message.payload
+
+        const wallet = backgroundStore.getState().wallet
+        try {
+          const tx = await wallet.generateSwapTransaction(
+            counterParty,
+            sendToken,
+            sendAmount.toString(),
+            receiveToken,
+            receiveAmount.toString(),
+            fee,
+            salt
+          )
+          const zkTx = await wallet.wallet.shieldTx({ tx })
+          console.log('shiledTx', zkTx)
+          // send to popup
+          sendMessage(
+            Message.SignSwapTxResponse({ result: true, message: 'success' })
+          )
+          // send to webpage
+          if (meta?.tabId) {
+            browser.tabs.sendMessage(
+              Number(meta!.tabId!),
+              Message.GenerateSwapTxResponse({ tx: JSON.stringify(zkTx) })
+            )
+          }
+        } catch (e) {
+          sendMessage(
+            Message.ErrorMessage({ message: `generating swap tx failed {e}` })
+          )
+        }
+        // } else if (Message.SendL2Tx.match(message)) {
       } else if (Message.SwapRequest.match(message)) {
         const {
           sendToken,

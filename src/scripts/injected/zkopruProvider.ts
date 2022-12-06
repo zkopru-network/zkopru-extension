@@ -87,6 +87,33 @@ class ZkopruProvider {
     })
   }
 
+  async generateSwapTx(
+    sendToken: string,
+    sendAmount: string,
+    receiveToken: string,
+    receiveAmount: string,
+    counterParty: string,
+    salt: number,
+    fee: string
+  ) {
+    this.assertConnected()
+    const res = await this.dispatchAndListen<string>(
+      PROVIDER_EVENT_NAMES.GENERATE_SWAP_TX_REQUEST,
+      PROVIDER_EVENT_NAMES.GENERATE_SWAP_TX_RESPONSE,
+      {
+        sendToken,
+        sendAmount,
+        receiveToken,
+        receiveAmount,
+        counterParty,
+        salt,
+        fee
+      }
+    )
+
+    return res
+  }
+
   async getBlockNumber() {
     this.assertConnected()
   }

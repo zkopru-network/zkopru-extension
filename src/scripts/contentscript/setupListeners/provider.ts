@@ -7,7 +7,9 @@ import {
   GetAddressRequestMessageCreator,
   GetAddressResponseMessageCreator,
   GetBalanceRequestMessageCreator,
-  GetBalanceResponseMessageCreator
+  GetBalanceResponseMessageCreator,
+  GenerateSwapTxRequest,
+  GenerateSwapTxResponse
 } from '../../../share/message'
 import { isCustomEvent } from '../../../share/utils'
 
@@ -68,6 +70,31 @@ export function setupProvider() {
     })
     browser.runtime.sendMessage(null, GetAddressRequestMessageCreator())
   })
+
+  window.addEventListener(
+    PROVIDER_EVENT_NAMES.GENERATE_SWAP_TX_REQUEST,
+    async (e) => {
+      const reqOrigin = (e.target as Window).origin
+      browser.runtime.onMessage.addListener((message) => {
+        if (GenerateSwapTxResponse.match(message)) {
+          window.postMessage(
+            {
+              eventName: PROVIDER_EVENT_NAMES.GENERATE_SWAP_TX_RESPONSE,
+              payload: message.payload
+            },
+            reqOrigin
+          )
+        }
+      })
+
+      browser.runtime.sendMessage(
+        null,
+        GenerateSwapTxRequest({
+          ...(e as any).detail
+        })
+      )
+    }
+  )
 
   injectScript(browser.runtime.getURL('zkopruProvider.js'))
 }

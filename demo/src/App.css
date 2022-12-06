@@ -1,5 +1,5 @@
 .App {
-  background-color: #282c34;
+  background-color: #a2aec7;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
@@ -10,22 +10,52 @@
   padding: 20px;
 }
 
+.AppContainer {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
 .SectionTitle {
   font-size: 20px;
   margin-bottom: 10px;
 }
 
 .Form {
+  width: 80%;
   display: flex;
   flex-direction: column;
 }
 
 .Form-Item {
+  font-size: 16px;
   padding: 4px 8px;
+  height: 32px;
   border-radius: 8px;
   border: none;
   margin-bottom: 12px;
   background-color: white;
+}
+
+button {
+  height: 40px;
+  margin: 12px 0;
+}
+
+button.Connect {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: white;
+  color: #848ea4;
+  padding: 12px 24px;
+  width: 220px;
+  font-weight: bold;
+  font-size: 18px;
+  border-radius: 50px;
+  border: solid 2px lightgray;
 }
 
 button.Primary {
@@ -35,12 +65,32 @@ button.Primary {
   border: none;
   border-radius: 8px;
   cursor: pointer;
+  font-size: 18px;
+  font-weight: bold;
 }
 
 .description {
-  font-size: 14px;
+  font-size: 16px;
+  font-weight: bold;
 }
 
 label {
   font-size: 14px;
+}
+
+.Generated-Tx-Section {
+  width: 80%;
+}
+
+.Generated-Tx {
+  overflow: scroll;
+  height: 240px;
+  background-color: #848ea4;
+  border: solid 3px white;
+  border-radius: 8px;
+  padding: 12px;
+}
+
+.full-width {
+  width: 100%;
 }

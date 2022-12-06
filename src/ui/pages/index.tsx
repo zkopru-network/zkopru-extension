@@ -4,6 +4,7 @@ import TransferCompletePage from './transferComplete'
 import TransferConfirmPage from './ConfirmTransfer/page'
 import SwapConfirmPage from './ConfirmSwap/page'
 import SwapCompletePage from './swapComplete'
+import ConfirmSignSwapPage from './ConfirmSignSwap/page'
 import UnlockPage from './Login/page'
 import OnboardingPage from './Onboarding/page'
 import WithdrawPage from './withdraw'
@@ -27,5 +28,6 @@ export {
   WithdrawCompletePage,
   ActivityPage,
   ConfirmConnectionPage,
-  SettingsPage
+  SettingsPage,
+  ConfirmSignSwapPage
 }

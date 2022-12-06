@@ -27,6 +27,13 @@ export const MESSAGE_TYPE = {
   WITHDRAW_ETH_RESPONSE: 'WITHDRAW_ETH_RESPONSE',
   SWAP_REQUEST: 'SWAP_REQUEST',
   SWAP_RESPONSE: 'SWAP_RESPONSE',
+
+  GENERATE_SWAP_TX_REQUEST: 'GENERATE_SWAP_TX_REQUEST',
+  GENERATE_SWAP_TX_RESPONSE: 'GENERATE_SWAP_TX_RESPONSE',
+  SIGN_SWAP_TX_REQUEST: 'SIGN_SWAP_TX_REQUEST',
+  SIGN_SWAP_TX_RESPONSE: 'SIGN_SWAP_TX_RESPONSE',
+  SEND_L2_TX_REQUEST: 'SEND_L2_TX_REQUEST',
+  SEND_L2_TX_RESPONSE: 'SEND_L2_TX_RESPONSE',
   LOAD_ACTIVITY_REQUEST: 'LOAD_ACTIVITY_REQUEST',
   LOAD_ACTIVITY_RESPONSE: 'LOAD_ACTIVITY_RESPONSE',
   LOAD_ERC20_REQUEST: 'LOAD_ERC20_REQUEST',
@@ -202,6 +209,36 @@ export const SwapRequest = createMessage<{
 export const SwapResponse = createMessage<{ hash: string }>(
   MESSAGE_TYPE.SWAP_RESPONSE
 )
+
+export const GenerateSwapTxRequest = createMessage<{
+  sendToken: string
+  sendAmount: string
+  receiveToken: string
+  receiveAmount: string
+  counterParty: string
+  salt: string
+  fee: string
+}>(MESSAGE_TYPE.GENERATE_SWAP_TX_REQUEST)
+
+export const GenerateSwapTxResponse = createMessage<{ tx: string }>(
+  MESSAGE_TYPE.GENERATE_SWAP_TX_RESPONSE
+)
+
+export const SignSwapTxRequest = createMessage<{
+  sendToken: string
+  sendAmount: string
+  receiveToken: string
+  receiveAmount: string
+  counterParty: string
+  salt: number
+  fee: string
+  meta?: { tabId?: string }
+}>(MESSAGE_TYPE.SIGN_SWAP_TX_REQUEST)
+
+export const SignSwapTxResponse = createMessage<{
+  result: boolean
+  message: string
+}>(MESSAGE_TYPE.SIGN_SWAP_TX_RESPONSE)
 
 export const LoadActivityRequest = createMessage(
   MESSAGE_TYPE.LOAD_ACTIVITY_REQUEST

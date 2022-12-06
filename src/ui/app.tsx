@@ -16,7 +16,8 @@ import {
   WithdrawCompletePage,
   ActivityPage,
   ConfirmConnectionPage,
-  SettingsPage
+  SettingsPage,
+  ConfirmSignSwapPage
 } from './pages'
 import RequireOnboard from './helper/RequireOnboard'
 import RequireAuth from './helper/RequireAuth'
@@ -26,6 +27,7 @@ import { LightTheme } from './theme'
 import { useAuthStore } from './store/auth'
 import useBackgroundConnection from './hooks/useBackgroundConnection'
 import ROUTES from '../routes'
+import ToastContainer from './components/Toast'
 import './i18n'
 
 // Application component responsible for
@@ -112,6 +114,7 @@ const App = () => {
 
   return (
     <div className={clsx(theme, 'w-[464px]', 'h-[614px]')}>
+      <ToastContainer />
       <Router>
         <Routes>
           <Route path={ROUTES.ONBOARDING} element={<OnboardingPage />} />
@@ -169,6 +172,14 @@ const App = () => {
             element={
               <RequireAuth>
                 <SwapCompletePage />
+              </RequireAuth>
+            }
+          />
+          <Route
+            path={ROUTES.SWAP_SIGN_CONFIRM}
+            element={
+              <RequireAuth>
+                <ConfirmSignSwapPage />
               </RequireAuth>
             }
           />
