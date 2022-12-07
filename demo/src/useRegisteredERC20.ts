@@ -19,7 +19,7 @@ export type Token = {
 export const ETH: Token = {
   decimals: 18,
   symbol: 'ETH',
-  address: '0x00000000000000000000'
+  address: '0x0000000000000000000000000000000000000000'
 }
 
 export function useRegisteredERC20s() {

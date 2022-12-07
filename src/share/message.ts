@@ -27,6 +27,13 @@ export const MESSAGE_TYPE = {
   WITHDRAW_ETH_RESPONSE: 'WITHDRAW_ETH_RESPONSE',
   SWAP_REQUEST: 'SWAP_REQUEST',
   SWAP_RESPONSE: 'SWAP_RESPONSE',
+
+  GENERATE_SWAP_TX_REQUEST: 'GENERATE_SWAP_TX_REQUEST',
+  GENERATE_SWAP_TX_RESPONSE: 'GENERATE_SWAP_TX_RESPONSE',
+  SIGN_SWAP_TX_REQUEST: 'SIGN_SWAP_TX_REQUEST',
+  SIGN_SWAP_TX_RESPONSE: 'SIGN_SWAP_TX_RESPONSE',
+  BROADCAST_L2_TX_REQUEST: 'BROADCAST_L2_TX_REQUEST',
+  BROADCAST_L2_TX_RESPONSE: 'BROADCAST_L2_TX_RESPONSE',
   LOAD_ACTIVITY_REQUEST: 'LOAD_ACTIVITY_REQUEST',
   LOAD_ACTIVITY_RESPONSE: 'LOAD_ACTIVITY_RESPONSE',
   LOAD_ERC20_REQUEST: 'LOAD_ERC20_REQUEST',
@@ -203,6 +210,36 @@ export const SwapResponse = createMessage<{ hash: string }>(
   MESSAGE_TYPE.SWAP_RESPONSE
 )
 
+export const GenerateSwapTxRequest = createMessage<{
+  sendToken: string
+  sendAmount: string
+  receiveToken: string
+  receiveAmount: string
+  counterParty: string
+  salt: string
+  fee: string
+}>(MESSAGE_TYPE.GENERATE_SWAP_TX_REQUEST)
+
+export const GenerateSwapTxResponse = createMessage<{ tx: string }>(
+  MESSAGE_TYPE.GENERATE_SWAP_TX_RESPONSE
+)
+
+export const SignSwapTxRequest = createMessage<{
+  sendToken: string
+  sendAmount: string
+  receiveToken: string
+  receiveAmount: string
+  counterParty: string
+  salt: number
+  fee: string
+  meta?: { tabId?: string }
+}>(MESSAGE_TYPE.SIGN_SWAP_TX_REQUEST)
+
+export const SignSwapTxResponse = createMessage<{
+  result: boolean
+  message: string
+}>(MESSAGE_TYPE.SIGN_SWAP_TX_RESPONSE)
+
 export const LoadActivityRequest = createMessage(
   MESSAGE_TYPE.LOAD_ACTIVITY_REQUEST
 )
@@ -257,4 +294,14 @@ export const ConfirmPopup = createMessage<{ path: string; params: any }>(
 export const ErrorMessage = createMessage<{ message: string }>(
   MESSAGE_TYPE.ERROR
 )
+
+export const BroadcastTxRequest = createMessage<{
+  transactions: string[]
+}>(MESSAGE_TYPE.BROADCAST_L2_TX_REQUEST)
+
+export const BroadcastTxResponse = createMessage<{
+  result: boolean
+  message: string
+}>(MESSAGE_TYPE.BROADCAST_L2_TX_RESPONSE)
+
 export const DebugMessage = createMessage<{ value: any }>(MESSAGE_TYPE.DEBUG)

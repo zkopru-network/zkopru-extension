@@ -12,6 +12,10 @@ import RoundedButton from '../RoundedButton'
 
 export const Overview = () => {
   const navigate = useNavigate()
+  // TODO: fetch from background
+  const accountName = 'John Doe'
+  // TODO: calculate using oracle value?
+  const inUSD = 2022
 
   return (
     <div className="h-32 bg-gradient-to-br from-skin-g-primary to-skin-g-secondary rounded-3xl overflow-clip">
@@ -21,7 +25,7 @@ export const Overview = () => {
           <div className="flex gap-1 justify-center items-center relative">
             <IconShield />
             <p className="text-xs text-white" title="Account name">
-              Jörmungandr
+              {accountName}
             </p>
             <ArrowDownSFill className="text-white/60" />
           </div>
@@ -30,7 +34,7 @@ export const Overview = () => {
               className="text-white text-xl font-medium"
               title="Current balance"
             >
-              $2022.08
+              ${inUSD ? inUSD.toLocaleString() : 0}
             </p>
             {/* TODO: Swap with other icon and trigger privacy */}
             <EyeLine

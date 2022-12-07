@@ -22,6 +22,13 @@ function App() {
   const [swapFee, setSwapFee] = useState(0)
   const [salt, setSalt] = useState(0)
 
+  // generated tx
+  const [generatedTx, setGeneratedTx] = useState('')
+
+  // send generated tx
+  const [sending, setSending] = useState(false)
+  const [sent, setSent] = useState(false)
+
   const handleConnect = () => {
     zkopru?.connect()
   }
@@ -54,6 +61,39 @@ function App() {
     zkopru
   ])
 
+  const handleSignSwap = useCallback(async () => {
+    const res = await zkopru?.generateSwapTx(
+      sendToken.address,
+      utils.parseUnits(sendAmount.toString(), sendToken.decimals).toString(),
+      receiveToken.address,
+      utils
+        .parseUnits(receiveAmount.toString(), receiveToken.decimals)
+        .toString(),
+      counterParty,
+      salt,
+      utils.parseUnits(swapFee.toString(), 'gwei').toString()
+    )
+    if (res) setGeneratedTx(res.tx)
+  }, [
+    sendToken,
+    sendAmount,
+    receiveToken,
+    receiveAmount,
+    counterParty,
+    salt,
+    swapFee,
+    zkopru
+  ])
+
+  const handleSendTx = useCallback(async () => {
+    setSending(true)
+    const res = await zkopru?.broadcastTransactions([generatedTx])
+    if (res?.result) {
+      setSending(false)
+      setSent(true)
+    }
+  }, [generatedTx, zkopru])
+
   const addressQuery = useQuery<string>(
     ['address'],
     async () => {
@@ -81,18 +121,20 @@ function App() {
 
   return (
     <div className="App">
-      <h1>Zkopru demo</h1>
+      <h1>Extension Demo</h1>
       {!zkopru.connected && (
-        <button onClick={handleConnect}>Connect zkopru</button>
+        <button onClick={handleConnect} className="Connect">
+          Connect zkopru
+        </button>
       )}
       {zkopru.connected && (
-        <div>
+        <div className="AppContainer">
           <p className="description">
-            Your zkopru address:{' '}
+            Zk Address:{' '}
             {addressQuery?.data ? shortenAddress(addressQuery.data) : ''}
           </p>
           <p className="description">
-            Your balance:{' '}
+            Balance (ETH):{' '}
             {balanceQuery.data ? `${balanceQuery.data?.eth} ETH` : 'loading'}
           </p>
           <div className="Form">
@@ -200,7 +242,23 @@ function App() {
             <button onClick={handleSwap} className="Primary">
               Swap
             </button>
+            <button onClick={handleSignSwap} className="Primary">
+              Sign Tx
+            </button>
           </div>
+          {generatedTx && (
+            <div className="Generated-Tx-Section">
+              <h3>Generated transaction</h3>
+              <div className="Generated-Tx">{generatedTx}</div>
+              <button onClick={handleSendTx} className="Primary full-width">
+                Send TX
+              </button>
+              {sending && (
+                <span className="TxStatus">Sending transaction...</span>
+              )}
+              {sent && <span className="TxStatus">Transaction sent!!</span>}
+            </div>
+          )}
         </div>
       )}
     </div>

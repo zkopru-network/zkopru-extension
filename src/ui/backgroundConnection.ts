@@ -157,6 +157,31 @@ export class BackgroundConnection {
     )
   }
 
+  public async signSwap(
+    sendToken: string,
+    sendAmount: string,
+    receiveToken: string,
+    receiveAmount: string,
+    counterParty: string,
+    salt: number,
+    fee: string,
+    tabId?: string
+  ) {
+    return this.sendBackground(
+      Message.SignSwapTxRequest({
+        sendToken,
+        sendAmount,
+        receiveToken,
+        receiveAmount,
+        counterParty,
+        salt,
+        fee,
+        meta: { tabId }
+      }),
+      Message.SignSwapTxResponse
+    )
+  }
+
   public async loadActivity(): Promise<
     Message.MessageWithPayload<{ activities: Activity[] }>
   > {
@@ -197,6 +222,7 @@ export class BackgroundConnection {
   ) {
     return new Promise<Message.MessageWithPayload<T>>((resolve, reject) => {
       function handleMessage(message: Message.UntypedMessage) {
+        console.log(message.type)
         if (ResponseMessageCreator.match(message)) {
           browser.runtime.onMessage.removeListener(handleMessage)
           resolve(message)

@@ -226,6 +226,80 @@ async function main() {
             Message.ErrorMessage({ message: `transfer eth failed: ${e}` })
           )
         }
+      } else if (Message.GenerateSwapTxRequest.match(message)) {
+        showPopupWindow(ROUTES.SWAP_SIGN_CONFIRM, {
+          ...message.payload,
+          tabId: sender.tab?.id?.toString() || ''
+        })
+      } else if (Message.SignSwapTxRequest.match(message)) {
+        const {
+          sendToken,
+          sendAmount,
+          receiveAmount,
+          receiveToken,
+          fee,
+          salt,
+          counterParty,
+          meta
+        } = message.payload
+
+        const wallet = backgroundStore.getState().wallet
+        try {
+          const tx = await wallet.generateSwapTransaction(
+            counterParty,
+            sendToken,
+            sendAmount.toString(),
+            receiveToken,
+            receiveAmount.toString(),
+            fee,
+            salt
+          )
+          const zkTx = await wallet.wallet.shieldTx({ tx })
+          console.log('shiledTx', zkTx)
+          // send to popup
+          sendMessage(
+            Message.SignSwapTxResponse({ result: true, message: 'success' })
+          )
+          // send to webpage
+          if (meta?.tabId) {
+            browser.tabs.sendMessage(
+              Number(meta!.tabId!),
+              Message.GenerateSwapTxResponse({
+                tx: zkTx.encode().toString('hex')
+              })
+            )
+          }
+        } catch (e) {
+          sendMessage(
+            Message.ErrorMessage({ message: `generating swap tx failed {e}` })
+          )
+        }
+      } else if (Message.BroadcastTxRequest.match(message)) {
+        const { transactions } = message.payload
+        const wallet = backgroundStore.getState().wallet
+        try {
+          const coordinatorUrl =
+            await wallet.wallet.coordinatorManager.activeCoordinatorUrl()
+          const response = await fetch(`${coordinatorUrl}/txs`, {
+            method: 'post',
+            headers: {
+              'content-type': 'application/json'
+            },
+            body: JSON.stringify(transactions)
+          })
+
+          sendMessage(
+            Message.BroadcastTxResponse({
+              result: response.status === 200,
+              message: response.status === 200 ? '' : await response.text()
+            })
+          )
+        } catch (e) {
+          console.log('error', e)
+          sendMessage(
+            Message.ErrorMessage({ message: 'broadcast transactions fail' })
+          )
+        }
       } else if (Message.SwapRequest.match(message)) {
         const {
           sendToken,

@@ -87,6 +87,49 @@ class ZkopruProvider {
     })
   }
 
+  async generateSwapTx(
+    sendToken: string,
+    sendAmount: string,
+    receiveToken: string,
+    receiveAmount: string,
+    counterParty: string,
+    salt: number,
+    fee: string
+  ) {
+    this.assertConnected()
+    const res = await this.dispatchAndListen<string>(
+      PROVIDER_EVENT_NAMES.GENERATE_SWAP_TX_REQUEST,
+      PROVIDER_EVENT_NAMES.GENERATE_SWAP_TX_RESPONSE,
+      {
+        sendToken,
+        sendAmount,
+        receiveToken,
+        receiveAmount,
+        counterParty,
+        salt,
+        fee
+      }
+    )
+
+    return res
+  }
+
+  /**
+   *
+   * @param transactions array of JSON stringified zk transactions
+   * @returns promise of array of transaction hashes
+   */
+  async broadcastTransactions(transactions: string[]) {
+    this.assertConnected()
+    return await this.dispatchAndListen<string>(
+      PROVIDER_EVENT_NAMES.SEND_TRANSACTIONS_REQUEST,
+      PROVIDER_EVENT_NAMES.SEND_TRANSACTIONS_RESPONSE,
+      {
+        transactions
+      }
+    )
+  }
+
   async getBlockNumber() {
     this.assertConnected()
   }

@@ -17,7 +17,11 @@ export const Playground: ComponentStory<typeof Send> = () => (
         toast('submitted test')
       }}
       tokens={[
-        { symbol: 'ETH', address: '0x00000000000000000000', decimals: 18 }
+        {
+          symbol: 'ETH',
+          address: '0x0000000000000000000000000000000000000000',
+          decimals: 18
+        }
       ]}
     />
   </BrowserRouter>
