@@ -1,5 +1,6 @@
 import { Disclosure, Transition } from '@headlessui/react'
 import clsx from 'clsx'
+import { ipfsToHttpLink } from '../../../share/utils'
 import { ArrowRightSLine } from '../../components/common/icons'
 
 interface nftData {
@@ -26,7 +27,7 @@ interface parsedNFTData {
   tokenId: string
 }
 
-// The plan here is to collect the NFT data and group into collections if needed. We'll show the NFTs as dropdown items
+// The plan here is to collect the NFT data for the connected wallet and group into collections if needed. We'll show the NFTs as dropdown items.
 const data: nftData[] = [
   {
     token_address: '0xbc4ca0eda7647a8ab7c2061c2e118a18a936f13d',
@@ -160,7 +161,7 @@ const parseNFTData = (data: nftData[]): parsedNFTData[] => {
   return data.map((nft) => ({
     collectionName: nft.name,
     collectionSymbol: nft.symbol,
-    imageSrc: JSON.parse(nft.metadata).image,
+    imageSrc: ipfsToHttpLink(JSON.parse(nft.metadata).image),
     tokenId: nft.token_id
   }))
 }
@@ -175,8 +176,7 @@ const groupDataByCollections = (data: parsedNFTData[]) => {
   }, Object.create(null))
 }
 
-// console.log(groupDataByCollections(parseNFTData(data)))
-
+// TODO: reach out to API for the NFT data owned by this address
 const NFTTab = () => {
   const collections: Record<string, parsedNFTData[]> = groupDataByCollections(
     parseNFTData(data)
@@ -192,7 +192,7 @@ const NFTTab = () => {
                 <div className="flex items-center gap-2">
                   <div className="rounded-full h-6 w-6 relative overflow-hidden shadow-md">
                     <img
-                      src={'https://via.placeholder.com/24'}
+                      src={nfts[0].imageSrc}
                       alt={name || 'Collection image'}
                     />
                   </div>
@@ -222,7 +222,11 @@ const NFTTab = () => {
                       key={index}
                       className="w-44 h-44 bg-red-200 rounded-md hover:scale-105 transition-transform duration-200 ease-out flex items-center justify-center overflow-hidden"
                     >
-                      <img src={nft.imageSrc} alt={`${name}#${nft.tokenId}`} />
+                      <img
+                        className="hover:cursor-pointer"
+                        src={nft.imageSrc}
+                        alt={`${name}#${nft.tokenId}`}
+                      />
                     </div>
                   ))}
                 </Disclosure.Panel>
