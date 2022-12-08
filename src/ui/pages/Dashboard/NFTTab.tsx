@@ -1,7 +1,9 @@
 import { Disclosure, Transition } from '@headlessui/react'
 import clsx from 'clsx'
+import { useState } from 'react'
 import { ipfsToHttpLink } from '../../../share/utils'
 import { ArrowRightSLine } from '../../components/common/icons'
+import Modal from '../../components/Modal'
 
 interface nftData {
   token_address: string
@@ -20,7 +22,7 @@ interface nftData {
   minter_address: string
 }
 
-interface parsedNFTData {
+interface parsedNFTDetails {
   collectionName: string
   collectionSymbol: string
   imageSrc: string
@@ -157,7 +159,7 @@ const data: nftData[] = [
   }
 ]
 
-const parseNFTData = (data: nftData[]): parsedNFTData[] => {
+const parseNFTData = (data: nftData[]): parsedNFTDetails[] => {
   return data.map((nft) => ({
     collectionName: nft.name,
     collectionSymbol: nft.symbol,
@@ -168,7 +170,7 @@ const parseNFTData = (data: nftData[]): parsedNFTData[] => {
 
 // console.log(parseNFTData(data))
 
-const groupDataByCollections = (data: parsedNFTData[]) => {
+const groupDataByCollections = (data: parsedNFTDetails[]) => {
   return data.reduce((acc, curr) => {
     acc[curr.collectionName] = acc[curr.collectionName] || []
     acc[curr.collectionName].push(curr)
@@ -176,66 +178,119 @@ const groupDataByCollections = (data: parsedNFTData[]) => {
   }, Object.create(null))
 }
 
+export const NFTDetailModal = ({
+  data,
+  closeModal,
+  isOpen
+}: {
+  data: null | parsedNFTDetails
+  closeModal: () => void
+  isOpen: boolean
+}) => {
+  return (
+    <div>
+      <Modal
+        opened={isOpen}
+        closeModal={closeModal}
+        title=""
+        mainAction={{
+          label: 'Send NFT',
+          action: () => Promise.resolve(console.log('NFT send'))
+        }}
+        cancellable
+      >
+        <img
+          src={data?.imageSrc}
+          alt={`${data?.collectionName}#${data?.tokenId}`}
+        />
+        <div className="p-2"></div>
+        <p>{`${data?.collectionSymbol} #${data?.tokenId}`}</p>
+      </Modal>
+    </div>
+  )
+}
+
 // TODO: reach out to API for the NFT data owned by this address
 const NFTTab = () => {
-  const collections: Record<string, parsedNFTData[]> = groupDataByCollections(
-    parseNFTData(data)
-  )
+  const collections: Record<string, parsedNFTDetails[]> =
+    groupDataByCollections(parseNFTData(data))
+  const [modalOpen, setModalOpen] = useState(false)
+  const [currentNFT, setCurrentNFT] = useState<null | parsedNFTDetails>(null)
+
+  function closeModal() {
+    setModalOpen(false)
+  }
+
+  function openModal(nft: parsedNFTDetails) {
+    if (!nft) return
+    setCurrentNFT(nft)
+    setModalOpen(true)
+  }
 
   return (
-    <section className="h-[280px] overflow-y-auto mb-1">
-      {Object.entries(collections).map(([name, nfts], index) => (
-        <Disclosure key={index}>
-          {({ open }) => (
-            <>
-              <Disclosure.Button className="group flex justify-between items-center w-full hover:bg-skin-light-gray/80 hover:cursor-pointer p-2 rounded-lg transition duration-200 ease-out focus:outline-none border-2 border-transparent focus:border-skin-inverse/44">
-                <div className="flex items-center gap-2">
-                  <div className="rounded-full h-6 w-6 relative overflow-hidden shadow-md">
-                    <img
-                      src={nfts[0].imageSrc}
-                      alt={name || 'Collection image'}
-                    />
-                  </div>
-                  <p className="text-skin-text-primary font-semibold">{name}</p>
-                </div>
-                <div className="flex items-center gap-1">
-                  <p>{nfts.length}</p>
-                  <ArrowRightSLine
-                    className={clsx(
-                      'fill-skin-text-primary/50 group-hover:fill-skin-text-primary transition duration-200 ease-out group-hover:translate-x-1',
-                      open ? 'rotate-90' : 'rotate-0'
-                    )}
-                  />
-                </div>
-              </Disclosure.Button>
-              <Transition
-                enter="transition duration-100 ease-out"
-                enterFrom="transform scale-95 opacity-0"
-                enterTo="transform scale-100 opacity-100"
-                leave="transition duration-75 ease-out"
-                leaveFrom="transform scale-100 opacity-100"
-                leaveTo="transform scale-95 opacity-0"
-              >
-                <Disclosure.Panel className="flex gap-3 p-1 flex-wrap">
-                  {nfts.map((nft, index) => (
-                    <div
-                      key={index}
-                      className="w-44 h-44 bg-red-200 rounded-md hover:scale-105 transition-transform duration-200 ease-out flex items-center justify-center overflow-hidden"
-                    >
+    <>
+      <section className="h-[280px] overflow-y-auto mb-1">
+        {Object.entries(collections).map(([name, nfts], index) => (
+          <Disclosure key={index}>
+            {({ open }) => (
+              <>
+                <Disclosure.Button className="group flex justify-between items-center w-full hover:bg-skin-light-gray/80 hover:cursor-pointer p-2 rounded-lg transition duration-200 ease-out focus:outline-none border-2 border-transparent focus:border-skin-inverse/44">
+                  <div className="flex items-center gap-2">
+                    <div className="rounded-full h-6 w-6 relative overflow-hidden shadow-md">
                       <img
-                        className="hover:cursor-pointer"
-                        src={nft.imageSrc}
-                        alt={`${name}#${nft.tokenId}`}
+                        src={nfts[0].imageSrc}
+                        alt={name || 'Collection image'}
                       />
                     </div>
-                  ))}
-                </Disclosure.Panel>
-              </Transition>
-            </>
-          )}
-        </Disclosure>
-      ))}
-    </section>
+                    <p className="text-skin-text-primary font-semibold">
+                      {name}
+                    </p>
+                  </div>
+                  <div className="flex items-center gap-1">
+                    <p>{nfts.length}</p>
+                    <ArrowRightSLine
+                      className={clsx(
+                        'fill-skin-text-primary/50 group-hover:fill-skin-text-primary transition duration-200 ease-out group-hover:translate-x-1',
+                        open ? 'rotate-90' : 'rotate-0'
+                      )}
+                    />
+                  </div>
+                </Disclosure.Button>
+                <Transition
+                  enter="transition duration-100 ease-out"
+                  enterFrom="transform scale-95 opacity-0"
+                  enterTo="transform scale-100 opacity-100"
+                  leave="transition duration-75 ease-out"
+                  leaveFrom="transform scale-100 opacity-100"
+                  leaveTo="transform scale-95 opacity-0"
+                >
+                  <Disclosure.Panel className="flex gap-3 p-1 flex-wrap">
+                    {nfts.map((nft, index) => (
+                      <div
+                        key={index}
+                        className="w-44 h-44 bg-red-200 rounded-md hover:scale-105 transition-transform duration-200 ease-out flex items-center justify-center overflow-hidden"
+                      >
+                        <img
+                          onClick={() => openModal(nft)}
+                          className="hover:cursor-pointer"
+                          src={nft.imageSrc}
+                          alt={`${name}#${nft.tokenId}`}
+                        />
+                      </div>
+                    ))}
+                  </Disclosure.Panel>
+                </Transition>
+              </>
+            )}
+          </Disclosure>
+        ))}
+      </section>
+      <NFTDetailModal
+        isOpen={modalOpen}
+        closeModal={closeModal}
+        data={currentNFT}
+      />
+    </>
   )
 }
 
