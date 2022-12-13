@@ -22,7 +22,7 @@ interface nftData {
   minter_address: string
 }
 
-interface parsedNFTDetails {
+export interface parsedNFTDetails {
   collectionName: string
   collectionSymbol: string
   imageSrc: string
