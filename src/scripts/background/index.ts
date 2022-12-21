@@ -1,6 +1,7 @@
 import browser from 'webextension-polyfill'
 // @ts-ignore
 import Zkopru, { ZkAccount, UtxoStatus } from '@zkopru/client/browser'
+
 import { sha512_256 } from 'js-sha512'
 import ROUTES from '../../routes'
 import { store as backgroundStore } from '../store'
@@ -146,6 +147,16 @@ async function main() {
           }
         }
 
+        console.log(erc721, utxos)
+        // for (const _address of Object.keys(erc721)) {
+        //   const token = tokensByAddress[_address.toLowerCase()]
+        //   if (!token) continue
+        //   tokenBalances = {
+        //     ...tokenBalances,
+        //     [token.symbol]: erc721[_address]
+        //   }
+        // }
+
         sendMessage(
           Message.GetBalanceResponseMessageCreator({
             eth: balance,
@@ -188,6 +199,19 @@ async function main() {
         )
         sendMessage(
           Message.DepositERC20Response({ params: { to, data, value } })
+        )
+      } else if (Message.DepositERC721Request.match(message)) {
+        const { address, tokenId, fee } = message.payload.data
+        const wallet = backgroundStore.getState().wallet.wallet
+        const { to, data, value } = wallet.depositERC721Tx(
+          0,
+          address,
+          tokenId,
+          fee
+        )
+        console.log(to, data, value)
+        sendMessage(
+          Message.DepositERC721Response({ params: { to, data, value } })
         )
       } else if (Message.TransferEthRequest.match(message)) {
         const { amount, fee, to } = message.payload

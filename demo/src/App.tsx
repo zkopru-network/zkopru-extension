@@ -5,18 +5,20 @@ import { useZkopru } from './zkopru/useZkopru'
 import type { L2Balance } from './zkopru/detectZkopru'
 import { toWei, shortenAddress } from './utils'
 import { useRegisteredERC20s, Token, ETH } from './useRegisteredERC20'
+import { useRegisteredERC721s, ERC721 } from './useRegisteredERC721'
 import './App.css'
 
 function App() {
   const tokensQuery = useRegisteredERC20s()
+  const erc721Query = useRegisteredERC721s()
 
   const { zkopru, active } = useZkopru()
   const [to, setTo] = useState('')
   const [amount, setAmount] = useState(0)
   // swap items
-  const [sendToken, setSendToken] = useState<Token>(ETH)
+  const [sendToken, setSendToken] = useState<Token | ERC721>(ETH)
   const [sendAmount, setSendAmount] = useState(0)
-  const [receiveToken, setReceiveToken] = useState<Token>(ETH)
+  const [receiveToken, setReceiveToken] = useState<Token | ERC721>(ETH)
   const [receiveAmount, setReceiveAmount] = useState(0)
   const [counterParty, setCounterParty] = useState('')
   const [swapFee, setSwapFee] = useState(0)
@@ -41,11 +43,17 @@ function App() {
   const handleSwap = useCallback(async () => {
     await zkopru?.swap(
       sendToken.address,
-      utils.parseUnits(sendAmount.toString(), sendToken.decimals).toString(),
+      isERC721(sendToken)
+        ? sendAmount.toString()
+        : utils
+            .parseUnits(sendAmount.toString(), sendToken.decimals)
+            .toString(),
       receiveToken.address,
-      utils
-        .parseUnits(receiveAmount.toString(), receiveToken.decimals)
-        .toString(),
+      isERC721(receiveToken)
+        ? receiveAmount.toString()
+        : utils
+            .parseUnits(receiveAmount.toString(), receiveToken.decimals)
+            .toString(),
       counterParty,
       salt,
       utils.parseUnits(swapFee.toString(), 'gwei').toString()
@@ -60,15 +68,23 @@ function App() {
     swapFee,
     zkopru
   ])
+  const isERC721 = (t: Token | ERC721): t is ERC721 =>
+    Object.keys(t).includes('name')
 
   const handleSignSwap = useCallback(async () => {
     const res = await zkopru?.generateSwapTx(
       sendToken.address,
-      utils.parseUnits(sendAmount.toString(), sendToken.decimals).toString(),
+      isERC721(sendToken)
+        ? sendAmount.toString()
+        : utils
+            .parseUnits(sendAmount.toString(), sendToken.decimals)
+            .toString(),
       receiveToken.address,
-      utils
-        .parseUnits(receiveAmount.toString(), receiveToken.decimals)
-        .toString(),
+      isERC721(receiveToken)
+        ? receiveAmount.toString()
+        : utils
+            .parseUnits(receiveAmount.toString(), receiveToken.decimals)
+            .toString(),
       counterParty,
       salt,
       utils.parseUnits(swapFee.toString(), 'gwei').toString()
@@ -164,9 +180,12 @@ function App() {
               onChange={(e) => {
                 // find token and set
                 if (!tokensQuery.data) throw new Error('Token not loaded')
-                const token = [ETH, ...tokensQuery.data].find(
-                  (token) => token.symbol === e.target.value
-                )
+                if (!erc721Query.data) throw new Error('ERC721 not loaded')
+                const token = [
+                  ETH,
+                  ...tokensQuery.data,
+                  ...erc721Query.data
+                ].find((token) => token.symbol === e.target.value)
 
                 // never happen
                 if (!token) return
@@ -180,8 +199,14 @@ function App() {
                     {token.symbol}
                   </option>
                 ))}
+              {erc721Query.data &&
+                erc721Query.data.map((token) => (
+                  <option key={token.symbol} value={token.symbol}>
+                    {token.name} (NFT)
+                  </option>
+                ))}
             </select>
-            <label>Send Amount</label>
+            <label>Send Amount / Token ID (NFT)</label>
             <input
               type="number"
               className="Form-Item"
@@ -194,9 +219,12 @@ function App() {
               onChange={(e) => {
                 // find token and set
                 if (!tokensQuery.data) throw new Error('Token not loaded')
-                const token = [ETH, ...tokensQuery.data].find(
-                  (token) => token.symbol === e.target.value
-                )
+                if (!erc721Query.data) throw new Error('ERC721 not loaded')
+                const token = [
+                  ETH,
+                  ...tokensQuery.data,
+                  ...erc721Query.data
+                ].find((token) => token.symbol === e.target.value)
 
                 // never happen
                 if (!token) return
@@ -210,8 +238,14 @@ function App() {
                     {token.symbol}
                   </option>
                 ))}
+              {erc721Query.data &&
+                erc721Query.data.map((token) => (
+                  <option key={token.symbol} value={token.symbol}>
+                    {token.name} (NFT)
+                  </option>
+                ))}
             </select>
-            <label>Receive Amount</label>
+            <label>Receive Amount / Token ID (NFT)</label>
             <input
               type="number"
               className="Form-Item"

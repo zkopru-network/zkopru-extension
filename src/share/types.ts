@@ -9,6 +9,12 @@ export type DepositERC20Data = {
   address: string
 }
 
+export type DepositERC721Data = {
+  tokenId: string
+  fee: string
+  address: string
+}
+
 export type L1TxParams = {
   to: string
   data: string
