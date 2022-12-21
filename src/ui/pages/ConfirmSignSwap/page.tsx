@@ -6,8 +6,6 @@ import toast from 'react-hot-toast'
 import ConfirmSignSwap from './index'
 import routes from '../../../routes'
 import useBackgroundConnection from '../../hooks/useBackgroundConnection'
-import ExtensionFrame from '../../components/ExtensionFrame'
-import Button from '../../components/Button'
 
 const ConfirmSignSwapPage = () => {
   const navigate = useNavigate()

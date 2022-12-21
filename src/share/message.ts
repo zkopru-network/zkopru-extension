@@ -1,5 +1,11 @@
 import { BACKGROUND_STATUS } from './constants'
-import { DepositData, DepositERC20Data, L2Balance, ERC20Info } from './types'
+import {
+  DepositData,
+  DepositERC20Data,
+  DepositERC721Data,
+  L2Balance,
+  ERC20Info
+} from './types'
 
 export const MESSAGE_TYPE = {
   WALLET_KEY_GENERATED: 'WALLET_KEY_GENERATED',
@@ -17,6 +23,8 @@ export const MESSAGE_TYPE = {
   DEPOSIT_ETH_RESPONSE: 'DEPOSIT_ETH_RESPONSE',
   DEPOSIT_ERC20_REQUEST: 'DEPOSIT_ERC20_REQUEST',
   DEPOSIT_ERC20_RESPONSE: 'DEPOSIT_ERC20_RESPONSE',
+  DEPOSIT_ERC721_REQUEST: 'DEPOSIT_ERC721_REQUEST',
+  DEPOSIT_ERC721_RESPONSE: 'DEPOSIT_ERC721_RESPONSE',
 
   TRANSFER_ETH_REQUEST: 'TRANSFER_ETH_REQUEST',
   TRANSFER_ETH_RESPONSE: 'TRANSFER_ETH_RESPONSE',
@@ -163,6 +171,14 @@ export const DepositERC20Request = createMessage<{
 export const DepositERC20Response = createMessage<{
   params: { to: string; data: string; value: string }
 }>(MESSAGE_TYPE.DEPOSIT_ERC20_RESPONSE)
+
+export const DepositERC721Request = createMessage<{
+  data: DepositERC721Data
+}>(MESSAGE_TYPE.DEPOSIT_ERC721_REQUEST)
+
+export const DepositERC721Response = createMessage<{
+  params: { to: string; data: string; value: string }
+}>(MESSAGE_TYPE.DEPOSIT_ERC721_RESPONSE)
 
 export const TransferEthRequest = createMessage<{
   to: string

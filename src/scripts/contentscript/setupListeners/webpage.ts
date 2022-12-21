@@ -3,7 +3,8 @@ import { injectScript } from '../injectScript'
 import {
   fetchStatus,
   generateDepositEthTx,
-  generateDepositERC20Tx
+  generateDepositERC20Tx,
+  generateDepositERC721Tx
 } from '../conn'
 import { isCustomEvent } from '../../../share/utils'
 import { EVENT_NAMES } from '../../../share/events'
@@ -65,6 +66,19 @@ export function setupWebpageMessageListeners() {
   window.addEventListener(EVENT_NAMES.DEPOSIT_ERC20, async (e) => {
     if (!isCustomEvent(e)) throw new Error('Zkopru: invalid event value')
     const params = await generateDepositERC20Tx(e.detail.data)
+    // clone object into window and make it available for page script
+    window.wrappedJSObject.txParams = cloneInto(params, window, {
+      cloneFunctions: true
+    })
+    window.dispatchEvent(
+      new CustomEvent(EVENT_NAMES.SEND_TX, { detail: { params } })
+    )
+  })
+
+  window.addEventListener(EVENT_NAMES.DEPOSIT_ERC721, async (e) => {
+    if (!isCustomEvent(e)) throw new Error('Zkopru: invalid event value')
+    const params = await generateDepositERC721Tx(e.detail.data)
+    console.log('generateDepositERC721Tx', params)
     // clone object into window and make it available for page script
     window.wrappedJSObject.txParams = cloneInto(params, window, {
       cloneFunctions: true
