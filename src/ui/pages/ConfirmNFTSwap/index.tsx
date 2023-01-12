@@ -28,45 +28,41 @@ const ConfirmNFTSwapPage = ({ data }: { data: parsedNFTDetails }) => {
       <Modal
         opened={isOpen}
         closeModal={closeModal}
-        title="Swap NFT"
+        title="Trade NFT?"
         mainAction={{
-          label: 'Confirm Swap',
+          label: '✨Accept trade✨',
           action: () => Promise.resolve(console.log('swap'))
         }}
       >
         <div className="flex flex-col gap-3 relative text-base">
           <div className="p-4 bg-skin-light-gray/50 rounded-lg">
-            {/* <p className="uppercase font-medium text-xs tracking-wide mb-2 opacity-80">
-              Send
-            </p> */}
+            <p className="uppercase font-medium text-xs tracking-wide mb-2 opacity-80">
+              you send
+            </p>
             <div className="flex justify-center h-44 align-middle">
               <img
                 src={data.imageSrc}
                 alt={data.collectionName || 'Collection image'}
+                className="pointer-events-none"
               />
             </div>
-          </div>
-          <div className="absolute left-1/2 top-[60%] ring-1 ring-offset-transparent ring-skin-back ring-offset-4 h-8 w-8 bg-skin-light-gray text-skin-text-primary rounded-xl flex justify-center items-center">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="currentColor"
-              className="w-4 h-4"
-              viewBox="0 0 24 24"
-            >
-              <path
-                fillRule="evenodd"
-                d="M12 3.75a.75.75 0 01.75.75v13.19l5.47-5.47a.75.75 0 111.06 1.06l-6.75 6.75a.75.75 0 01-1.06 0l-6.75-6.75a.75.75 0 111.06-1.06l5.47 5.47V4.5a.75.75 0 01.75-.75z"
-                clipRule="evenodd"
-              ></path>
-            </svg>
+            <div className="p-2"></div>
+            <div className="mx-auto text-center">
+              <p className="font-semibold text-lg">#{data.tokenId}</p>
+              <p>{data.collectionName}</p>
+            </div>
           </div>
           <div className="p-4 bg-skin-light-gray/50 rounded-lg">
             <p className="uppercase font-medium text-xs tracking-wide mb-2 opacity-80">
-              Receive
+              You Receive
             </p>
-            <div className="flex justify-between">
-              <p className="text-xl">{'0.329'}</p>
-              <p className="font-medium">{'USDC'}</p>
+            <div className="flex justify-between items-center">
+              <div className="rounded-full px-2 py-1 bg-skin-back text-xs text-skin-text-primary border border-skin-text-primary/40">
+                from <span className="font-medium">{'0xabcD78...'}</span>
+              </div>
+              <p className="text-2xl font-medium">
+                {'0.329'} {'USDC'}
+              </p>
             </div>
           </div>
           <p className="text-xs tracking-wide opacity-80 pt-2">
