@@ -3,6 +3,7 @@ import { Dialog, Transition } from '@headlessui/react'
 import { Fragment, ReactNode } from 'react'
 import Button from '../Button'
 import RoundedButton from '../RoundedButton'
+import clsx from 'clsx'
 
 const Modal = ({
   opened,
@@ -53,7 +54,7 @@ const Modal = ({
                   >
                     {title}
                   </Dialog.Title>
-                  <div className="mt-4">{children}</div>
+                  <div className={clsx(title ? 'mt-4' : '')}>{children}</div>
 
                   <div className="mt-8 flex justify-between items-baseline">
                     {cancellable && (

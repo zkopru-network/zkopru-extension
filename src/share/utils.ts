@@ -105,3 +105,7 @@ export function toGwei(amount: string | number | BN): string {
   const wei = toWei(amount)
   return wei.slice(0, wei.length - 9)
 }
+
+export function ipfsToHttpLink(ipfsLink: string) {
+  return ipfsLink.replace('ipfs://', 'https://ipfs.io/ipfs/')
+}

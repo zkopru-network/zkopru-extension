@@ -3,6 +3,7 @@ import { Tab } from '@headlessui/react'
 import AccountActivity from './AccountActivity'
 import Wallet from './Wallet'
 import type { Activity } from '../../../share/types'
+import NFTTab from './NFTTab'
 
 type DashboardTabsProps = {
   activities: Activity[] | undefined
@@ -17,12 +18,16 @@ const DashboardTabs = ({ activities }: DashboardTabsProps) => {
     {
       name: 'Activity',
       content: <AccountActivity activities={activities} />
+    },
+    {
+      name: 'NFTs',
+      content: <NFTTab />
     }
   ]
 
   return (
     <Tab.Group>
-      <Tab.List className="grid grid-cols-2 text-tab-selected/80 font-medium text-sm">
+      <Tab.List className="grid grid-cols-3 text-tab-selected/80 font-medium text-sm">
         {tabs.map(({ name }, index) => (
           <Tab
             defaultChecked={index === 0}
